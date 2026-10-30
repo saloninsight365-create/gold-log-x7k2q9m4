@@ -138,6 +138,8 @@ body { margin: 0; background: #ffffff; }
 .lx-rules ul, .lx-note-card ul { margin: 0; padding-left: 1.2em; line-height: 1.8; font-size: var(--cds-font-size-body); }
 .lx-reviews { display: grid; gap: var(--cds-gap-lg); }
 .lx-note-card { border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); padding: var(--cds-pad-md); }
+.lx-note-card > summary { cursor: pointer; }
+.lx-note-card[open] > summary { margin-bottom: 2px; }
 .lx-note-title { margin: 0; font-size: var(--cds-font-size-body); font-weight: 700; }
 .lx-note-meta { margin: 2px 0 var(--cds-gap-sm); font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
 .lx-note-card img { display: block; width: 100%; height: auto; border-radius: 8px; border: 1px solid var(--color-border-line); }
@@ -971,9 +973,9 @@ dash.draw('review_list', (el) => {
   if (g.status !== 'ok' || !g.data.notes || !g.data.notes.length) return;
   const byTicket = new Map(tr.status === 'ok' ? tr.data.map((t) => [t.ticket, t]) : []);
   for (const n of g.data.notes) {
-    const card = document.createElement('article');
+    const card = document.createElement('details');
     card.className = 'lx-note-card';
-    const title = document.createElement('h3');
+    const title = document.createElement('summary');
     title.className = 'lx-note-title';
     title.textContent = n.title;
     card.append(title);
