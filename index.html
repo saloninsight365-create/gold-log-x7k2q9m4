@@ -144,6 +144,9 @@ body { margin: 0; background: #ffffff; }
 .lx-note-meta { margin: 2px 0 var(--cds-gap-sm); font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
 .lx-note-card img { display: block; width: 100%; height: auto; border-radius: 8px; border: 1px solid var(--color-border-line); }
 .lx-note-h { margin: var(--cds-gap-md) 0 var(--cds-gap-xs); font-size: var(--cds-font-size-caption); font-weight: 700; color: var(--color-fg-muted); }
+.lx-table-trades { min-width: 0; }
+.lx-table-trades th, .lx-table-trades td { padding: 8px 4px; }
+.lx-subline { display: block; font-size: 0.75rem; font-weight: 400; opacity: 0.85; }
 </style>
 </head>
 <body>
@@ -285,21 +288,17 @@ body { margin: 0; background: #ffffff; }
 
   <section class="lx-card" id="trades-card">
     <h2 class="lx-h">取引一覧</h2>
-    <p class="lx-sub">新しい順です。値幅は、有利な方向に動いた幅がプラスになります。</p>
+    <p class="lx-sub">新しい順です。値幅は、有利な方向に動いた幅がプラスになります。円は、1ドル=157円で計算した目安です。</p>
     <div class="lx-scroll">
-      <table class="lx-table" data-source="trades" data-row-key="ticket">
+      <table class="lx-table lx-table-trades" data-source="trades" data-row-key="ticket">
         <thead>
           <tr>
-            <th data-field="date">日付</th>
-            <th data-field="time">決済</th>
-            <th data-field="hold_min">保有(分)</th>
+            <th data-field="date">決済</th>
             <th data-field="side">売買</th>
             <th data-field="lots">ロット</th>
-            <th data-field="open_price">建値</th>
-            <th data-field="close_price">決済値</th>
             <th data-field="move">値幅($)</th>
-            <th data-field="profit">損益($)</th>
-            <th data-field="ticket">チケット</th>
+            <th data-field="profit">損益($/円)</th>
+            <th data-field="hold_min">保有分</th>
           </tr>
         </thead>
         <tbody data-draw="rows"></tbody>
@@ -917,26 +916,35 @@ dash.draw('side_rows', statRows('by_side', 'side', String));
 dash.draw('lot_rows', statRows('by_lot', 'lots', lotf));
 
 // 取引一覧（新しい順）
+const JPY_RATE = 157; // 1ドルあたりの円（目安）。ページの説明文の数字もあわせて直す
+const yen = d3.format('+,.0f');
 dash.draw('rows', (tbody) => {
   const g = dash.data('trades');
   tbody.replaceChildren();
   if (g.status !== 'ok') return;
   const rows = g.data.slice().sort((a, b) => (a.closed_at < b.closed_at ? 1 : a.closed_at > b.closed_at ? -1 : 0));
+  const signClass = (v) => (v > 0 ? 'lx-pos' : v < 0 ? 'lx-neg' : '');
   for (const r of rows) {
     const tr = document.createElement('tr');
     tr.dataset.key = r.ticket;
-    const cells = [toDay(r.date), r.time, one(r.hold_min), r.side, lotf(r.lots), money(r.open_price), money(r.close_price), signed(r.move), signed(r.profit), r.ticket];
-    cells.forEach((text, i) => {
+    const add = (text, cls, sub) => {
       const td = document.createElement('td');
       td.textContent = text;
-      if (i === 7 || i === 8) {
-        const v = i === 7 ? r.move : r.profit;
-        if (v > 0) td.classList.add('lx-pos');
-        else if (v < 0) td.classList.add('lx-neg');
+      if (cls) td.classList.add(...cls.split(' ').filter(Boolean));
+      if (sub) {
+        const s = document.createElement('span');
+        s.className = 'lx-subline';
+        s.textContent = sub;
+        td.append(s);
       }
-      if (i === 8) td.classList.add('lx-bold');
       tr.append(td);
-    });
+    };
+    add(toDay(r.date), '', r.time);
+    add(r.side);
+    add(lotf(r.lots));
+    add(signed(r.move), signClass(r.move));
+    add(signed(r.profit), 'lx-bold ' + signClass(r.profit), yen(r.profit * JPY_RATE) + '円');
+    add(one(r.hold_min));
     tbody.append(tr);
   }
 });
