@@ -132,6 +132,16 @@ body { margin: 0; background: #ffffff; }
 .lx-table-stat td.lx-neg { color: var(--color-bad); }
 .lx-table-stat td:first-child { font-weight: 600; }
 
+.lx-rules { margin: 0 0 var(--cds-gap-md); padding: var(--cds-pad-md); border-radius: var(--cds-radius); background: #fff8e6; border: 1px solid #f3dca0; }
+.lx-rules:empty { display: none; }
+.lx-rules-h { margin: 0 0 var(--cds-gap-xs); font-size: var(--cds-font-size-body); font-weight: 700; }
+.lx-rules ul, .lx-note-card ul { margin: 0; padding-left: 1.2em; line-height: 1.8; font-size: var(--cds-font-size-body); }
+.lx-reviews { display: grid; gap: var(--cds-gap-lg); }
+.lx-note-card { border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); padding: var(--cds-pad-md); }
+.lx-note-title { margin: 0; font-size: var(--cds-font-size-body); font-weight: 700; }
+.lx-note-meta { margin: 2px 0 var(--cds-gap-sm); font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
+.lx-note-card img { display: block; width: 100%; height: auto; border-radius: 8px; border: 1px solid var(--color-border-line); }
+.lx-note-h { margin: var(--cds-gap-md) 0 var(--cds-gap-xs); font-size: var(--cds-font-size-caption); font-weight: 700; color: var(--color-fg-muted); }
 </style>
 </head>
 <body>
@@ -190,6 +200,13 @@ body { margin: 0; background: #ffffff; }
       <div class="lx-tile-value" data-draw="val" data-fmt="signed" data-source="summary" data-row="0" data-field="worst">—</div>
       <div class="lx-tile-sub">いちばん大きく負けた1回（負け <b data-draw="val" data-fmt="int" data-source="summary" data-row="0" data-field="losses">—</b> 回）</div>
     </div>
+  </section>
+
+  <section class="lx-card" id="review-card" aria-label="振り返りノート">
+    <h2 class="lx-h">振り返りノート</h2>
+    <p class="lx-sub">負けた取引を、チャートつきで振り返った記録です。同じ間違いを繰り返さないために見ます。画像を押すと大きく見られます。</p>
+    <div class="lx-rules" data-draw="review_rules"></div>
+    <div class="lx-reviews" data-draw="review_list"></div>
   </section>
 
   <section class="lx-card" id="calendar-card" aria-label="日別の損益カレンダー">
@@ -298,11 +315,14 @@ const dash = (() => {
   const listeners = [];
   let cache = {};
   let trades = { status: 'loading', data: [] };
+  let reviews = { status: 'loading', data: { rules: [], notes: [] } };
   const data = (id) => {
     if (id in cache) return cache[id];
     let res;
     if (id === 'trades') {
       res = { status: trades.status, data: trades.data };
+    } else if (id === 'reviews') {
+      res = { status: reviews.status, data: reviews.data };
     } else if (calcs[id]) {
       const ins = calcs[id].inputs.map(data);
       const bad = ins.find((g) => g.status !== 'ok');
@@ -336,6 +356,10 @@ const dash = (() => {
         .then((d) => { trades = { status: 'ok', data: d }; })
         .catch((e) => { console.error(e); trades = { status: 'error', data: [] }; })
         .finally(() => { cache = {}; redrawAll(); listeners.forEach((f) => f()); });
+      fetch('reviews.json?v=' + Date.now(), { cache: 'no-store' })
+        .then((r) => (r.ok ? r.json() : { rules: [], notes: [] }))
+        .catch(() => ({ rules: [], notes: [] }))
+        .then((d) => { reviews = { status: 'ok', data: d }; cache = {}; redrawAll(); });
       let t = null;
       let w = window.innerWidth;
       window.addEventListener('resize', () => {
@@ -912,6 +936,68 @@ dash.draw('rows', (tbody) => {
       tr.append(td);
     });
     tbody.append(tr);
+  }
+});
+
+// 振り返りノート
+const listOf = (items) => {
+  const ul = document.createElement('ul');
+  for (const text of items || []) {
+    const li = document.createElement('li');
+    li.textContent = text;
+    ul.append(li);
+  }
+  return ul;
+};
+const noteHead = (text) => {
+  const h = document.createElement('div');
+  h.className = 'lx-note-h';
+  h.textContent = text;
+  return h;
+};
+dash.draw('review_rules', (el) => {
+  const g = dash.data('reviews');
+  el.replaceChildren();
+  if (g.status !== 'ok' || !g.data.rules || !g.data.rules.length) return;
+  const h = document.createElement('div');
+  h.className = 'lx-rules-h';
+  h.textContent = '入る前に見ること';
+  el.append(h, listOf(g.data.rules));
+});
+dash.draw('review_list', (el) => {
+  const g = dash.data('reviews');
+  const tr = dash.data('trades');
+  el.replaceChildren();
+  if (g.status !== 'ok' || !g.data.notes || !g.data.notes.length) return;
+  const byTicket = new Map(tr.status === 'ok' ? tr.data.map((t) => [t.ticket, t]) : []);
+  for (const n of g.data.notes) {
+    const card = document.createElement('article');
+    card.className = 'lx-note-card';
+    const title = document.createElement('h3');
+    title.className = 'lx-note-title';
+    title.textContent = n.title;
+    card.append(title);
+    const t = byTicket.get(n.ticket);
+    if (t) {
+      const meta = document.createElement('div');
+      meta.className = 'lx-note-meta';
+      meta.textContent = toDay(t.date) + ' ' + t.time + ' 決済（MT5の時刻） ・ ' + t.side + ' ' + lotf(t.lots) + 'ロット ・ 損益 ' + signed(t.profit) + 'ドル';
+      card.append(meta);
+    }
+    if (n.image) {
+      const a = document.createElement('a');
+      a.href = n.image;
+      a.target = '_blank';
+      a.rel = 'noopener';
+      const img = document.createElement('img');
+      img.src = n.image;
+      img.alt = n.alt || '';
+      img.loading = 'lazy';
+      a.append(img);
+      card.append(a);
+    }
+    card.append(noteHead('起きたこと'), listOf(n.happened), noteHead('見直す点'), listOf(n.fix));
+    el.append(card);
   }
 });
 </script>

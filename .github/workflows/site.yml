@@ -3,7 +3,7 @@ name: site
 on:
   push:
     branches: [main]
-    paths: [index.html, trades.json, .github/workflows/site.yml]
+    paths: [index.html, trades.json, reviews.json, 'reviews/**', .github/workflows/site.yml]
   issues:
     types: [opened]
   workflow_dispatch:
@@ -62,7 +62,8 @@ jobs:
       - name: 公開するファイルをそろえる
         run: |
           mkdir _site
-          cp index.html trades.json _site/
+          cp index.html trades.json reviews.json _site/
+          cp -r reviews _site/reviews
 
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
