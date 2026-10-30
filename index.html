@@ -1,0 +1,920 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>XAUUSD 取引記録</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+<style>
+:root {
+  --font-anthropic-sans: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP", "Yu Gothic", Meiryo, sans-serif;
+  --cds-gap-xs: 4px; --cds-gap-sm: 8px; --cds-gap-md: 12px; --cds-gap-lg: 20px;
+  --cds-pad-xs: 6px; --cds-pad-sm: 10px; --cds-pad-md: 16px; --cds-pad-lg: 20px;
+  --cds-font-size-caption: 0.8125rem; --cds-font-size-body: 0.9375rem; --cds-font-size-heading: 1.0625rem; --cds-font-size-title: 1.5rem;
+  --cds-font-weight-medium: 500; --cds-radius: 12px;
+  --cds-dur-slow: 0.4s; --cds-ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --cds-shadow-popover: 0 4px 16px rgba(0, 0, 0, 0.12);
+}
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: #ffffff; }
+.dash-skeleton { background: rgba(128, 128, 128, 0.16); border-radius: 8px; color: transparent; animation: sk 1.2s ease-in-out infinite; }
+@keyframes sk { 50% { opacity: 0.5; } }
+.lx {
+  --color-fg: #111827; --color-fg-muted: #4b5563; --color-bg: #ffffff; --color-panel: #ffffff; --color-border-line: #e5e7eb;
+  --color-ok: #0e9f6e; --color-bad: #e11d48;
+  --cds-chart-grid: #eef0f3; --cds-chart-axis: #9ca3af; --cds-chart-reference: #9ca3af; --cds-chart-status-critical: #f43f5e;
+  --lx-up: #10b981; --lx-down: #f43f5e;
+  --cds-surface-popover: #ffffff; --cds-border: #d1d5db; --cds-text-secondary: #6b7280;
+  --lx-accent: #5b5bf0; --lx-pos-bg: #e8f5ee; --lx-neg-bg: #fdecea; --lx-flat-bg: #f3f4f6;
+  display: grid; gap: var(--cds-gap-lg); max-width: 72rem; margin-inline: auto; padding: var(--cds-pad-md); background: #ffffff;
+  font-family: var(--font-anthropic-sans); font-variant-numeric: tabular-nums; color: var(--color-fg);
+}
+.lx-title { margin: 0; font-family: var(--font-anthropic-sans); font-size: var(--cds-font-size-title); font-weight: 600; line-height: 1.2; }
+.lx .lx-lead { margin: var(--cds-gap-sm) 0 0; font-size: var(--cds-font-size-heading); line-height: 1.7; }
+.lx .lx-lead b[data-draw] { font-weight: 500; }
+.lx .lx-note { margin: var(--cds-gap-xs) 0 0; font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
+
+.lx-header { display: grid; gap: 4px; }
+.lx-gold { color: #f5b301; }
+.lx-hero { position: relative; overflow: hidden; border-radius: 16px; padding: var(--cds-pad-lg); color: #ffffff;
+  background: radial-gradient(120% 140% at 100% 0%, rgba(124, 58, 237, 0.55) 0%, rgba(124, 58, 237, 0) 55%), radial-gradient(90% 120% at 0% 100%, rgba(16, 185, 129, 0.35) 0%, rgba(16, 185, 129, 0) 60%), linear-gradient(135deg, #0b1020 0%, #151a3a 100%);
+  box-shadow: 0 10px 30px rgba(21, 26, 58, 0.35); }
+.lx-hero-top { display: flex; align-items: flex-end; justify-content: space-between; gap: var(--cds-gap-md); flex-wrap: wrap; }
+.lx-hero-label { font-size: var(--cds-font-size-body); color: rgba(255, 255, 255, 0.75); }
+.lx-hero-value { font-size: clamp(2.4rem, 12vw, 3.6rem); font-weight: 800; line-height: 1.05; letter-spacing: -0.02em; text-shadow: 0 0 24px rgba(52, 245, 160, 0.35); min-height: 1.05em; }
+.lx-hero .lx-pos { color: #34f5a0; }
+.lx-hero .lx-neg { color: #ff6b81; }
+.lx-hero-chip { padding: 8px 14px; border-radius: 12px; background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.16); }
+.lx-hero-chip-label { font-size: var(--cds-font-size-caption); color: rgba(255, 255, 255, 0.75); }
+.lx .lx-hero-chip-label b[data-draw] { font-weight: 500; color: #ffffff; }
+.lx-hero-chip-value { font-size: 1.5rem; font-weight: 700; line-height: 1.25; min-height: 1.25em; }
+.lx-hero-badge { display: flex; flex-wrap: wrap; gap: 8px; margin-top: var(--cds-gap-md); }
+.lx-hero-badge:empty { display: none; }
+.lx-chip { padding: 4px 12px; border-radius: 999px; font-size: var(--cds-font-size-caption); font-weight: 700; background: linear-gradient(90deg, #f5b301, #ff7a18); color: #1b1200; }
+.lx-hero-spark { min-height: 72px; margin-top: var(--cds-gap-md); }
+.lx-hero-spark svg { display: block; width: 100%; height: auto; }
+.lx-spark-line { fill: none; stroke: #34f5a0; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; filter: drop-shadow(0 0 6px rgba(52, 245, 160, 0.7)); }
+.lx-spark-dot { fill: #ffffff; stroke: #34f5a0; stroke-width: 2; }
+.lx-hero-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(5.5rem, 1fr)); gap: var(--cds-gap-sm); margin-top: var(--cds-gap-md); }
+.lx-hero-stat { padding-top: var(--cds-gap-sm); border-top: 1px solid rgba(255, 255, 255, 0.16); }
+.lx-hero-k { font-size: var(--cds-font-size-caption); color: rgba(255, 255, 255, 0.7); }
+.lx-hero-v { font-size: 1.35rem; font-weight: 700; line-height: 1.3; min-height: 1.3em; }
+.lx-hero-v small { margin-left: 2px; font-size: 0.75rem; font-weight: 500; color: rgba(255, 255, 255, 0.7); }
+@media (prefers-reduced-motion: no-preference) {
+  .lx-hero { animation: lx-rise var(--cds-dur-slow) var(--cds-ease-out) both; }
+  @keyframes lx-rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+}
+.lx-h::before { content: ''; display: inline-block; width: 4px; height: 1em; margin-right: 8px; vertical-align: -0.12em; border-radius: 2px; background: linear-gradient(180deg, #5b5bf0, #10b981); }
+.lx .lx-tile { background: linear-gradient(180deg, #f6f7ff, #ffffff); border-left: 4px solid var(--lx-accent); }
+.lx-tiles { display: grid; gap: var(--cds-gap-md); grid-template-columns: repeat(auto-fit, minmax(min(100%, 9.5rem), 1fr)); }
+.lx-tile, .lx-card { background: var(--color-panel); border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); padding: var(--cds-pad-lg); min-width: 0; }
+.lx-tile-label { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
+.lx-tile-value { margin-top: var(--cds-gap-xs); font-family: var(--font-anthropic-sans); font-size: var(--cds-font-size-title); font-weight: 600; line-height: 1.15; min-height: 1.15em; }
+.lx-tile-sub { margin-top: var(--cds-gap-xs); font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); line-height: 1.6; }
+.lx .lx-tile-sub b[data-draw] { font-weight: 500; color: var(--color-fg); }
+.lx-pos { color: var(--color-ok); }
+.lx-neg { color: var(--color-bad); }
+
+.lx-h { margin: 0; font-size: var(--cds-font-size-heading); font-weight: var(--cds-font-weight-medium); }
+.lx-sub { margin: var(--cds-gap-xs) 0 var(--cds-gap-md); font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); line-height: 1.6; }
+.lx-pair { display: grid; gap: var(--cds-gap-md); grid-template-columns: repeat(auto-fit, minmax(min(100%, 10rem), 1fr)); }
+.lx-grid { display: grid; gap: var(--cds-gap-md); grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr)); }
+
+.lx-chart { position: relative; min-height: 240px; }
+.lx-chart svg { display: block; width: 100%; height: auto; }
+.lx-tick { font-size: var(--cds-font-size-caption); fill: var(--color-fg-muted); }
+.lx-endlabel { font-size: var(--cds-font-size-caption); font-weight: 500; }
+.lx-grid-line { stroke: var(--cds-chart-grid); stroke-width: 1; }
+.lx-zero { stroke: var(--cds-chart-axis); stroke-width: 1; }
+.lx-line { fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.lx-rule { stroke: var(--cds-chart-reference); stroke-width: 1; }
+.lx-ring { fill: none; stroke: var(--color-fg); stroke-width: 1.5; }
+.lx-barlabel { font-size: var(--cds-font-size-caption); fill: var(--color-fg-muted); }
+.lx-tip { position: absolute; pointer-events: none; white-space: nowrap; background: var(--cds-surface-popover); border: 1px solid var(--cds-border); border-radius: var(--cds-radius); box-shadow: var(--cds-shadow-popover); padding: var(--cds-pad-xs) var(--cds-pad-sm); font-size: var(--cds-font-size-caption); line-height: 1.5; }
+.lx-tip[hidden] { display: none; }
+.lx-tip-h { color: var(--cds-text-secondary); }
+.lx-fail { display: flex; align-items: center; justify-content: center; gap: 0.5rem; min-height: 240px; color: var(--color-fg-muted); font-size: var(--cds-font-size-caption); }
+.lx-fail::before { content: ''; width: 0.375rem; height: 0.375rem; border-radius: 50%; background: var(--color-bad); }
+
+.lx-cal-head { display: flex; align-items: center; justify-content: space-between; gap: var(--cds-gap-md); flex-wrap: wrap; }
+.lx-cal-nav { display: flex; align-items: center; gap: var(--cds-gap-sm); }
+.lx-cal-month { min-width: 6.5rem; text-align: center; font-size: var(--cds-font-size-heading); font-weight: var(--cds-font-weight-medium); }
+.lx-nav { width: 2rem; height: 2rem; padding: 0; border: 1px solid var(--color-border-line); border-radius: 50%; background: #ffffff; color: var(--color-fg); font-size: 1.1rem; line-height: 1; cursor: pointer; }
+.lx-nav:disabled { opacity: 0.35; cursor: default; }
+.lx-cal-total { min-height: 1.5em; margin-bottom: var(--cds-gap-md); font-size: var(--cds-font-size-body); color: var(--color-fg-muted); }
+.lx .lx-cal-total b { font-weight: 500; }
+#calendar-card { padding: var(--cds-pad-md) var(--cds-pad-sm); }
+.lx-cal-week, .lx-cal-grid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 3px; }
+.lx-cal-week { margin-bottom: 4px; text-align: center; font-size: var(--cds-font-size-body); font-weight: 500; color: var(--color-fg-muted); }
+.lx-cal-grid { min-height: 12rem; }
+.lx-day { min-height: 4.4rem; padding: 6px 2px; border-radius: 6px; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.lx-day-blank { min-height: 4.4rem; }
+.lx-day-n { font-size: var(--cds-font-size-body); font-weight: 500; color: var(--color-fg-muted); line-height: 1.2; }
+.lx-day-p { font-size: 0.9375rem; font-weight: 700; line-height: 1.2; white-space: nowrap; }
+.lx-day-pos { background: var(--lx-pos-bg); }
+.lx-day-pos .lx-day-p { color: var(--color-ok); }
+.lx-day-neg { background: var(--lx-neg-bg); }
+.lx-day-neg .lx-day-p { color: var(--color-bad); }
+.lx-day-flat { background: var(--lx-flat-bg); }
+
+.lx-scroll { max-height: 30rem; overflow: auto; border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); }
+.lx-table { border-collapse: collapse; width: 100%; min-width: 44rem; font-size: var(--cds-font-size-caption); }
+.lx-table th, .lx-table td { padding: var(--cds-pad-xs) var(--cds-pad-sm); text-align: right; white-space: nowrap; border-bottom: 1px solid var(--color-border-line); }
+.lx-table th:first-child, .lx-table td:first-child { text-align: left; }
+.lx-table th { position: sticky; top: 0; z-index: 1; background: #0f172a; color: #e2e8f0; font-weight: var(--cds-font-weight-medium); }
+.lx-table td:last-child { color: var(--color-fg-muted); }
+.lx-table td.lx-bold { font-weight: 500; }
+.lx-table-stat { min-width: 34rem; }
+.lx-table-stat td { font-size: var(--cds-font-size-body); }
+.lx-table-stat td:last-child { color: inherit; }
+.lx-table-stat td.lx-pos { color: var(--color-ok); }
+.lx-table-stat td.lx-neg { color: var(--color-bad); }
+.lx-table-stat td:first-child { font-weight: 600; }
+
+</style>
+</head>
+<body>
+<main class="lx" id="top">
+  <header class="lx-header">
+    <h1 class="lx-title"><span class="lx-gold">●</span> XAUUSD 取引記録</h1>
+    <p class="lx-note">MT5の決済済み履歴を、貼った順に記録しています。時刻はMT5の表示どおりです。</p>
+  </header>
+
+  <section class="lx-hero" id="hero" aria-label="いまの成績">
+    <div class="lx-hero-top">
+      <div class="lx-hero-main">
+        <div class="lx-hero-label">累計損益（ドル）</div>
+        <div class="lx-hero-value" data-draw="val" data-fmt="signed" data-source="summary" data-row="0" data-field="net">—</div>
+      </div>
+      <div class="lx-hero-chip">
+        <div class="lx-hero-chip-label"><b data-draw="val" data-fmt="day" data-source="highlights" data-row="0" data-field="last_date">—</b> の損益</div>
+        <div class="lx-hero-chip-value" data-draw="val" data-fmt="signed" data-source="highlights" data-row="0" data-field="last_profit">—</div>
+      </div>
+    </div>
+    <div class="lx-hero-badge" data-draw="badge" data-source="highlights"></div>
+    <div class="lx-hero-spark dash-skeleton" id="hero-spark" data-draw="spark" data-source="curve"></div>
+    <div class="lx-hero-stats">
+      <div class="lx-hero-stat">
+        <div class="lx-hero-k">勝率</div>
+        <div class="lx-hero-v" data-draw="val" data-fmt="pct" data-source="summary" data-row="0" data-field="win_rate">—</div>
+      </div>
+      <div class="lx-hero-stat">
+        <div class="lx-hero-k">連勝中</div>
+        <div class="lx-hero-v"><span data-draw="val" data-fmt="int" data-source="highlights" data-row="0" data-field="win_streak">—</span><small>回</small></div>
+      </div>
+      <div class="lx-hero-stat">
+        <div class="lx-hero-k">最高の連勝</div>
+        <div class="lx-hero-v"><span data-draw="val" data-fmt="int" data-source="highlights" data-row="0" data-field="best_streak">—</span><small>回</small></div>
+      </div>
+      <div class="lx-hero-stat">
+        <div class="lx-hero-k">取引回数</div>
+        <div class="lx-hero-v"><span data-draw="val" data-fmt="int" data-source="summary" data-row="0" data-field="n">—</span><small>回</small></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="lx-tiles" id="summary" aria-label="勝ちと負けの大きさ">
+    <div class="lx-tile">
+      <div class="lx-tile-label">平均の勝ち（ドル）</div>
+      <div class="lx-tile-value" data-draw="val" data-fmt="signed" data-source="summary" data-row="0" data-field="avg_win">—</div>
+      <div class="lx-tile-sub">勝った取引1回あたり（勝ち <b data-draw="val" data-fmt="int" data-source="summary" data-row="0" data-field="wins">—</b> 回）</div>
+    </div>
+    <div class="lx-tile">
+      <div class="lx-tile-label">平均の負け（ドル）</div>
+      <div class="lx-tile-value" data-draw="val" data-fmt="signed" data-source="summary" data-row="0" data-field="avg_loss">—</div>
+      <div class="lx-tile-sub">負け1回を取り戻すのに、平均の勝ちが約 <b data-draw="val" data-fmt="one" data-source="summary" data-row="0" data-field="loss_in_wins">—</b> 回ぶん必要</div>
+    </div>
+    <div class="lx-tile">
+      <div class="lx-tile-label">最大の負け（ドル）</div>
+      <div class="lx-tile-value" data-draw="val" data-fmt="signed" data-source="summary" data-row="0" data-field="worst">—</div>
+      <div class="lx-tile-sub">いちばん大きく負けた1回（負け <b data-draw="val" data-fmt="int" data-source="summary" data-row="0" data-field="losses">—</b> 回）</div>
+    </div>
+  </section>
+
+  <section class="lx-card" id="calendar-card" aria-label="日別の損益カレンダー">
+    <div class="lx-cal-head">
+      <h2 class="lx-h">カレンダー</h2>
+      <div class="lx-cal-nav">
+        <button type="button" class="lx-nav" data-nav="-1" aria-label="前の月">‹</button>
+        <span class="lx-cal-month" data-draw="cal_month">—</span>
+        <button type="button" class="lx-nav" data-nav="1" aria-label="次の月">›</button>
+      </div>
+    </div>
+    <p class="lx-sub">その日に決済した取引の合計（ドル）です。緑がプラス、赤がマイナスです。画面がせまいときは、小数点以下を丸めて表示します。</p>
+    <div class="lx-cal-total" data-draw="cal_total" data-source="monthly"></div>
+    <div class="lx-cal-week" aria-hidden="true"><span>月</span><span>火</span><span>水</span><span>木</span><span>金</span><span>土</span><span>日</span></div>
+    <div class="lx-cal-grid dash-skeleton" id="calendar-grid" data-draw="cal_grid" data-source="daily"></div>
+  </section>
+
+  <section class="lx-grid">
+    <article class="lx-card" id="curve-card">
+      <h2 class="lx-h">累計損益の推移</h2>
+      <p class="lx-sub">1回ごとの損益を、決済した順に足していった合計です。赤い点は負けた取引です。</p>
+      <div class="lx-chart dash-skeleton" id="curve-chart" data-draw="curve_chart" data-source="curve"></div>
+    </article>
+    <article class="lx-card" id="daily-card">
+      <h2 class="lx-h">日別の損益</h2>
+      <p class="lx-sub">その日に決済した取引の合計です。</p>
+      <div class="lx-chart dash-skeleton" id="daily-chart" data-draw="daily_chart" data-source="daily"></div>
+    </article>
+  </section>
+
+  <section class="lx-card" id="side-card">
+    <h2 class="lx-h">買い・売り別の成績</h2>
+    <p class="lx-sub">買い（ロング）と売り（ショート）に分けた成績です。回数が少ないうちは、参考程度に見てください。</p>
+    <div class="lx-scroll">
+      <table class="lx-table lx-table-stat" data-source="by_side" data-row-key="side">
+        <thead>
+          <tr>
+            <th data-field="side">売買</th>
+            <th data-field="n">回数</th>
+            <th data-field="wins">勝ち</th>
+            <th data-field="losses">負け</th>
+            <th data-field="win_rate">勝率</th>
+            <th data-field="net">合計損益($)</th>
+            <th data-field="avg_win">平均の勝ち($)</th>
+            <th data-field="avg_loss">平均の負け($)</th>
+          </tr>
+        </thead>
+        <tbody data-draw="side_rows"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="lx-card" id="lot-card">
+    <h2 class="lx-h">ロット別の成績</h2>
+    <p class="lx-sub">入れたロットの大きさごとの成績です。大きいロットで負けた時に、どれくらい痛いかを見られます。</p>
+    <div class="lx-scroll">
+      <table class="lx-table lx-table-stat" data-source="by_lot" data-row-key="lots">
+        <thead>
+          <tr>
+            <th data-field="lots">ロット</th>
+            <th data-field="n">回数</th>
+            <th data-field="wins">勝ち</th>
+            <th data-field="losses">負け</th>
+            <th data-field="win_rate">勝率</th>
+            <th data-field="net">合計損益($)</th>
+            <th data-field="avg_win">平均の勝ち($)</th>
+            <th data-field="avg_loss">平均の負け($)</th>
+          </tr>
+        </thead>
+        <tbody data-draw="lot_rows"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="lx-card" id="trades-card">
+    <h2 class="lx-h">取引一覧</h2>
+    <p class="lx-sub">新しい順です。値幅は、有利な方向に動いた幅がプラスになります。</p>
+    <div class="lx-scroll">
+      <table class="lx-table" data-source="trades" data-row-key="ticket">
+        <thead>
+          <tr>
+            <th data-field="date">日付</th>
+            <th data-field="time">決済</th>
+            <th data-field="hold_min">保有(分)</th>
+            <th data-field="side">売買</th>
+            <th data-field="lots">ロット</th>
+            <th data-field="open_price">建値</th>
+            <th data-field="close_price">決済値</th>
+            <th data-field="move">値幅($)</th>
+            <th data-field="profit">損益($)</th>
+            <th data-field="ticket">チケット</th>
+          </tr>
+        </thead>
+        <tbody data-draw="rows"></tbody>
+      </table>
+    </div>
+  </section>
+</main>
+
+
+<script>
+// 画面の部品に数字を渡す小さな仕組み（trades.json を読み込んで、集計して、描画します）
+const dash = (() => {
+  const calcs = {};
+  const draws = {};
+  const listeners = [];
+  let cache = {};
+  let trades = { status: 'loading', data: [] };
+  const data = (id) => {
+    if (id in cache) return cache[id];
+    let res;
+    if (id === 'trades') {
+      res = { status: trades.status, data: trades.data };
+    } else if (calcs[id]) {
+      const ins = calcs[id].inputs.map(data);
+      const bad = ins.find((g) => g.status !== 'ok');
+      if (bad) res = { status: bad.status, data: [] };
+      else {
+        try { res = { status: 'ok', data: calcs[id].fn(...ins.map((g) => g.data)) }; }
+        catch (e) { console.error(id, e); res = { status: 'error', data: [] }; }
+      }
+    } else {
+      res = { status: 'missing', data: [] };
+    }
+    cache[id] = res;
+    return res;
+  };
+  const run = (name) => {
+    const fn = draws[name];
+    if (!fn) return;
+    document.querySelectorAll('[data-draw="' + name + '"]').forEach((el) => {
+      try { fn(el); } catch (e) { console.error(name, e); }
+    });
+  };
+  const redrawAll = () => Object.keys(draws).forEach(run);
+  const api = {
+    calc: (name, spec) => { calcs[name] = spec; },
+    draw: (name, fn) => { if (fn) draws[name] = fn; run(name); },
+    data,
+    onData: (fn) => { listeners.push(fn); },
+    start: () => {
+      fetch('trades.json?v=' + Date.now(), { cache: 'no-store' })
+        .then((r) => { if (!r.ok) throw new Error('http ' + r.status); return r.json(); })
+        .then((d) => { trades = { status: 'ok', data: d }; })
+        .catch((e) => { console.error(e); trades = { status: 'error', data: [] }; })
+        .finally(() => { cache = {}; redrawAll(); listeners.forEach((f) => f()); });
+      let t = null;
+      let w = window.innerWidth;
+      window.addEventListener('resize', () => {
+        if (window.innerWidth === w) return;
+        w = window.innerWidth;
+        clearTimeout(t);
+        t = setTimeout(redrawAll, 150);
+      });
+    },
+  };
+  return api;
+})();
+</script>
+<script>
+// 集計（取引一覧から計算する）
+dash.calc('summary', {
+  title: '成績まとめ',
+  description: '取引一覧から、回数・勝ち負け・平均などを集計します。',
+  inputs: ['trades'],
+  fn: (trades) => {
+    const r2 = (v) => Math.round(v * 100) / 100;
+    const total = (list) => list.reduce((s, t) => s + t.profit, 0);
+    const wins = trades.filter((t) => t.profit > 0);
+    const losses = trades.filter((t) => t.profit < 0);
+    const n = trades.length;
+    const avgWin = wins.length ? total(wins) / wins.length : 0;
+    const avgLoss = losses.length ? total(losses) / losses.length : 0;
+    return [{
+      n,
+      wins: wins.length,
+      losses: losses.length,
+      flat: n - wins.length - losses.length,
+      net: r2(total(trades)),
+      win_rate: n ? wins.length / n : 0,
+      avg_win: r2(avgWin),
+      avg_loss: r2(avgLoss),
+      loss_in_wins: avgWin > 0 ? Math.round((Math.abs(avgLoss) / avgWin) * 10) / 10 : 0,
+      worst: n ? Math.min(...trades.map((t) => t.profit)) : 0,
+    }];
+  },
+});
+
+dash.calc('curve', {
+  title: '累計損益の推移',
+  description: '決済した順に、損益を足していった合計です。',
+  inputs: ['trades'],
+  fn: (trades) => {
+    const sorted = trades.slice().sort((a, b) => (a.closed_at < b.closed_at ? -1 : a.closed_at > b.closed_at ? 1 : 0));
+    let run = 0;
+    return sorted.map((t, i) => {
+      run = Math.round((run + t.profit) * 100) / 100;
+      return { n: i + 1, date: t.date, time: t.time, profit: t.profit, cum: run };
+    });
+  },
+});
+
+dash.calc('daily', {
+  title: '日別の損益',
+  description: '決済した日ごとに、取引の回数・損益・累計をまとめます。',
+  inputs: ['trades'],
+  fn: (trades) => {
+    const r2 = (v) => Math.round(v * 100) / 100;
+    const sorted = trades.slice().sort((a, b) => (a.closed_at < b.closed_at ? -1 : a.closed_at > b.closed_at ? 1 : 0));
+    const byDay = {};
+    for (const t of sorted) {
+      const d = byDay[t.date] || (byDay[t.date] = { date: t.date, n: 0, profit: 0 });
+      d.n += 1;
+      d.profit += t.profit;
+    }
+    let run = 0;
+    return Object.values(byDay).map((d) => {
+      run = r2(run + d.profit);
+      return { date: d.date, n: d.n, profit: r2(d.profit), cum: run };
+    });
+  },
+});
+
+dash.calc('monthly', {
+  title: '月ごとの合計',
+  description: '月ごとに、取引の回数・損益・取引した日数をまとめます。',
+  inputs: ['daily'],
+  fn: (daily) => {
+    const r2 = (v) => Math.round(v * 100) / 100;
+    const byMonth = {};
+    for (const d of daily) {
+      const key = d.date.slice(0, 7);
+      const m = byMonth[key] || (byMonth[key] = { month: key, n: 0, profit: 0, days: 0 });
+      m.n += d.n;
+      m.profit += d.profit;
+      m.days += 1;
+    }
+    return Object.values(byMonth).map((m) => ({ month: m.month, n: m.n, profit: r2(m.profit), days: m.days }));
+  },
+});
+
+dash.calc('by_side', {
+  title: '買い・売り別の成績',
+  description: '買いと売りに分けて、回数・勝ち負け・損益をまとめます。',
+  inputs: ['trades'],
+  fn: (trades) => {
+    const r2 = (v) => Math.round(v * 100) / 100;
+    const sum = (list) => list.reduce((s, t) => s + t.profit, 0);
+    const rows = [];
+    for (const side of ['買い', '売り']) {
+      const list = trades.filter((t) => t.side === side);
+      if (!list.length) continue;
+      const wins = list.filter((t) => t.profit > 0);
+      const losses = list.filter((t) => t.profit < 0);
+      rows.push({
+        side,
+        n: list.length,
+        wins: wins.length,
+        losses: losses.length,
+        win_rate: wins.length / list.length,
+        net: r2(sum(list)),
+        avg_win: wins.length ? r2(sum(wins) / wins.length) : null,
+        avg_loss: losses.length ? r2(sum(losses) / losses.length) : null,
+      });
+    }
+    return rows;
+  },
+});
+
+dash.calc('by_lot', {
+  title: 'ロット別の成績',
+  description: '入れたロットの大きさごとに、回数・勝ち負け・損益をまとめます。',
+  inputs: ['trades'],
+  fn: (trades) => {
+    const r2 = (v) => Math.round(v * 100) / 100;
+    const sum = (list) => list.reduce((s, t) => s + t.profit, 0);
+    const sizes = Array.from(new Set(trades.map((t) => t.lots))).sort((a, b) => a - b);
+    return sizes.map((lots) => {
+      const list = trades.filter((t) => t.lots === lots);
+      const wins = list.filter((t) => t.profit > 0);
+      const losses = list.filter((t) => t.profit < 0);
+      return {
+        lots,
+        n: list.length,
+        wins: wins.length,
+        losses: losses.length,
+        win_rate: wins.length / list.length,
+        net: r2(sum(list)),
+        avg_win: wins.length ? r2(sum(wins) / wins.length) : null,
+        avg_loss: losses.length ? r2(sum(losses) / losses.length) : null,
+      };
+    });
+  },
+});
+
+dash.calc('highlights', {
+  title: '連勝と最新の日',
+  description: '連勝の回数と、いちばん新しい日の損益をまとめます。',
+  inputs: ['trades'],
+  fn: (trades) => {
+    const r2 = (v) => Math.round(v * 100) / 100;
+    const sorted = trades.slice().sort((a, b) => (a.closed_at < b.closed_at ? -1 : a.closed_at > b.closed_at ? 1 : 0));
+    if (!sorted.length) return [];
+    let run = 0;
+    let best = 0;
+    for (const t of sorted) {
+      if (t.profit > 0) {
+        run += 1;
+        if (run > best) best = run;
+      } else {
+        run = 0;
+      }
+    }
+    const byDay = {};
+    for (const t of sorted) byDay[t.date] = (byDay[t.date] || 0) + t.profit;
+    const days = Object.keys(byDay);
+    const lastDate = days[days.length - 1];
+    let green = 0;
+    for (let i = days.length - 1; i >= 0 && byDay[days[i]] > 0; i--) green += 1;
+    return [{
+      last_date: lastDate,
+      last_profit: r2(byDay[lastDate]),
+      win_streak: run,
+      best_streak: best,
+      green_days: green,
+    }];
+  },
+});
+
+</script>
+
+<script>
+const money = d3.format(',.2f');
+const signed = d3.format('+,.2f');
+const signedWhole = d3.format('+,.0f');
+const pct = d3.format('.0%');
+const whole = d3.format(',');
+const one = d3.format('.1f');
+const lotf = d3.format('.2~f');
+const axisNum = d3.format(',.0f');
+const md = d3.utcFormat('%-m/%-d');
+const toDay = (s) => md(new Date(s + 'T00:00:00Z'));
+const FMT = { money, signed, pct, int: whole, one, lots: lotf, text: String, day: toDay };
+const H = 240;
+
+// 数字1つぶん
+dash.draw('val', (el) => {
+  const g = dash.data(el.dataset.source);
+  const row = g.status === 'ok' ? g.data[Number(el.dataset.row || 0)] : undefined;
+  const v = row ? row[el.dataset.field] : undefined;
+  el.classList.toggle('dash-skeleton', g.status === 'loading');
+  el.classList.remove('lx-pos', 'lx-neg');
+  if (v === undefined || v === null) {
+    el.textContent = '—';
+    return;
+  }
+  el.textContent = (FMT[el.dataset.fmt] || String)(v);
+  if (el.dataset.fmt === 'signed') {
+    if (v > 0) el.classList.add('lx-pos');
+    else if (v < 0) el.classList.add('lx-neg');
+  }
+});
+
+const failLine = (el) => {
+  const d = document.createElement('div');
+  d.className = 'lx-fail';
+  d.textContent = '読み込めませんでした';
+  el.replaceChildren(d);
+};
+
+const prep = (el, id) => {
+  const g = dash.data(id);
+  el.classList.toggle('dash-skeleton', g.status === 'loading');
+  el.replaceChildren();
+  if (g.status === 'error' || g.status === 'connect' || g.status === 'declined' || g.status === 'missing') {
+    failLine(el);
+    return null;
+  }
+  if (g.status !== 'ok' || !g.data.length) return null;
+  return g;
+};
+
+const measureText = (svg, labels, cls) => {
+  const t = svg.append('text').attr('class', cls);
+  let w = 0;
+  for (const l of labels) {
+    t.text(l);
+    w = Math.max(w, t.node().getComputedTextLength());
+  }
+  t.remove();
+  return w;
+};
+
+const pickTicks = (items, minGap) => {
+  const out = [];
+  let last = -Infinity;
+  for (const it of items) {
+    if (it.x - last >= minGap) {
+      out.push(it);
+      last = it.x;
+    }
+  }
+  return out;
+};
+
+const makeTip = (el) => {
+  const tip = document.createElement('div');
+  tip.className = 'lx-tip';
+  tip.hidden = true;
+  el.append(tip);
+  return tip;
+};
+
+const showTip = (tip, W, x, y, lines) => {
+  tip.replaceChildren();
+  lines.forEach((text, i) => {
+    const d = document.createElement('div');
+    if (i === 0) d.className = 'lx-tip-h';
+    d.textContent = text;
+    tip.append(d);
+  });
+  tip.hidden = false;
+  const tw = tip.offsetWidth;
+  const th = tip.offsetHeight;
+  let left = x + 12;
+  if (left + tw > W) left = x - tw - 12;
+  left = Math.max(0, left);
+  let top = y - th - 8;
+  if (top < 0) top = y + 12;
+  top = Math.max(0, Math.min(top, H - th));
+  tip.style.left = left + 'px';
+  tip.style.top = top + 'px';
+};
+
+// 上のカードの小さな折れ線
+dash.draw('spark', (el) => {
+  const g = prep(el, 'curve');
+  if (!g) return;
+  const W = Math.floor(el.clientWidth);
+  if (W < 80) return;
+  const h = 72;
+  const rows = g.data;
+  const svg = d3.select(el).append('svg').attr('viewBox', `0 0 ${W} ${h}`).attr('width', '100%').attr('role', 'img').attr('aria-label', '累計損益の推移');
+  const x = d3.scaleLinear().domain([1, Math.max(2, rows.length)]).range([6, W - 10]);
+  const y = d3.scaleLinear().domain([Math.min(0, d3.min(rows, (r) => r.cum)), Math.max(1, d3.max(rows, (r) => r.cum))]).range([h - 8, 8]);
+  const grad = svg.append('defs').append('linearGradient').attr('id', 'lx-spark-fill').attr('x1', 0).attr('x2', 0).attr('y1', 0).attr('y2', 1);
+  [[0, 0.45], [0.5, 0.15], [1, 0]].forEach(([o, a]) => grad.append('stop').attr('offset', o).style('stop-color', '#34f5a0').style('stop-opacity', a));
+  svg.append('path').attr('d', d3.area().x((r) => x(r.n)).y0(h - 4).y1((r) => y(r.cum))(rows)).style('fill', 'url(#lx-spark-fill)');
+  svg.append('path').attr('class', 'lx-spark-line').attr('d', d3.line().x((r) => x(r.n)).y((r) => y(r.cum))(rows));
+  const last = rows[rows.length - 1];
+  svg.append('circle').attr('class', 'lx-spark-dot').attr('cx', x(last.n)).attr('cy', y(last.cum)).attr('r', 4);
+});
+
+// 連勝などのバッジ
+dash.draw('badge', (el) => {
+  const g = dash.data('highlights');
+  el.replaceChildren();
+  if (g.status !== 'ok' || !g.data.length) return;
+  const h = g.data[0];
+  const chips = [];
+  if (h.win_streak >= 3) chips.push('⚡ ' + h.win_streak + '連勝中' + (h.win_streak >= h.best_streak ? '（自己ベスト）' : ''));
+  if (h.green_days >= 2) chips.push('🔥 ' + h.green_days + '日連続のプラス');
+  for (const text of chips) {
+    const s = document.createElement('span');
+    s.className = 'lx-chip';
+    s.textContent = text;
+    el.append(s);
+  }
+});
+
+// 累計損益の折れ線
+dash.draw('curve_chart', (el) => {
+  const g = prep(el, 'curve');
+  if (!g) return;
+  const W = Math.floor(el.clientWidth);
+  if (W < 120) return;
+  const rows = g.data;
+  const last = rows[rows.length - 1];
+  const svg = d3.select(el).append('svg').attr('viewBox', `0 0 ${W} ${H}`).attr('width', '100%').attr('role', 'img').attr('aria-label', '累計損益の推移');
+
+  const lo = Math.min(0, d3.min(rows, (r) => r.cum));
+  const hi = Math.max(0, d3.max(rows, (r) => r.cum));
+  const padY = (hi - lo) * 0.1 || 1;
+  const y = d3.scaleLinear().domain([lo - padY, hi + padY]).nice().range([H - 30, 14]);
+  const yt = y.ticks(5);
+  const ml = Math.ceil(measureText(svg, yt.map(axisNum), 'lx-tick')) + 14;
+  const mr = Math.ceil(measureText(svg, [signed(last.cum)], 'lx-endlabel')) + 14;
+  const x = d3.scaleLinear().domain([1, Math.max(2, rows.length)]).range([ml, W - mr]);
+
+  svg.append('g').selectAll('line').data(yt).join('line').attr('class', 'lx-grid-line').attr('x1', ml).attr('x2', W - mr).attr('y1', (d) => y(d)).attr('y2', (d) => y(d));
+  svg.append('g').selectAll('text').data(yt).join('text').attr('class', 'lx-tick').attr('x', ml - 8).attr('y', (d) => y(d)).attr('dy', '0.32em').attr('text-anchor', 'end').text(axisNum);
+  svg.append('line').attr('class', 'lx-zero').attr('x1', ml).attr('x2', W - mr).attr('y1', y(0)).attr('y2', y(0));
+
+  const starts = rows.filter((r, i) => i === 0 || rows[i - 1].date !== r.date).map((r) => ({ x: x(r.n), label: toDay(r.date) }));
+  const labelW = measureText(svg, ['10/30'], 'lx-tick') + 16;
+  svg.append('g').selectAll('text').data(pickTicks(starts, labelW)).join('text').attr('class', 'lx-tick').attr('x', (d) => d.x).attr('y', H - 8).attr('text-anchor', 'middle').text((d) => d.label);
+
+  const line = d3.line().x((r) => x(r.n)).y((r) => y(r.cum));
+  svg.append('path').attr('class', 'lx-line').attr('d', line(rows)).style('stroke', 'var(--lx-accent)');
+  svg.append('g').selectAll('circle').data(rows).join('circle').attr('cx', (r) => x(r.n)).attr('cy', (r) => y(r.cum)).attr('r', 3).style('fill', (r) => (r.profit < 0 ? 'var(--cds-chart-status-critical)' : 'var(--lx-accent)'));
+  svg.append('text').attr('class', 'lx-endlabel').attr('x', x(last.n) + 8).attr('y', y(last.cum)).attr('dy', '0.32em').style('fill', last.cum >= 0 ? 'var(--color-ok)' : 'var(--color-bad)').text(signed(last.cum));
+
+  const rule = svg.append('line').attr('class', 'lx-rule').attr('y1', 14).attr('y2', H - 30).style('display', 'none');
+  const ring = svg.append('circle').attr('class', 'lx-ring').attr('r', 5.5).style('display', 'none');
+  const tip = makeTip(el);
+  svg.append('rect').attr('x', ml).attr('y', 0).attr('width', Math.max(0, W - ml)).attr('height', H).attr('fill', 'transparent')
+    .on('pointermove', (event) => {
+      const [px] = d3.pointer(event);
+      const i = Math.max(0, Math.min(rows.length - 1, Math.round(x.invert(px)) - 1));
+      const r = rows[i];
+      rule.attr('x1', x(r.n)).attr('x2', x(r.n)).style('display', null);
+      ring.attr('cx', x(r.n)).attr('cy', y(r.cum)).style('display', null);
+      showTip(tip, W, x(r.n), y(r.cum), [toDay(r.date) + ' ' + r.time + ' 決済', '損益 ' + signed(r.profit), '累計 ' + signed(r.cum)]);
+    })
+    .on('pointerleave', () => {
+      rule.style('display', 'none');
+      ring.style('display', 'none');
+      tip.hidden = true;
+    });
+});
+
+// 日別の棒グラフ
+dash.draw('daily_chart', (el) => {
+  const g = prep(el, 'daily');
+  if (!g) return;
+  const W = Math.floor(el.clientWidth);
+  if (W < 120) return;
+  const rows = g.data;
+  const svg = d3.select(el).append('svg').attr('viewBox', `0 0 ${W} ${H}`).attr('width', '100%').attr('role', 'img').attr('aria-label', '日別の損益');
+
+  const lo = Math.min(0, d3.min(rows, (r) => r.profit));
+  const hi = Math.max(0, d3.max(rows, (r) => r.profit));
+  const padY = (hi - lo) * 0.12 || 1;
+  const y = d3.scaleLinear().domain([lo - padY, hi + padY]).nice().range([H - 30, 14]);
+  const yt = y.ticks(5);
+  const ml = Math.ceil(measureText(svg, yt.map(axisNum), 'lx-tick')) + 14;
+  const x = d3.scaleBand().domain(rows.map((r) => r.date)).range([ml, W - 8]).paddingInner(0.3).paddingOuter(0.15);
+  const bw = Math.min(32, x.bandwidth());
+  const off = (x.bandwidth() - bw) / 2;
+
+  svg.append('g').selectAll('line').data(yt).join('line').attr('class', 'lx-grid-line').attr('x1', ml).attr('x2', W - 8).attr('y1', (d) => y(d)).attr('y2', (d) => y(d));
+  svg.append('g').selectAll('text').data(yt).join('text').attr('class', 'lx-tick').attr('x', ml - 8).attr('y', (d) => y(d)).attr('dy', '0.32em').attr('text-anchor', 'end').text(axisNum);
+
+  svg.append('g').selectAll('rect').data(rows).join('rect')
+    .attr('x', (r) => x(r.date) + off).attr('width', bw)
+    .attr('y', (r) => y(Math.max(0, r.profit)))
+    .attr('height', (r) => Math.max(1, Math.abs(y(r.profit) - y(0))))
+    .attr('rx', 3)
+    .style('fill', (r) => (r.profit < 0 ? 'var(--lx-down)' : 'var(--lx-up)'));
+  svg.append('line').attr('class', 'lx-zero').attr('x1', ml).attr('x2', W - 8).attr('y1', y(0)).attr('y2', y(0));
+
+  if (x.step() >= 52) {
+    svg.append('g').selectAll('text').data(rows).join('text').attr('class', 'lx-barlabel')
+      .attr('x', (r) => x(r.date) + x.bandwidth() / 2).attr('text-anchor', 'middle')
+      .attr('y', (r) => (r.profit >= 0 ? y(r.profit) - 6 : y(r.profit) + 15))
+      .text((r) => signed(r.profit));
+  }
+
+  const labelW = measureText(svg, ['10/30'], 'lx-tick') + 16;
+  const ticks = rows.map((r) => ({ x: x(r.date) + x.bandwidth() / 2, label: toDay(r.date) }));
+  svg.append('g').selectAll('text').data(pickTicks(ticks, labelW)).join('text').attr('class', 'lx-tick').attr('x', (d) => d.x).attr('y', H - 8).attr('text-anchor', 'middle').text((d) => d.label);
+
+  const tip = makeTip(el);
+  svg.append('g').selectAll('rect').data(rows).join('rect')
+    .attr('x', (r) => x(r.date) - (x.step() - x.bandwidth()) / 2).attr('width', x.step()).attr('y', 0).attr('height', H).attr('fill', 'transparent')
+    .on('pointermove', (event, r) => showTip(tip, W, x(r.date) + x.bandwidth() / 2, y(r.profit), [toDay(r.date) + ' ・ ' + r.n + '回', '損益 ' + signed(r.profit), '累計 ' + signed(r.cum)]))
+    .on('pointerleave', () => { tip.hidden = true; });
+});
+
+// カレンダー（月の切り替えは見る人の画面だけの状態）
+let calMonth = null;
+
+const monthList = () => {
+  const g = dash.data('daily');
+  if (g.status !== 'ok' || !g.data.length) return [];
+  const keys = g.data.map((r) => r.date.slice(0, 7)).sort();
+  const [fy, fm] = keys[0].split('-').map(Number);
+  const [ly, lm] = keys[keys.length - 1].split('-').map(Number);
+  const out = [];
+  for (let y = fy, m = fm; y < ly || (y === ly && m <= lm); m++) {
+    if (m > 12) { m = 1; y += 1; }
+    out.push(y + '-' + String(m).padStart(2, '0'));
+  }
+  return out;
+};
+
+const curMonth = () => {
+  const list = monthList();
+  if (calMonth && list.includes(calMonth)) return calMonth;
+  return list.length ? list[list.length - 1] : null;
+};
+
+const syncNav = () => {
+  const list = monthList();
+  const i = list.indexOf(curMonth());
+  document.querySelectorAll('.lx-nav').forEach((b) => {
+    const j = i + Number(b.dataset.nav);
+    b.disabled = i < 0 || j < 0 || j >= list.length;
+  });
+};
+
+document.querySelectorAll('.lx-nav').forEach((b) => {
+  b.addEventListener('click', () => {
+    const list = monthList();
+    const i = list.indexOf(curMonth()) + Number(b.dataset.nav);
+    if (i < 0 || i >= list.length) return;
+    calMonth = list[i];
+    dash.draw('cal_month');
+    dash.draw('cal_total');
+    dash.draw('cal_grid');
+    syncNav();
+  });
+});
+dash.onData(syncNav);
+
+dash.draw('cal_month', (el) => {
+  const m = curMonth();
+  el.textContent = m ? m.slice(0, 4) + '年' + Number(m.slice(5)) + '月' : '—';
+});
+
+dash.draw('cal_total', (el) => {
+  const g = dash.data('monthly');
+  el.replaceChildren();
+  if (g.status !== 'ok') return;
+  const r = g.data.find((x) => x.month === curMonth());
+  if (!r) return;
+  const head = document.createElement('span');
+  head.textContent = '月の合計 ';
+  const total = document.createElement('b');
+  total.textContent = signed(r.profit) + ' ドル';
+  if (r.profit > 0) total.className = 'lx-pos';
+  else if (r.profit < 0) total.className = 'lx-neg';
+  const tail = document.createElement('span');
+  tail.textContent = ' ・ ' + r.n + '回 ・ 取引した日 ' + r.days + '日';
+  el.append(head, total, tail);
+});
+
+dash.draw('cal_grid', (el) => {
+  const g = dash.data('daily');
+  el.classList.toggle('dash-skeleton', g.status === 'loading');
+  el.replaceChildren();
+  if (g.status === 'error' || g.status === 'connect' || g.status === 'declined' || g.status === 'missing') {
+    failLine(el);
+    return;
+  }
+  const m = curMonth();
+  if (g.status !== 'ok' || !m) return;
+  const [y, mo] = m.split('-').map(Number);
+  const lead = (new Date(Date.UTC(y, mo - 1, 1)).getUTCDay() + 6) % 7;
+  const days = new Date(Date.UTC(y, mo, 0)).getUTCDate();
+  const byDate = new Map(g.data.map((r) => [r.date, r]));
+  const narrow = (el.clientWidth - 18) / 7 < 62;
+  for (let i = 0; i < lead; i++) {
+    const blank = document.createElement('div');
+    blank.className = 'lx-day-blank';
+    el.append(blank);
+  }
+  for (let d = 1; d <= days; d++) {
+    const r = byDate.get(m + '-' + String(d).padStart(2, '0'));
+    const cell = document.createElement('div');
+    cell.className = 'lx-day' + (r ? (r.profit > 0 ? ' lx-day-pos' : r.profit < 0 ? ' lx-day-neg' : ' lx-day-flat') : '');
+    const num = document.createElement('div');
+    num.className = 'lx-day-n';
+    num.textContent = String(d);
+    cell.append(num);
+    if (r) {
+      const p = document.createElement('div');
+      p.className = 'lx-day-p';
+      p.textContent = narrow ? signedWhole(r.profit) : signed(r.profit);
+      cell.append(p);
+    }
+    el.append(cell);
+  }
+});
+
+// 売買別・ロット別の表
+const statRows = (id, keyField, keyFmt) => (tbody) => {
+  const g = dash.data(id);
+  tbody.replaceChildren();
+  if (g.status !== 'ok') return;
+  for (const r of g.data) {
+    const tr = document.createElement('tr');
+    tr.dataset.key = String(r[keyField]);
+    const show = (v) => (v === null || v === undefined ? '—' : signed(v));
+    const cells = [keyFmt(r[keyField]), whole(r.n), whole(r.wins), whole(r.losses), pct(r.win_rate), show(r.net), show(r.avg_win), show(r.avg_loss)];
+    const signs = [null, null, null, null, null, r.net, r.avg_win, r.avg_loss];
+    cells.forEach((text, i) => {
+      const td = document.createElement('td');
+      td.textContent = text;
+      const v = signs[i];
+      if (v > 0) td.classList.add('lx-pos');
+      else if (v < 0) td.classList.add('lx-neg');
+      tr.append(td);
+    });
+    tbody.append(tr);
+  }
+};
+dash.draw('side_rows', statRows('by_side', 'side', String));
+dash.draw('lot_rows', statRows('by_lot', 'lots', lotf));
+
+// 取引一覧（新しい順）
+dash.draw('rows', (tbody) => {
+  const g = dash.data('trades');
+  tbody.replaceChildren();
+  if (g.status !== 'ok') return;
+  const rows = g.data.slice().sort((a, b) => (a.closed_at < b.closed_at ? 1 : a.closed_at > b.closed_at ? -1 : 0));
+  for (const r of rows) {
+    const tr = document.createElement('tr');
+    tr.dataset.key = r.ticket;
+    const cells = [toDay(r.date), r.time, one(r.hold_min), r.side, lotf(r.lots), money(r.open_price), money(r.close_price), signed(r.move), signed(r.profit), r.ticket];
+    cells.forEach((text, i) => {
+      const td = document.createElement('td');
+      td.textContent = text;
+      if (i === 7 || i === 8) {
+        const v = i === 7 ? r.move : r.profit;
+        if (v > 0) td.classList.add('lx-pos');
+        else if (v < 0) td.classList.add('lx-neg');
+      }
+      if (i === 8) td.classList.add('lx-bold');
+      tr.append(td);
+    });
+    tbody.append(tr);
+  }
+});
+</script>
+<script>dash.start();</script>
+</body>
+</html>

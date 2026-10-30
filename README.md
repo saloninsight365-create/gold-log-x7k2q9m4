@@ -1,1 +1,3 @@
-# gold-log-x7k2q9m4
+# gold-log
+
+XAUUSD の取引記録。

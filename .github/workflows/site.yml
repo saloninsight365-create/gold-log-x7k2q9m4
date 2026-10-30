@@ -1,0 +1,72 @@
+name: site
+
+on:
+  push:
+    branches: [main]
+    paths: [index.html, trades.json, .github/workflows/site.yml]
+  issues:
+    types: [opened]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  issues: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: site
+  cancel-in-progress: false
+
+jobs:
+  build:
+    # 履歴を貼れるのは、このリポジトリの持ち主だけ
+    if: github.event_name != 'issues' || github.event.issue.user.login == github.repository_owner
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: 貼られた履歴を取り込む
+        if: github.event_name == 'issues'
+        env:
+          BODY: ${{ github.event.issue.body }}
+          NUM: ${{ github.event.issue.number }}
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set +e
+          printf '%s\n' "$BODY" > "$RUNNER_TEMP/raw.txt"
+          python3 -I ingest.py "$RUNNER_TEMP/raw.txt" trades.json > "$RUNNER_TEMP/result.txt" 2>&1
+          code=$?
+          if [ "$code" -eq 0 ] && ! git diff --quiet -- trades.json; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add trades.json
+            git commit -m "履歴を追加 (issue #$NUM)"
+            git push origin HEAD:main
+          fi
+          {
+            if [ "$code" -eq 0 ]; then echo "取り込みました。"; else echo "取り込めませんでした。貼った内容を確認してください。"; fi
+            echo '```'
+            cat "$RUNNER_TEMP/result.txt"
+            echo '```'
+          } > "$RUNNER_TEMP/comment.md"
+          gh issue comment "$NUM" --body-file "$RUNNER_TEMP/comment.md"
+          gh issue close "$NUM"
+          exit 0
+
+      - name: 公開するファイルをそろえる
+        run: |
+          mkdir _site
+          cp index.html trades.json _site/
+
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+      - id: deploy
+        uses: actions/deploy-pages@v4
