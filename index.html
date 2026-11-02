@@ -213,7 +213,7 @@ body { margin: 0; background: #ffffff; }
 
   <section class="lx-card" id="review-card" aria-label="振り返りノート">
     <h2 class="lx-h">振り返りノート</h2>
-    <p class="lx-sub">負けた取引を、チャートつきで振り返った記録です。同じ間違いを繰り返さないために見ます。画像を押すと大きく見られます。</p>
+    <p class="lx-sub">取引を、チャートつきで振り返った記録です。同じ間違いを繰り返さないために見ます。画像を押すと大きく見られます。</p>
     <div class="lx-rules" data-draw="review_rules"></div>
     <div class="lx-reviews" data-draw="review_list"></div>
   </section>
@@ -1058,7 +1058,8 @@ dash.draw('review_list', (el) => {
       a.append(img);
       card.append(a);
     }
-    card.append(noteHead('起きたこと'), listOf(n.happened), noteHead('見直す点'), listOf(n.fix));
+    const secs = n.sections || [{ h: '起きたこと', items: n.happened }, { h: '見直す点', items: n.fix }];
+    for (const sec of secs) card.append(noteHead(sec.h), listOf(sec.items));
     el.append(card);
   }
 });
