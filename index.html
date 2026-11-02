@@ -163,7 +163,7 @@ body { margin: 0; background: #ffffff; }
   <section class="lx-hero" id="hero" aria-label="いまの成績">
     <div class="lx-hero-top">
       <div class="lx-hero-main">
-        <div class="lx-hero-label">累計損益（ドル）</div>
+        <div class="lx-hero-label">累計損益（$）</div>
         <div class="lx-hero-value" data-draw="val" data-fmt="signed" data-source="summary" data-row="0" data-field="net">—</div>
       </div>
       <div class="lx-hero-chip">
@@ -195,17 +195,17 @@ body { margin: 0; background: #ffffff; }
 
   <section class="lx-tiles" id="summary" aria-label="勝ちと負けの大きさ">
     <div class="lx-tile">
-      <div class="lx-tile-label">平均の勝ち（ドル）</div>
+      <div class="lx-tile-label">平均の勝ち（$）</div>
       <div class="lx-tile-value" data-draw="val" data-fmt="signed" data-source="summary" data-row="0" data-field="avg_win">—</div>
       <div class="lx-tile-sub">勝った取引1回あたり（勝ち <b data-draw="val" data-fmt="int" data-source="summary" data-row="0" data-field="wins">—</b> 回）</div>
     </div>
     <div class="lx-tile">
-      <div class="lx-tile-label">平均の負け（ドル）</div>
+      <div class="lx-tile-label">平均の負け（$）</div>
       <div class="lx-tile-value" data-draw="val" data-fmt="signed" data-source="summary" data-row="0" data-field="avg_loss">—</div>
       <div class="lx-tile-sub">負け1回を取り戻すのに、平均の勝ちが約 <b data-draw="val" data-fmt="one" data-source="summary" data-row="0" data-field="loss_in_wins">—</b> 回ぶん必要</div>
     </div>
     <div class="lx-tile">
-      <div class="lx-tile-label">最大の負け（ドル）</div>
+      <div class="lx-tile-label">最大の負け（$）</div>
       <div class="lx-tile-value" data-draw="val" data-fmt="signed" data-source="summary" data-row="0" data-field="worst">—</div>
       <div class="lx-tile-sub">いちばん大きく負けた1回（負け <b data-draw="val" data-fmt="int" data-source="summary" data-row="0" data-field="losses">—</b> 回）</div>
     </div>
@@ -227,7 +227,7 @@ body { margin: 0; background: #ffffff; }
         <button type="button" class="lx-nav" data-nav="1" aria-label="次の月">›</button>
       </div>
     </div>
-    <p class="lx-sub">その日に決済した取引の合計（ドル）です。緑がプラス、赤がマイナスです。画面がせまいときは、小数点以下を丸めて表示します。</p>
+    <p class="lx-sub">その日に決済した取引の合計（$）です。緑がプラス、赤がマイナスです。画面がせまいときは、小数点以下を丸めて表示します。</p>
     <div class="lx-cal-total" data-draw="cal_total" data-source="monthly"></div>
     <div class="lx-cal-week" aria-hidden="true"><span>月</span><span>火</span><span>水</span><span>木</span><span>金</span><span>土</span><span>日</span></div>
     <div class="lx-cal-grid dash-skeleton" id="calendar-grid" data-draw="cal_grid" data-source="daily"></div>
@@ -292,15 +292,15 @@ body { margin: 0; background: #ffffff; }
 
   <section class="lx-card" id="lotref-card">
     <h2 class="lx-h">ロット別の早見表</h2>
-    <p class="lx-sub">金が1ドル・5ドル・10ドル動いたとき、損益がいくらになるかの表です（動いた幅 × ロット × 100）。逆に動くと、同じ額だけ負けます。円は、1ドル=157円で計算した目安です。</p>
+    <p class="lx-sub">金が$1・$5・$10動いたとき、損益がいくらになるかの表です（動いた幅 × ロット × 100）。逆に動くと、同じ額だけ負けます。円は、$1=157円で計算した目安です。</p>
     <div class="lx-scroll">
       <table class="lx-table lx-table-ref">
         <thead>
           <tr>
             <th>ロット</th>
-            <th>1ドル</th>
-            <th>5ドル</th>
-            <th>10ドル</th>
+            <th>$1</th>
+            <th>$5</th>
+            <th>$10</th>
           </tr>
         </thead>
         <tbody data-draw="lotref_rows"></tbody>
@@ -310,7 +310,7 @@ body { margin: 0; background: #ffffff; }
 
   <section class="lx-card" id="trades-card">
     <h2 class="lx-h">取引一覧</h2>
-    <p class="lx-sub">新しい順です。値幅は、有利な方向に動いた幅がプラスになります。円は、1ドル=157円で計算した目安です。</p>
+    <p class="lx-sub">新しい順です。値幅は、有利な方向に動いた幅がプラスになります。円は、$1=157円で計算した目安です。</p>
     <div class="lx-scroll">
       <table class="lx-table lx-table-trades" data-source="trades" data-row-key="ticket">
         <thead>
@@ -581,6 +581,7 @@ const md = d3.utcFormat('%-m/%-d');
 const toDay = (s) => md(new Date(s + 'T00:00:00Z'));
 const FMT = { money, signed, pct, int: whole, one, lots: lotf, text: String, day: toDay };
 const H = 240;
+const usd = (v) => (v > 0 ? '+' : v < 0 ? '−' : '') + '$' + money(Math.abs(v));
 
 // 数字1つぶん
 dash.draw('val', (el) => {
@@ -870,7 +871,7 @@ dash.draw('cal_total', (el) => {
   const head = document.createElement('span');
   head.textContent = '月の合計 ';
   const total = document.createElement('b');
-  total.textContent = signed(r.profit) + ' ドル';
+  total.textContent = usd(r.profit);
   if (r.profit > 0) total.className = 'lx-pos';
   else if (r.profit < 0) total.className = 'lx-neg';
   const tail = document.createElement('span');
@@ -942,7 +943,7 @@ dash.draw('side_rows', statRows('by_side', 'side', String));
 dash.draw('lot_rows', statRows('by_lot', 'lots', lotf));
 
 // 取引一覧（新しい順）
-const JPY_RATE = 157; // 1ドルあたりの円（目安）。ページの説明文の数字もあわせて直す
+const JPY_RATE = 157; // $1あたりの円（目安）。ページの説明文の数字もあわせて直す
 const yen = d3.format('+,.0f');
 dash.draw('rows', (tbody) => {
   const g = dash.data('trades');
@@ -987,12 +988,12 @@ dash.draw('lotref_rows', (tbody) => {
     first.textContent = lotf(lots);
     tr.append(first);
     for (const move of [1, 5, 10]) {
-      const usd = Math.round(move * lots * 100 * 100) / 100;
+      const amt = Math.round(move * lots * 100 * 100) / 100;
       const td = document.createElement('td');
-      td.textContent = whole(usd) + 'ドル';
+      td.textContent = '$' + whole(amt);
       const sub = document.createElement('span');
       sub.className = 'lx-subline';
-      sub.textContent = whole(Math.round(usd * JPY_RATE)) + '円';
+      sub.textContent = whole(Math.round(amt * JPY_RATE)) + '円';
       td.append(sub);
       tr.append(td);
     }
@@ -1042,7 +1043,7 @@ dash.draw('review_list', (el) => {
     if (t) {
       const meta = document.createElement('div');
       meta.className = 'lx-note-meta';
-      meta.textContent = toDay(t.date) + ' ' + t.time + ' 決済（MT5の時刻） ・ ' + t.side + ' ' + lotf(t.lots) + 'ロット ・ 損益 ' + signed(t.profit) + 'ドル';
+      meta.textContent = toDay(t.date) + ' ' + t.time + ' 決済（MT5の時刻） ・ ' + t.side + ' ' + lotf(t.lots) + 'ロット ・ 損益 ' + usd(t.profit);
       card.append(meta);
     }
     if (n.image) {
