@@ -147,6 +147,10 @@ body { margin: 0; background: #ffffff; }
 .lx-table-trades { min-width: 0; }
 .lx-table-trades th, .lx-table-trades td { padding: 8px 4px; }
 .lx-subline { display: block; font-size: 0.75rem; font-weight: 400; opacity: 0.85; }
+.lx-table-ref { min-width: 0; }
+.lx-table-ref th, .lx-table-ref td { padding: 8px 4px; }
+#lotref-card .lx-scroll { max-height: none; }
+.lx-table-ref td:first-child { font-weight: 600; }
 </style>
 </head>
 <body>
@@ -282,6 +286,24 @@ body { margin: 0; background: #ffffff; }
           </tr>
         </thead>
         <tbody data-draw="lot_rows"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="lx-card" id="lotref-card">
+    <h2 class="lx-h">ロット別の早見表</h2>
+    <p class="lx-sub">金が1ドル・5ドル・10ドル動いたとき、損益がいくらになるかの表です（動いた幅 × ロット × 100）。逆に動くと、同じ額だけ負けます。円は、1ドル=157円で計算した目安です。</p>
+    <div class="lx-scroll">
+      <table class="lx-table lx-table-ref">
+        <thead>
+          <tr>
+            <th>ロット</th>
+            <th>1ドル</th>
+            <th>5ドル</th>
+            <th>10ドル</th>
+          </tr>
+        </thead>
+        <tbody data-draw="lotref_rows"></tbody>
       </table>
     </div>
   </section>
@@ -945,6 +967,31 @@ dash.draw('rows', (tbody) => {
     add(signed(r.move), signClass(r.move));
     add(signed(r.profit), 'lx-bold ' + signClass(r.profit), yen(r.profit * JPY_RATE) + '円');
     add(one(r.hold_min));
+    tbody.append(tr);
+  }
+});
+
+// ロット別の早見表（使ったことのあるロット + よく使う大きさ）
+dash.draw('lotref_rows', (tbody) => {
+  const g = dash.data('trades');
+  tbody.replaceChildren();
+  if (g.status !== 'ok') return;
+  const sizes = Array.from(new Set([0.01, 0.1, 0.2, 0.5, 1].concat(g.data.map((t) => t.lots)))).sort((a, b) => a - b);
+  for (const lots of sizes) {
+    const tr = document.createElement('tr');
+    const first = document.createElement('td');
+    first.textContent = lotf(lots);
+    tr.append(first);
+    for (const move of [1, 5, 10]) {
+      const usd = Math.round(move * lots * 100 * 100) / 100;
+      const td = document.createElement('td');
+      td.textContent = whole(usd) + 'ドル';
+      const sub = document.createElement('span');
+      sub.className = 'lx-subline';
+      sub.textContent = whole(Math.round(usd * JPY_RATE)) + '円';
+      td.append(sub);
+      tr.append(td);
+    }
     tbody.append(tr);
   }
 });
