@@ -241,7 +241,7 @@ body { margin: 0; background: #ffffff; }
     </article>
     <article class="lx-card" id="daily-card">
       <h2 class="lx-h">日別の損益</h2>
-      <p class="lx-sub">その日に決済した取引の合計です。</p>
+      <p class="lx-sub">その日に決済した取引の合計です。日が増えたら、横にずらして見られます。</p>
       <div class="lx-chart dash-skeleton" id="daily-chart" data-draw="daily_chart" data-source="daily"></div>
     </article>
   </section>
@@ -762,10 +762,13 @@ dash.draw('curve_chart', (el) => {
 dash.draw('daily_chart', (el) => {
   const g = prep(el, 'daily');
   if (!g) return;
-  const W = Math.floor(el.clientWidth);
-  if (W < 120) return;
+  const avail = Math.floor(el.clientWidth);
+  if (avail < 120) return;
   const rows = g.data;
-  const svg = d3.select(el).append('svg').attr('viewBox', `0 0 ${W} ${H}`).attr('width', '100%').attr('role', 'img').attr('aria-label', '日別の損益');
+  // 棒1本ぶんの幅を確保して、数字と日付が必ず見えるようにする（足りないときは横にスクロール）
+  const W = Math.max(avail, rows.length * 62 + 56);
+  el.style.overflowX = 'auto';
+  const svg = d3.select(el).append('svg').attr('viewBox', `0 0 ${W} ${H}`).attr('width', W > avail ? W : '100%').style('width', W > avail ? W + 'px' : '100%').style('max-width', 'none').attr('role', 'img').attr('aria-label', '日別の損益');
 
   const lo = Math.min(0, d3.min(rows, (r) => r.profit));
   const hi = Math.max(0, d3.max(rows, (r) => r.profit));
@@ -804,6 +807,7 @@ dash.draw('daily_chart', (el) => {
     .attr('x', (r) => x(r.date) - (x.step() - x.bandwidth()) / 2).attr('width', x.step()).attr('y', 0).attr('height', H).attr('fill', 'transparent')
     .on('pointermove', (event, r) => showTip(tip, W, x(r.date) + x.bandwidth() / 2, y(r.profit), [toDay(r.date) + ' ・ ' + r.n + '回', '損益 ' + signed(r.profit), '累計 ' + signed(r.cum)]))
     .on('pointerleave', () => { tip.hidden = true; });
+  el.scrollLeft = el.scrollWidth; // いちばん新しい日が見える位置にする
 });
 
 // カレンダー（月の切り替えは見る人の画面だけの状態）
