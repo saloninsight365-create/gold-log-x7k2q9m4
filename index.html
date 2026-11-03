@@ -143,6 +143,8 @@ body { margin: 0; background: #ffffff; }
 .lx-note-title { margin: 0; font-size: var(--cds-font-size-body); font-weight: 700; }
 .lx-note-meta { margin: 2px 0 var(--cds-gap-sm); font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
 .lx-note-card img { display: block; width: 100%; height: auto; border-radius: 8px; border: 1px solid var(--color-border-line); }
+.lx-note-fig { margin: var(--cds-gap-sm) 0 0; }
+.lx-note-cap { margin: 4px 0 0; font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); line-height: 1.6; }
 .lx-note-h { margin: var(--cds-gap-md) 0 var(--cds-gap-xs); font-size: var(--cds-font-size-caption); font-weight: 700; color: var(--color-fg-muted); }
 .lx-table-trades { min-width: 0; }
 .lx-table-trades th, .lx-table-trades td { padding: 8px 4px; }
@@ -1046,17 +1048,27 @@ dash.draw('review_list', (el) => {
       meta.textContent = toDay(t.date) + ' ' + t.time + ' 決済（MT5の時刻） ・ ' + t.side + ' ' + lotf(t.lots) + 'ロット ・ 損益 ' + usd(t.profit);
       card.append(meta);
     }
-    if (n.image) {
+    const imgs = n.images || (n.image ? [{ src: n.image, alt: n.alt }] : []);
+    for (const m of imgs) {
+      const fig = document.createElement('div');
+      fig.className = 'lx-note-fig';
       const a = document.createElement('a');
-      a.href = n.image;
+      a.href = m.src;
       a.target = '_blank';
       a.rel = 'noopener';
       const img = document.createElement('img');
-      img.src = n.image;
-      img.alt = n.alt || '';
+      img.src = m.src;
+      img.alt = m.alt || '';
       img.loading = 'lazy';
       a.append(img);
-      card.append(a);
+      fig.append(a);
+      if (m.caption) {
+        const cap = document.createElement('div');
+        cap.className = 'lx-note-cap';
+        cap.textContent = m.caption;
+        fig.append(cap);
+      }
+      card.append(fig);
     }
     const secs = n.sections || [{ h: '起きたこと', items: n.happened }, { h: '見直す点', items: n.fix }];
     for (const sec of secs) card.append(noteHead(sec.h), listOf(sec.items));
