@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>トレード手法のまとめ</title>
+<style>
+:root {
+  --fg: #111827; --muted: #4b5563; --line: #e5e7eb; --panel: #ffffff; --soft: #f6f7ff;
+  --accent: #5b5bf0; --gold: #f5b301; --ok: #0e9f6e; --bad: #e11d48;
+  --font: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP", "Yu Gothic", Meiryo, sans-serif;
+}
+html { -webkit-text-size-adjust: 100%; color-scheme: light; }
+* { box-sizing: border-box; }
+body { margin: 0; background: #ffffff; color: var(--fg); font-family: var(--font); line-height: 1.7; }
+main { max-width: 56rem; margin-inline: auto; padding: 16px; display: grid; gap: 20px; }
+h1 { margin: 0; font-size: 1.5rem; font-weight: 600; line-height: 1.25; }
+h2 { margin: 0; font-size: 1.0625rem; font-weight: 600; }
+h3 { margin: 16px 0 4px; font-size: 0.8125rem; font-weight: 700; color: var(--muted); }
+p { margin: 4px 0; }
+.gold { color: var(--gold); }
+.note { font-size: 0.8125rem; color: var(--muted); }
+.back { display: inline-block; font-size: 0.875rem; color: var(--accent); text-decoration: none; font-weight: 600; }
+.card { border: 1px solid var(--line); border-radius: 12px; padding: 16px; background: var(--panel); }
+.card > summary { cursor: pointer; list-style: none; }
+.card > summary::-webkit-details-marker { display: none; }
+.card > summary h2::before { content: '▼ '; font-size: 0.75em; color: var(--accent); }
+.card:not([open]) > summary h2::before { content: '▶ '; }
+.card[open] > summary { margin-bottom: 8px; }
+.sum-sub { display: block; margin-top: 2px; font-size: 0.8125rem; font-weight: 400; color: var(--muted); }
+.tag { display: inline-block; padding: 1px 10px; border-radius: 999px; font-size: 0.75rem; font-weight: 700; vertical-align: 2px; margin-left: 6px; }
+.tag-main { background: linear-gradient(90deg, #f5b301, #ff7a18); color: #1b1200; }
+.tag-sub { background: #eef0f3; color: #4b5563; }
+.list { display: grid; gap: 10px; margin-top: 10px; }
+.item { border-left: 4px solid var(--accent); background: var(--soft); border-radius: 8px; padding: 10px 12px; }
+.item b { font-size: 0.9375rem; }
+.item span { display: block; font-size: 0.875rem; color: var(--muted); }
+.steps { margin: 8px 0 0; padding: 0; list-style: none; counter-reset: s; display: grid; gap: 8px; }
+.steps li { counter-increment: s; position: relative; padding: 8px 10px 8px 42px; background: #fafafa; border: 1px solid var(--line); border-radius: 10px; font-size: 0.9375rem; }
+.steps li::before { content: counter(s); position: absolute; left: 10px; top: 8px; width: 24px; height: 24px; border-radius: 50%; background: var(--accent); color: #fff; font-weight: 700; font-size: 0.8125rem; display: flex; align-items: center; justify-content: center; }
+.steps li small { display: block; color: var(--muted); font-size: 0.8125rem; }
+ul.dots { margin: 4px 0 0; padding-left: 1.2em; font-size: 0.9375rem; }
+.cols { display: grid; gap: 10px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr)); margin-top: 6px; }
+.good, .bad, .warn { border-radius: 10px; padding: 10px 12px; font-size: 0.9375rem; }
+.good { background: #fdecef; border: 1px solid #f6c6cf; }
+.bad { background: #eaf0ff; border: 1px solid #c7d6fb; }
+.warn { background: #fff8e6; border: 1px solid #f3dca0; }
+.good b, .bad b, .warn b { display: block; margin-bottom: 2px; }
+.good ul, .bad ul, .warn ul { margin: 0; padding-left: 1.2em; }
+figure { margin: 10px 0 0; }
+figure a { display: block; }
+figure img { display: block; width: 100%; height: auto; border-radius: 8px; border: 1px solid var(--line); }
+figcaption { margin-top: 4px; font-size: 0.8125rem; color: var(--muted); line-height: 1.6; }
+svg.diagram { display: block; width: 100%; height: auto; margin-top: 8px; border: 1px solid var(--line); border-radius: 10px; background: #fcfcfd; }
+svg text { font-family: var(--font); }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <h1><span class="gold">●</span> トレード手法のまとめ</h1>
+    <p class="note">いつでも見返せるように、3つのやり方を1か所にまとめました。画像を押すと、大きく見られます。</p>
+    <a class="back" href="./">← 取引記録にもどる</a>
+  </header>
+
+  <!-- 早見表 -->
+  <section class="card">
+    <h2>3つの手法（早見表）</h2>
+    <div class="list">
+      <div class="item"><b>スタイル1 <span class="tag tag-main" style="display:inline">メイン</span></b>
+        <span>自分の手法：1分足で、線が開く所に乗る</span></div>
+      <div class="item"><b>スタイル2 <span class="tag tag-main" style="display:inline">メイン</span></b>
+        <span>いぬさんの手法：1時間足の抵抗帯まで待って、1分足のプライスアクションで入る</span></div>
+      <div class="item"><b>スタイル3 <span class="tag tag-sub" style="display:inline">サブ</span></b>
+        <span>マサさんの手法：1時間足の3本の並び → 5分足で戻りに入る。通知が来たら見る。微妙なときは見送る</span></div>
+    </div>
+  </section>
+
+  <!-- 弱点と対策 -->
+  <section class="card">
+    <h2>自分の弱点と、その対策</h2>
+    <p>上位足は下向きなのに、短期足（1・5・15分、1時間）で急騰したり上がってきたりすると、そのまま勢いが続きそうで、売れない。</p>
+    <svg class="diagram" viewBox="0 0 360 210" role="img" aria-label="急騰中は打たず、抵抗帯に届いてから売る図">
+      <rect x="0" y="34" width="360" height="34" fill="#fbd5db" opacity="0.8"/>
+      <text x="8" y="28" font-size="11" fill="#9f1239" font-weight="700">抵抗帯（売りの壁）</text>
+      <polyline points="14,190 60,176 90,186 120,140 138,150 160,96 184,74 206,58" fill="none" stroke="#111827" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+      <polyline points="206,58 232,52 258,80 296,126 340,170" fill="none" stroke="#111827" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="5 5"/>
+      <circle cx="232" cy="52" r="8" fill="none" stroke="#e11d48" stroke-width="2.5"/>
+      <text x="170" y="206" font-size="11" fill="#2563eb" font-weight="700">急騰中は、何もしない</text>
+      <text x="352" y="20" font-size="11" fill="#e11d48" font-weight="700" text-anchor="end">帯に入ったら、1分足を見て売る</text>
+      <text x="262" y="112" font-size="11" fill="#4b5563">あとから下がる</text>
+    </svg>
+    <ol class="steps">
+      <li>急騰・急上昇している間は、売らない。<small>勢いが続く怖さは、そのとおり。無理に止めようとしない。</small></li>
+      <li>1時間足の抵抗帯に、価格が届くのを待つ。<small>「まだ場所に来ていないから打たない」と決める。</small></li>
+      <li>帯に入ったら、1分足のプライスアクションを見て、自分で判断して売る。</li>
+    </ol>
+  </section>
+
+  <!-- スタイル1 -->
+  <details class="card" open>
+    <summary><h2>スタイル1：1分足で、線が開く所に乗る <span class="tag tag-main">メイン</span>
+      <span class="sum-sub">自分の手法。上位足を見て、1分足の移動平均線の「広がり」に乗る。</span></h2></summary>
+
+    <svg class="diagram" viewBox="0 0 360 130" role="img" aria-label="線がからんでいる所から、扇のように開く図">
+      <path d="M10,78 C35,70 55,86 80,76 S120,70 150,76" fill="none" stroke="#f59e0b" stroke-width="2.5"/>
+      <path d="M10,76 C35,82 55,72 80,78 S120,80 150,77" fill="none" stroke="#3b82f6" stroke-width="2.5"/>
+      <path d="M10,80 L150,78" fill="none" stroke="#ef4444" stroke-width="2.5"/>
+      <path d="M150,76 C185,70 215,40 250,18" fill="none" stroke="#f59e0b" stroke-width="2.5"/>
+      <path d="M150,77 C185,76 215,60 250,44" fill="none" stroke="#3b82f6" stroke-width="2.5"/>
+      <path d="M150,78 L250,70" fill="none" stroke="#ef4444" stroke-width="2.5"/>
+      <circle cx="158" cy="76" r="11" fill="none" stroke="#e11d48" stroke-width="2.5"/>
+      <text x="14" y="112" font-size="11" fill="#2563eb" font-weight="700">からんでいる → 入らない</text>
+      <text x="150" y="112" font-size="11" fill="#e11d48" font-weight="700">開き始め → 乗る</text>
+      <text x="256" y="22" font-size="10" fill="#d97706">オレンジ</text>
+      <text x="256" y="48" font-size="10" fill="#2563eb">青</text>
+      <text x="256" y="74" font-size="10" fill="#dc2626">赤(200)</text>
+    </svg>
+
+    <h3>やること</h3>
+    <ol class="steps">
+      <li>上位足（1時間・15分・5分）で、大きな向きと、近くの帯を見る。</li>
+      <li>1分足の右のチャート（9EMA・20SMA・200SMA）で、青(20)からオレンジ(9)が離れて広がるのを待つ。</li>
+      <li>同時に、左のチャート（EMA 25・100・200）でも、青(100)からオレンジが離れて広がるのを見る。<small>左右はほぼ同じ動きをするので、同時に見る。</small></li>
+      <li>広がり始めたら、その向きに乗る。<small>オレンジが青に「触れただけ」で広がっていない所（線がからんでいる所）には、入らない。</small></li>
+      <li>赤(200)までの距離が近いときは、入らない。</li>
+    </ol>
+
+    <h3>「きれい」と「汚い」の見分け方</h3>
+    <div class="cols">
+      <div class="good"><b>きれい（入る）</b>
+        <ul>
+          <li>実体がヒゲより大きい（方向性のある値動き）</li>
+          <li>高値・安値が規則的で明確</li>
+          <li>短期の線が交差せず、同じ向きに並んで進む</li>
+          <li>価格が線の帯から大きく離れず、その上・下に沿って進む</li>
+        </ul></div>
+      <div class="bad"><b>汚い（入らない）</b>
+        <ul>
+          <li>実体が小さく、上下に長いヒゲが多い（迷いの値動き）</li>
+          <li>高値・安値が不規則で、レンジ状態</li>
+          <li>短期の線が、収束・交差をくり返してからんでいる</li>
+          <li>価格が線を、何度も上下に貫通する</li>
+        </ul></div>
+    </div>
+    <figure>
+      <a href="methods/s1-kirei-kitanai.jpg" target="_blank" rel="noopener"><img src="methods/s1-kirei-kitanai.jpg" alt="きれいなチャートと汚いチャートの見比べ" loading="lazy"></a>
+      <figcaption>左（ピンクの帯）がきれい、右（青の帯）が汚い。上の4つの見方は「実体とヒゲの比率」「高値安値の規則性」「線同士の並び方」「価格と線の位置関係」。</figcaption>
+    </figure>
+
+    <h3>例1：9/17（同じ時刻を、4つの時間足で見る）</h3>
+    <figure>
+      <a href="methods/s1-0917-1h.jpg" target="_blank" rel="noopener"><img src="methods/s1-0917-1h.jpg" alt="9/17 1時間足" loading="lazy"></a>
+      <figcaption>① 1時間足。下向きの流れの中で、緑の帯（約4,340〜4,368）の所まで戻ってきた。</figcaption>
+    </figure>
+    <figure>
+      <a href="methods/s1-0917-15m.jpg" target="_blank" rel="noopener"><img src="methods/s1-0917-15m.jpg" alt="9/17 15分足" loading="lazy"></a>
+      <figcaption>② 15分足。大きく下げたあと、200の上に戻って、線が同じ向きにそろってきた。</figcaption>
+    </figure>
+    <figure>
+      <a href="methods/s1-0917-5m.jpg" target="_blank" rel="noopener"><img src="methods/s1-0917-5m.jpg" alt="9/17 5分足" loading="lazy"></a>
+      <figcaption>③ 5分足。押したあと、オレンジ（丸）から、同じ向きに上がっていく。</figcaption>
+    </figure>
+    <figure>
+      <a href="methods/s1-0917-1m.jpg" target="_blank" rel="noopener"><img src="methods/s1-0917-1m.jpg" alt="9/17 1分足" loading="lazy"></a>
+      <figcaption>④ 1分足。丸の所（押したあと、線が開き始めた所）から、約$50以上上がった。</figcaption>
+    </figure>
+
+    <h3>例2：10/27</h3>
+    <figure>
+      <a href="methods/s1-1027-a.jpg" target="_blank" rel="noopener"><img src="methods/s1-1027-a.jpg" alt="10/27 1分足 線が開き始めた所に丸" loading="lazy"></a>
+      <figcaption>丸が、線が開き始めた所。緑（上向き）、ピンク（下向き）の帯がふくらんでから、大きく動いている。</figcaption>
+    </figure>
+    <figure>
+      <a href="methods/s1-1027-b.jpg" target="_blank" rel="noopener"><img src="methods/s1-1027-b.jpg" alt="10/27 左右のチャート" loading="lazy"></a>
+      <figcaption>左右のチャートを同時に見る。200の下から線が開いて、上に抜け始めた所（丸）。このあと約$20上がった。</figcaption>
+    </figure>
+  </details>
+
+  <!-- スタイル2 -->
+  <details class="card" open>
+    <summary><h2>スタイル2：1時間足の抵抗帯で待つ（いぬさんの手法） <span class="tag tag-main">メイン</span>
+      <span class="sum-sub">場所を先に決めて、そこに来るまで待つ。チャートを分析して入る。</span></h2></summary>
+
+    <h3>やること</h3>
+    <ol class="steps">
+      <li>日足・4時間足で、流れの向きをつかむ。</li>
+      <li>1時間足で、抵抗帯を引いて、狙う価格帯を事前に決めておく。
+        <small>ヒゲ先やレジスタンスなど、目立つ所に、線ではなく幅のある帯で引く。引けそうな所なら、古くても新しくてもよい。</small></li>
+      <li>価格が帯に入るまで、待つ。</li>
+      <li>帯に入ったら、1分足のプライスアクションを見て、自分で判断して入る。
+        <small>どの形で入り、損切りをどこに置き、どこで利確するかを、人に説明できる言葉にしておく。損切りは近く、利確は大きく伸ばす。</small></li>
+    </ol>
+    <div class="warn" style="margin-top:10px"><b>決めていないと…</b>チャートを開くたびに、入る理由を探し始めてしまう。</div>
+
+    <h3>図（売りの例）</h3>
+    <figure>
+      <a href="methods/s2-4h-short11-13.jpg" target="_blank" rel="noopener"><img src="methods/s2-4h-short11-13.jpg" alt="4時間足で、帯と線に戻りが当たった所に売りの丸" loading="lazy"></a>
+      <figcaption>4時間足。ピンクの帯や、下向きの線に、戻りが当たった所（赤い丸）が、売りで入る場所（Short 11・12・13）。下の「HTF200帯」は、上位足がずっと下向き（赤）。</figcaption>
+    </figure>
+    <figure>
+      <a href="methods/s2-1h-short10-13.jpg" target="_blank" rel="noopener"><img src="methods/s2-1h-short10-13.jpg" alt="1時間足 Short 10〜13" loading="lazy"></a>
+      <figcaption>1時間足（10月中旬〜11月初め）。売りの丸が、帯・200の線の近くに集まっている。</figcaption>
+    </figure>
+    <figure>
+      <a href="methods/s2-1h-short5.jpg" target="_blank" rel="noopener"><img src="methods/s2-1h-short5.jpg" alt="1時間足 Short 5" loading="lazy"></a>
+      <figcaption>1時間足（9月下旬〜10月中旬）。売り（Short）は戻りの高い所、買い（Long）は下げたあとの底で、場所を決めて入っている。</figcaption>
+    </figure>
+  </details>
+
+  <!-- スタイル3 -->
+  <details class="card">
+    <summary><h2>スタイル3：3本の並びを見て、5分足で戻りに入る（マサさんの手法） <span class="tag tag-sub">サブ</span>
+      <span class="sum-sub">「MSパターン⑤」。通知が来たら見る。微妙なときは見送る。</span></h2></summary>
+
+    <svg class="diagram" viewBox="0 0 360 230" role="img" aria-label="3本の並びと、ゾーン、売りの入り口の図（売りの例）">
+      <rect x="40" y="65" width="310" height="70" fill="#fde7b0" opacity="0.7"/>
+      <line x1="40" y1="65" x2="350" y2="65" stroke="#e11d48" stroke-width="1.5" stroke-dasharray="4 3"/>
+      <line x1="40" y1="135" x2="350" y2="135" stroke="#9ca3af" stroke-width="1.2" stroke-dasharray="4 3"/>
+      <!-- 1本目：陰線 -->
+      <line x1="70" y1="70" x2="70" y2="130" stroke="#111827" stroke-width="2"/>
+      <rect x="62" y="85" width="16" height="30" fill="#111827"/>
+      <!-- 2本目：陽線 -->
+      <line x1="125" y1="50" x2="125" y2="150" stroke="#111827" stroke-width="2"/>
+      <rect x="116" y="65" width="18" height="70" fill="#ffffff" stroke="#111827" stroke-width="2"/>
+      <!-- 3本目：陰線 -->
+      <line x1="180" y1="30" x2="180" y2="170" stroke="#111827" stroke-width="2"/>
+      <rect x="171" y="45" width="18" height="110" fill="#111827"/>
+      <text x="55" y="186" font-size="11" fill="#4b5563">1本目</text>
+      <text x="108" y="186" font-size="11" fill="#4b5563">2本目</text>
+      <text x="163" y="196" font-size="11" fill="#4b5563">3本目</text>
+      <text x="44" y="24" font-size="10.5" fill="#4b5563">3本目が2本目を、2本目が1本目を包む</text>
+      <!-- 戻り -->
+      <polyline points="190,155 225,195 262,150 292,104" fill="none" stroke="#111827" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/>
+      <circle cx="292" cy="104" r="7" fill="none" stroke="#e11d48" stroke-width="2.5"/>
+      <text x="352" y="222" font-size="11" fill="#e11d48" font-weight="700" text-anchor="end">5分足でゾーンに戻る → 売り</text>
+      <text x="352" y="42" font-size="10" fill="#e11d48" text-anchor="end">損切り：5分足の実体が</text>
+      <text x="352" y="55" font-size="10" fill="#e11d48" text-anchor="end">この線を超えて確定</text>
+      <text x="198" y="84" font-size="10" fill="#6b7280">ゾーン＝2本目の始値〜終値</text>
+    </svg>
+    <p class="note">図は売りの例（3本目が陰線）。2本目が陽線のとき、終値の線はゾーンの上側です。</p>
+
+    <h3>やること</h3>
+    <ol class="steps">
+      <li>1時間足で、3本の並びを探す（MSパターン⑤）。<small>2本目が1本目を包み、3本目が2本目を包む（高値〜安値を、次の足がすっぽり覆う）。</small></li>
+      <li>2本目を基準にする。<small>2本目の「始値」と「終値」に線を引く。その間がゾーン。</small></li>
+      <li>5分足に切り替えて、ゾーンに戻ってきたら入る。<small>下落サイン（▼）なら売り。線の中に戻るたびに売る。</small></li>
+      <li>損切り：5分足の実体が、終値の線を抜けて確定したら切る。<small>ヒゲだけ抜けたら、切らない。</small></li>
+    </ol>
+
+    <h3>印の見方（推測）</h3>
+    <ul class="dots">
+      <li>印（▲▼）が付くのは、2本目ではなく3本目。</li>
+      <li>3本目が陽線なら上昇サインの▲、陰線なら下落サインの▼。</li>
+    </ul>
+
+    <h3>まだ分からないこと</h3>
+    <ul class="dots">
+      <li>5分足で、ゾーンに入った瞬間に入るのか、何かの形を待つのか。</li>
+      <li>利確の決め方（noteの別記事、10月10日公開）。</li>
+    </ul>
+
+    <div class="warn" style="margin-top:12px"><b>通知が来たときの、確認2つ</b>
+      <ul>
+        <li>4時間足・1時間足の向きと、同じ向きのサインか。</li>
+        <li>ゾーンの近くに、自分で引いた抵抗帯があるか。</li>
+      </ul>
+      3本の形だけで通知が来るので、この2つが合わない「微妙」なときは、見送る。</div>
+  </details>
+
+  <footer>
+    <p class="note">2026-11-04 まとめ。内容は、あとから足していきます。</p>
+    <a class="back" href="./">← 取引記録にもどる</a>
+  </footer>
+</main>
+</body>
+</html>
