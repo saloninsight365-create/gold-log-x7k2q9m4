@@ -54,91 +54,70 @@ figure img { display: block; width: 100%; height: auto; border-radius: 8px; bord
 figcaption { margin-top: 4px; font-size: 0.8125rem; color: var(--muted); line-height: 1.6; }
 svg.diagram { display: block; width: 100%; height: auto; margin-top: 8px; border: 1px solid var(--line); border-radius: 10px; background: #fcfcfd; }
 svg text { font-family: var(--font); }
+.pic { margin: 0 -16px 10px; }
+.pic img { border-radius: 0; border-left: 0; border-right: 0; }
+.pic figcaption { padding: 0 16px; font-size: 0.875rem; }
+.big { padding: 12px 16px 16px; }
+.big h2 { margin-bottom: 8px; }
+.cap3 { margin: 6px 0 0; padding: 0; list-style: none; display: grid; gap: 4px; font-size: 1.0625rem; }
 </style>
 </head>
 <body>
 <main>
   <header>
     <h1><span class="gold">●</span> 1分足のトレンド転換（下落→上昇）</h1>
-    <p class="note">イマニエル方式で見る。例を集めて、あとから足していく。</p>
     <a class="back" href="methods.html">← 手法のまとめにもどる</a>
   </header>
 
-  <details class="card" open>
-    <summary><h2>例1：10/26 <span class="tag tag-main">うまくいった</span></h2></summary>
-    <figure>
-      <a href="methods/rev-1026.jpg" target="_blank" rel="noopener"><img src="methods/rev-1026.jpg" alt="10/26 右のチャート 赤い矢印が反発の始まりと、200の近くの押し" loading="lazy"></a>
-      <figcaption>赤い矢印：左が反発の始まり、右が200の近くの押し。</figcaption>
+  <section class="card big">
+    <h2>例1：10/26 <span class="tag tag-main">うまくいった</span></h2>
+    <figure class="pic">
+      <a href="methods/rev-1026b.jpg" target="_blank" rel="noopener"><img src="methods/rev-1026b.jpg" alt="10/26 右のチャート 赤い矢印が反発の始まりと、200の近くの押し" loading="lazy"></a>
     </figure>
-<svg class="diagram" viewBox="0 0 360 230" role="img" aria-label="例1の流れの図">
-      <polyline points="10,86 90,100 160,112 230,114 350,98" fill="none" stroke="#ef4444" stroke-width="3" stroke-linecap="round"/>
-      <text x="10" y="124" font-size="11" fill="#ef4444" font-weight="700">200の線</text>
-      <polyline points="10,30 50,60 80,100 100,156 124,172 140,150 156,128 168,110 182,122 198,106 212,118 228,112 242,128 258,112 272,92 290,64 312,40 340,22" fill="none" stroke="#111827" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
-      <circle cx="124" cy="172" r="9" fill="none" stroke="#2563eb" stroke-width="2.5"/>
-      <text x="124" y="198" font-size="11" fill="#2563eb" font-weight="700" text-anchor="middle">① 底で反発</text>
-      <text x="124" y="212" font-size="10" fill="#4b5563" text-anchor="middle">まだ入らない</text>
-      <ellipse cx="205" cy="112" rx="38" ry="22" fill="none" stroke="#d97706" stroke-width="2.5" stroke-dasharray="5 4"/>
-      <text x="205" y="150" font-size="11" fill="#b45309" font-weight="700" text-anchor="middle">② 200の近くで束</text>
-      <text x="205" y="164" font-size="10" fill="#4b5563" text-anchor="middle">行ったり来たり</text>
-      <circle cx="242" cy="128" r="8" fill="none" stroke="#0e9f6e" stroke-width="2.5"/>
-      <text x="300" y="150" font-size="11" fill="#0e9f6e" font-weight="700" text-anchor="middle">③ 200の上で</text>
-      <text x="300" y="164" font-size="11" fill="#0e9f6e" font-weight="700" text-anchor="middle">押して止まる</text>
-      <text x="300" y="178" font-size="10" fill="#4b5563" text-anchor="middle">→ 大きい陽線で入る</text>
-    </svg>
-    <ul class="dots">
-      <li><b>①</b> 底で、9が20を上に抜けた。200はまだ下向き。→ <b>まだ入らない</b></li>
-      <li><b>②</b> 200の近くで、約40分もみ合った。</li>
-      <li><b>③</b> 200の上で押して止まり、大きい陽線。→ <b>入る</b>（約3,991 → 4,008）</li>
+    <ul class="cap3">
+      <li><b>左の矢印</b>　底で反発。まだ入らない。</li>
+      <li><b>右の矢印</b>　200の上で押して止まる。ここで入る。</li>
     </ul>
     <h3>入った理由</h3>
     <ul class="dots">
-      <li>実体の長い陽線が3本続いた。買いが強い。</li>
+      <li>実体の長い陽線が、3本続いた。</li>
       <li>200に近いが、まだ押さえつけられていない。</li>
-      <li>200の下げが緩やかで、収まってきている。</li>
+      <li>200の下げが、緩やかだった。</li>
     </ul>
-    <h3>損切りと追加</h3>
+    <h3>損切り・追加</h3>
     <ul class="dots">
       <li>損切り：200のすぐ下。</li>
       <li>追加：長い陽線で、上に抜ける所。</li>
     </ul>
-  </details>
+  </section>
 
-  <details class="card" open>
-    <summary><h2>入る前に見ること</h2></summary>
-    <ul class="dots">
-      <li>200の傾き：急に下がっていないか。</li>
-      <li>価格が、200に押さえつけられていないか。</li>
-      <li>実体の長い陽線が、続いているか。</li>
-      <li>9と20が、上に開いているか。</li>
-      <li>損切りの場所と、追加の場所を、先に決める。</li>
+  <section class="card big">
+    <h2>11/5 夕方 <span class="tag tag-sub">失敗</span></h2>
+    <figure class="pic">
+      <a href="methods/s1-1105d.jpg" target="_blank" rel="noopener"><img src="methods/s1-1105d.jpg" alt="11/5 夕方 右のチャート 赤丸の所で200SMAに跳ね返された" loading="lazy"></a>
+    </figure>
+    <ul class="cap3">
+      <li>200が下向きのまま、反発を買った。</li>
+      <li>赤丸で、200に2回押さえつけられた。</li>
     </ul>
-  </details>
+  </section>
 
-  <details class="card" open>
-    <summary><h2>気をつけること</h2></summary>
-    <div class="warn"><ul>
-      <li>200が下向きの間は、だましもある。</li>
-      <li>200のすぐ下の損切りは、ヒゲで拾われやすい。</li>
-      <li>追加したら、全体の損失が$200〜300に収まるか見る。</li>
-      <li>スタイル1は「200に近い所は入らない」。この方式は「200の近くで入る」。分けて考える。</li>
-    </ul></div>
+  <section class="card">
+    <h2>入る前に見ること</h2>
+    <ul class="dots">
+      <li>200の傾き（急に下がっていないか）。</li>
+      <li>200に、押さえつけられていないか。</li>
+      <li>実体の長い陽線が、続いているか。</li>
+      <li>損切りと追加の場所を、先に決める。</li>
+    </ul>
     <h3>まだ決めていない</h3>
     <ul class="dots">
-      <li>「緩やか」は、どのくらいの傾きか。</li>
-      <li>失敗した例（押さえつけられた例）を集める。</li>
+      <li>200の「緩やか」は、どのくらいか。</li>
+      <li>押さえつけられた失敗例を、集める。</li>
     </ul>
-  </details>
-
-  <details class="card">
-    <summary><h2>参考：11/5 夕方 <span class="tag tag-sub">失敗</span></h2></summary>
-    <figure>
-      <a href="methods/s1-1105c.jpg" target="_blank" rel="noopener"><img src="methods/s1-1105c.jpg" alt="11/5 夕方 赤丸の所で右の200SMAに跳ね返された" loading="lazy"></a>
-      <figcaption>200が下向きのまま、反発を買った。右の200SMAに、2回押さえつけられた。</figcaption>
-    </figure>
-  </details>
+  </section>
 
   <footer>
-    <p class="note">2026-11-06 作成。</p>
     <a class="back" href="methods.html">← 手法のまとめにもどる</a> ／ <a class="back" href="./">取引記録にもどる</a>
   </footer>
 </main>
