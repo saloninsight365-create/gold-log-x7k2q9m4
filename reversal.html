@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>1分足のトレンド転換（下落→上昇）</title>
+<style>
+:root {
+  --fg: #111827; --muted: #4b5563; --line: #e5e7eb; --panel: #ffffff; --soft: #f6f7ff;
+  --accent: #5b5bf0; --gold: #f5b301; --ok: #0e9f6e; --bad: #e11d48;
+  --font: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP", "Yu Gothic", Meiryo, sans-serif;
+}
+html { -webkit-text-size-adjust: 100%; color-scheme: light; }
+* { box-sizing: border-box; }
+body { margin: 0; background: #ffffff; color: var(--fg); font-family: var(--font); line-height: 1.7; }
+main { max-width: 56rem; margin-inline: auto; padding: 16px; display: grid; gap: 20px; }
+h1 { margin: 0; font-size: 1.5rem; font-weight: 600; line-height: 1.25; }
+h2 { margin: 0; font-size: 1.0625rem; font-weight: 600; }
+h3 { margin: 16px 0 4px; font-size: 0.8125rem; font-weight: 700; color: var(--muted); }
+p { margin: 4px 0; }
+.gold { color: var(--gold); }
+.note { font-size: 0.8125rem; color: var(--muted); }
+.back { display: inline-block; font-size: 0.875rem; color: var(--accent); text-decoration: none; font-weight: 600; }
+.card { border: 1px solid var(--line); border-radius: 12px; padding: 16px; background: var(--panel); }
+.card > summary { cursor: pointer; list-style: none; }
+.card > summary::-webkit-details-marker { display: none; }
+.card > summary h2::before { content: '▼ '; font-size: 0.75em; color: var(--accent); }
+.card:not([open]) > summary h2::before { content: '▶ '; }
+.card[open] > summary { margin-bottom: 8px; }
+.sum-sub { display: block; margin-top: 2px; font-size: 0.8125rem; font-weight: 400; color: var(--muted); }
+.tag { display: inline-block; padding: 1px 10px; border-radius: 999px; font-size: 0.75rem; font-weight: 700; vertical-align: 2px; margin-left: 6px; }
+.tag-main { background: linear-gradient(90deg, #f5b301, #ff7a18); color: #1b1200; }
+.tag-sub { background: #eef0f3; color: #4b5563; }
+.list { display: grid; gap: 10px; margin-top: 10px; }
+.item { border-left: 4px solid var(--accent); background: var(--soft); border-radius: 8px; padding: 10px 12px; }
+.item b { font-size: 0.9375rem; }
+.item span { display: block; font-size: 0.875rem; color: var(--muted); }
+.steps { margin: 8px 0 0; padding: 0; list-style: none; counter-reset: s; display: grid; gap: 8px; }
+.steps li { counter-increment: s; position: relative; padding: 8px 10px 8px 42px; background: #fafafa; border: 1px solid var(--line); border-radius: 10px; font-size: 0.9375rem; }
+.steps li::before { content: counter(s); position: absolute; left: 10px; top: 8px; width: 24px; height: 24px; border-radius: 50%; background: var(--accent); color: #fff; font-weight: 700; font-size: 0.8125rem; display: flex; align-items: center; justify-content: center; }
+.steps li small { display: block; color: var(--muted); font-size: 0.8125rem; }
+ul.dots { margin: 4px 0 0; padding-left: 1.2em; font-size: 0.9375rem; }
+.cols { display: grid; gap: 10px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr)); margin-top: 6px; }
+.good, .bad, .warn { border-radius: 10px; padding: 10px 12px; font-size: 0.9375rem; }
+.good { background: #fdecef; border: 1px solid #f6c6cf; }
+.bad { background: #eaf0ff; border: 1px solid #c7d6fb; }
+.warn { background: #fff8e6; border: 1px solid #f3dca0; }
+.good b, .bad b, .warn b { display: block; margin-bottom: 2px; }
+.good ul, .bad ul, .warn ul { margin: 0; padding-left: 1.2em; }
+figure { margin: 10px 0 0; }
+figure a { display: block; }
+figure img { display: block; width: 100%; height: auto; border-radius: 8px; border: 1px solid var(--line); }
+figcaption { margin-top: 4px; font-size: 0.8125rem; color: var(--muted); line-height: 1.6; }
+svg.diagram { display: block; width: 100%; height: auto; margin-top: 8px; border: 1px solid var(--line); border-radius: 10px; background: #fcfcfd; }
+svg text { font-family: var(--font); }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <h1><span class="gold">●</span> 1分足のトレンド転換（下落→上昇）</h1>
+    <p class="note">イマニエル方式（200の線の向きと、20の線の束）で、下げから上げに変わる所を考えるページです。例を集めながら、あとから足していきます。画像を押すと、大きく見られます。</p>
+    <a class="back" href="methods.html">← 手法のまとめにもどる</a>
+  </header>
+
+  <section class="card">
+    <h2>ひとことで</h2>
+    <p>下げから上げに変わる時は、<b>3つの段階</b>で進む。本当に入るのは、<b>3番目</b>から。</p>
+    <svg class="diagram" viewBox="0 0 360 230" role="img" aria-label="下落から上昇に転じる3段階の図。底で反発、200の近くで束、200の上で押して止まり大きい陽線で入る">
+      <polyline points="10,86 90,100 160,112 230,114 350,98" fill="none" stroke="#ef4444" stroke-width="3" stroke-linecap="round"/>
+      <text x="10" y="124" font-size="11" fill="#ef4444" font-weight="700">200の線</text>
+      <polyline points="10,30 50,60 80,100 100,156 124,172 140,150 156,128 168,110 182,122 198,106 212,118 228,112 242,128 258,112 272,92 290,64 312,40 340,22" fill="none" stroke="#111827" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+      <circle cx="124" cy="172" r="9" fill="none" stroke="#2563eb" stroke-width="2.5"/>
+      <text x="124" y="198" font-size="11" fill="#2563eb" font-weight="700" text-anchor="middle">① 底で反発</text>
+      <text x="124" y="212" font-size="10" fill="#4b5563" text-anchor="middle">まだ入らない</text>
+      <ellipse cx="205" cy="112" rx="38" ry="22" fill="none" stroke="#d97706" stroke-width="2.5" stroke-dasharray="5 4"/>
+      <text x="205" y="150" font-size="11" fill="#b45309" font-weight="700" text-anchor="middle">② 200の近くで束</text>
+      <text x="205" y="164" font-size="10" fill="#4b5563" text-anchor="middle">行ったり来たり</text>
+      <circle cx="242" cy="128" r="8" fill="none" stroke="#0e9f6e" stroke-width="2.5"/>
+      <text x="300" y="150" font-size="11" fill="#0e9f6e" font-weight="700" text-anchor="middle">③ 200の上で</text>
+      <text x="300" y="164" font-size="11" fill="#0e9f6e" font-weight="700" text-anchor="middle">押して止まる</text>
+      <text x="300" y="178" font-size="10" fill="#4b5563" text-anchor="middle">→ 大きい陽線で入る</text>
+    </svg>
+  </section>
+
+  <details class="card" open>
+    <summary><h2>入る前に見ること <span class="sum-sub">下のうち、できるだけ多くそろう所で入る。</span></h2></summary>
+    <ol class="steps">
+      <li>200の線の傾き。
+        <small>急に下がっているなら、反発は見送る。緩やかになって、横ばいに近づいているなら、流れが変わり始めている。</small></li>
+      <li>価格が200の近くで、押さえつけられていないか。
+        <small>終値が、200の下で確定していない。一度でも押さえつけられたら、反発は終わりかもしれない。</small></li>
+      <li>陽線が、実体の長いまま、続いているか。
+        <small>3本続いて、どれも実体が長いなら、買いの勢いが強い。</small></li>
+      <li>9と20の線が、上に開いているか。
+        <small>右のチャートで、9が20を上に抜けて、緑の帯が出ている。</small></li>
+      <li>損切りと追加を、先に決める。
+        <small>損切りは、200のすぐ下。追加は、上に抜けた所で、長い陽線が出てから。</small></li>
+    </ol>
+  </details>
+
+  <details class="card" open>
+    <summary><h2>例1：10/26 <span class="tag tag-main">うまくいった例</span>
+      <span class="sum-sub">底で反発 → 200の近くで束 → 200の上で押して、約$17上昇。</span></h2></summary>
+    <figure>
+      <a href="methods/rev-1026.jpg" target="_blank" rel="noopener"><img src="methods/rev-1026.jpg" alt="10/26 右のチャート 赤い矢印が反発の始まりと、200の近くの押し" loading="lazy"></a>
+      <figcaption>赤い矢印の左が「反発の始まり」。右が「200の近くの押し」。黄色い丸の下矢印は、その間にあった印。</figcaption>
+    </figure>
+    <h3>流れ</h3>
+    <ul class="dots">
+      <li><b>左の矢印（底）：</b>9が20を上に抜けて、反発が始まった。ただ、200はまだ下向きで、価格は約$7下にいた。</li>
+      <li><b>その間（約40分）：</b>価格が200の周りを行ったり来たりした。9と20が何度も入れ替わって、束になった。200は横ばいに近づいた。</li>
+      <li><b>右の矢印：</b>200の近くまで押して、下には抜けず、そこから大きい陽線が続いた。9と20が一気に開いて、200も上向きになった。約3,991 → 4,008。</li>
+    </ul>
+    <h3>自分の判断（言葉にしたもの）</h3>
+    <div class="good" style="margin-top:6px"><b>最初の入り</b>
+      <ul>
+        <li>陽線が3本続いて、実体が明らかに長い。買いの勢いが強い。</li>
+        <li>200に近いが、まだ一度も押さえつけられていない。だから、200の近くで入る。</li>
+        <li>今回は、200に反発されずに、200の上に乗った。</li>
+        <li>損切りは、200のすぐ下。</li>
+      </ul></div>
+    <div class="good" style="margin-top:8px"><b>追加の入り</b>
+      <ul>
+        <li>次に、かなり長い陽線が出て、買いの勢いを感じた。</li>
+        <li>上に抜けていく所で、追加で入る。</li>
+      </ul></div>
+    <div class="bad" style="margin-top:8px"><b>200の傾きについて</b>
+      <ul>
+        <li>200の下げは、緩やかだった。流れが収まってきていると見てよい。</li>
+      </ul></div>
+  </details>
+
+  <details class="card" open>
+    <summary><h2>気をつけること・まだ決めていないこと</h2></summary>
+    <div class="warn"><b>気をつけること</b>
+      <ul>
+        <li>200が下向きの間は、反発がだましになることがある。「まだ押さえつけられていない」は、これから押さえつけられるかもしれない、ということでもある。</li>
+        <li>束の間は、ヒゲで200の下まで何度も触れる。損切りを近くに置きすぎると、ヒゲで拾われやすい。</li>
+        <li>追加で入る時は、最初の損切りを建値あたりまで上げて、全体の損失が許容額（$200〜300）に収まるかを確認する。</li>
+        <li>スタイル1の「200に近い所では入らない」と、食い違う。200の近くで、200の反応を見て入るのは、「イマニエル方式」と分けて考える。</li>
+      </ul></div>
+    <div class="warn" style="margin-top:8px"><b>まだ決めていないこと</b>
+      <ul>
+        <li>200の傾きが「緩やか」とは、どのくらいか（数字にするには、例が足りない）。</li>
+        <li>押さえつけられて、失敗した例を、集める。</li>
+        <li>「束が完成した」とは、どの状態か。</li>
+      </ul></div>
+  </details>
+
+  <details class="card">
+    <summary><h2>参考：11/5 夕方（左だけ見てロングして、損切り）
+      <span class="sum-sub">200が、はっきり下向きだった。右の200SMAに、2回押さえつけられた。</span></h2></summary>
+    <figure>
+      <a href="methods/s1-1105c.jpg" target="_blank" rel="noopener"><img src="methods/s1-1105c.jpg" alt="11/5 夕方 赤丸の所で右の200SMAに跳ね返された" loading="lazy"></a>
+      <figcaption>赤丸の所で、価格が右の200SMAに当たって、跳ね返された。200が下向きのまま反発を買うと、こうなりやすい。</figcaption>
+    </figure>
+  </details>
+
+  <footer>
+    <p class="note">2026-11-06 作成。例が増えたら、足していきます。</p>
+    <a class="back" href="methods.html">← 手法のまとめにもどる</a> ／ <a class="back" href="./">取引記録にもどる</a>
+  </footer>
+</main>
+</body>
+</html>
