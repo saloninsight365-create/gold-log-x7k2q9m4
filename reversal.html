@@ -64,6 +64,12 @@ h3.part { margin: 22px 0 8px; padding-top: 14px; border-top: 2px solid var(--lin
 h3.part.first { margin-top: 0; padding-top: 0; border-top: 0; }
 .pic.wide { width: min(94vw, 1500px); margin-left: calc(50% - min(94vw, 1500px) / 2); margin-right: 0; }
 .pic.wide img { border-radius: 8px; border: 1px solid var(--line); }
+
+#lb { position: fixed; inset: 0; z-index: 1000; background: #000; display: none; overflow: auto; -webkit-overflow-scrolling: touch; }
+#lb.open { display: block; }
+#lb img { display: block; width: max(100vw, 1400px); max-width: none; height: auto; margin: 0; }
+#lb button { position: fixed; top: 12px; right: 12px; z-index: 1001; width: 48px; height: 48px; border-radius: 50%; border: 2px solid #fff; background: rgba(0,0,0,.75); color: #fff; font-size: 28px; line-height: 1; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+body.lb-open { overflow: hidden; }
 </style>
 </head>
 <body>
@@ -76,7 +82,7 @@ h3.part.first { margin-top: 0; padding-top: 0; border-top: 0; }
   <section class="card big">
     <h2>例7：レンジからのショートと、反発</h2>
     <figure class="pic wide">
-      <a href="methods/rev-range-short.jpg" target="_blank" rel="noopener"><img src="methods/rev-range-short.jpg" alt="左：トレンド転換用、右：押し目・戻り目。レンジからのショートと、そのあとの反発" loading="lazy"></a>
+      <a href="methods/rev-range-short.jpg"><img src="methods/rev-range-short.jpg" alt="左：トレンド転換用、右：押し目・戻り目。レンジからのショートと、そのあとの反発" loading="lazy"></a>
     </figure>
     <h3 class="part">① 左の丸：レンジからのショート</h3>
     <ul class="dots">
@@ -99,7 +105,7 @@ h3.part.first { margin-top: 0; padding-top: 0; border-top: 0; }
   <section class="card big">
     <h2>例6：水平線を超えて、20SMAで支えられる</h2>
     <figure class="pic wide">
-      <a href="methods/rev-horizontal.jpg" target="_blank" rel="noopener"><img src="methods/rev-horizontal.jpg" alt="3回押さえられた水平線を超えて、20SMAで支えられて上がった例" loading="lazy"></a>
+      <a href="methods/rev-horizontal.jpg"><img src="methods/rev-horizontal.jpg" alt="3回押さえられた水平線を超えて、20SMAで支えられて上がった例" loading="lazy"></a>
     </figure>
     <ul class="cap3">
       <li>上がりきって、一旦売られてからのリバ。</li>
@@ -110,7 +116,7 @@ h3.part.first { margin-top: 0; padding-top: 0; border-top: 0; }
   <section class="card big">
     <h2>例5：200SMAが下向きのとき</h2>
     <figure class="pic wide">
-      <a href="methods/rev-down200.jpg" target="_blank" rel="noopener"><img src="methods/rev-down200.jpg" alt="200SMAが下向きで、近づいて2回超えられず、最後に超えて上がった例" loading="lazy"></a>
+      <a href="methods/rev-down200.jpg"><img src="methods/rev-down200.jpg" alt="200SMAが下向きで、近づいて2回超えられず、最後に超えて上がった例" loading="lazy"></a>
     </figure>
     <ul class="cap3">
       <li>200SMAが下向きの場合は、近づいてきたら、ショートを検討する。</li>
@@ -122,7 +128,7 @@ h3.part.first { margin-top: 0; padding-top: 0; border-top: 0; }
   <section class="card big">
     <h2>例4：角度が緩やか</h2>
     <figure class="pic wide">
-      <a href="methods/rev-1109b.jpg" target="_blank" rel="noopener"><img src="methods/rev-1109b.jpg" alt="11/9 1分足 赤い矢印3つと黄色の丸" loading="lazy"></a>
+      <a href="methods/rev-1109b.jpg"><img src="methods/rev-1109b.jpg" alt="11/9 1分足 赤い矢印3つと黄色の丸" loading="lazy"></a>
     </figure>
     <ul class="cap3">
       <li>ローソク足の角度が緩やかだと、入れるかもしれない。でも200SMAが近いから、何とも言えない。</li>
@@ -132,7 +138,7 @@ h3.part.first { margin-top: 0; padding-top: 0; border-top: 0; }
   <section class="card big">
     <h2>例3：200SMAから遠い・近い</h2>
     <figure class="pic wide">
-      <a href="methods/rev-1026-27.jpg" target="_blank" rel="noopener"><img src="methods/rev-1026-27.jpg" alt="10/26〜27 1分足 赤い矢印3つ" loading="lazy"></a>
+      <a href="methods/rev-1026-27.jpg"><img src="methods/rev-1026-27.jpg" alt="10/26〜27 1分足 赤い矢印3つ" loading="lazy"></a>
     </figure>
     <ul class="cap3">
       <li>これは顕著。</li>
@@ -144,7 +150,7 @@ h3.part.first { margin-top: 0; padding-top: 0; border-top: 0; }
   <section class="card big">
     <h2>例2：収束して、一気に拡散</h2>
     <figure class="pic wide">
-      <a href="methods/rev-1109.jpg" target="_blank" rel="noopener"><img src="methods/rev-1109.jpg" alt="11/9 1分足 黄色の丸3つと赤い矢印" loading="lazy"></a>
+      <a href="methods/rev-1109.jpg"><img src="methods/rev-1109.jpg" alt="11/9 1分足 黄色の丸3つと赤い矢印" loading="lazy"></a>
     </figure>
     <ul class="cap3">
       <li>きれいな形。9EMAに抑えられている。</li>
@@ -157,7 +163,7 @@ h3.part.first { margin-top: 0; padding-top: 0; border-top: 0; }
   <section class="card big">
     <h2>例1：反発の始まり（見送りと、エントリー）</h2>
     <figure class="pic wide">
-      <a href="methods/rev-1026-all.jpg" target="_blank" rel="noopener"><img src="methods/rev-1026-all.jpg" alt="10/26 1分足" loading="lazy"></a>
+      <a href="methods/rev-1026-all.jpg"><img src="methods/rev-1026-all.jpg" alt="10/26 1分足" loading="lazy"></a>
     </figure>
     <ul class="cap3">
       <li><b>左の丸</b>　見送り。ローソク足が汚い（ヒゲの多い陽線と陰線が混ざっている）。200SMAにも近い。</li>
@@ -166,7 +172,7 @@ h3.part.first { margin-top: 0; padding-top: 0; border-top: 0; }
     </ul>
     <h3 class="part">① 最初に入る</h3>
     <figure class="pic">
-      <a href="methods/rev-1026b.jpg" target="_blank" rel="noopener"><img src="methods/rev-1026b.jpg" alt="10/26 右のチャート 赤い矢印が反発の始まりと、200の近くの押し" loading="lazy"></a>
+      <a href="methods/rev-1026b.jpg"><img src="methods/rev-1026b.jpg" alt="10/26 右のチャート 赤い矢印が反発の始まりと、200の近くの押し" loading="lazy"></a>
     </figure>
     <ul class="cap3">
       <li><b>左の矢印</b>　最初に入る。大きい陽線が出た。でもローソク足は汚いからスルーかも。</li>
@@ -185,7 +191,7 @@ h3.part.first { margin-top: 0; padding-top: 0; border-top: 0; }
     </ul>
     <h3 class="part">② 追い玉と、天井</h3>
     <figure class="pic">
-      <a href="methods/rev-1026c.jpg" target="_blank" rel="noopener"><img src="methods/rev-1026c.jpg" alt="10/26 押しの赤矢印が追い玉。その先の天井は上ヒゲが長く、RSIは80" loading="lazy"></a>
+      <a href="methods/rev-1026c.jpg"><img src="methods/rev-1026c.jpg" alt="10/26 押しの赤矢印が追い玉。その先の天井は上ヒゲが長く、RSIは80" loading="lazy"></a>
     </figure>
     <ul class="cap3">
       <li><b>赤矢印</b>　追い玉。押しで止まった所。</li>
@@ -212,5 +218,20 @@ h3.part.first { margin-top: 0; padding-top: 0; border-top: 0; }
     <a class="back" href="methods.html">← 手法のまとめにもどる</a> ／ <a class="back" href="./">取引記録にもどる</a>
   </footer>
 </main>
+<div id="lb" role="dialog" aria-modal="true" aria-label="写真の拡大"><button type="button" aria-label="閉じる">✕</button><img alt=""></div>
+<script>
+(function () {
+  var lb = document.getElementById('lb');
+  var big = lb.querySelector('img');
+  function open(src, alt) { big.src = src; big.alt = alt || ''; lb.scrollTop = 0; lb.scrollLeft = 0; lb.classList.add('open'); document.body.classList.add('lb-open'); }
+  function close() { lb.classList.remove('open'); document.body.classList.remove('lb-open'); big.removeAttribute('src'); }
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('figure a');
+    if (a) { e.preventDefault(); var im = a.querySelector('img'); open(a.getAttribute('href'), im ? im.alt : ''); }
+  });
+  lb.querySelector('button').addEventListener('click', close);
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
+})();
+</script>
 </body>
 </html>
