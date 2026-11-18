@@ -83,9 +83,9 @@
           "caption": "夜の上げ（拡大）。上げる前は線がからんでいて、線が開いてから、きれいに進んだ。"
         },
         {
-          "src": "reviews/nov3-kirei-evening-1m.jpg",
-          "alt": "夜の上げの1分足。左は25・100・200、右は9・20・200のチャート",
-          "caption": "夜の上げ（1分足）。※Dukascopyの1分足データから作った図（TradingViewの画像ではない）。"
+          "src": "methods/s1-kirei-kitanai.jpg",
+          "alt": "1分足のチャート。左のピンクの帯がきれいな形、右の青の帯が汚い形",
+          "caption": "1分足の例（手法のまとめページの図）。左のピンクの帯が、きれいな形。"
         },
         {
           "src": "reviews/nov3-kirei-day.jpg",
