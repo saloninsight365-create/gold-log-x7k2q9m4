@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<title>1分足のトレンド転換（下落→上昇）</title>
+<title>過去検証</title>
 <style>
 :root {
   --fg: #111827; --muted: #4b5563; --line: #e5e7eb; --panel: #ffffff; --soft: #f6f7ff;
@@ -71,15 +71,29 @@ h3.part.first { margin-top: 0; padding-top: 0; border-top: 0; }
 #lb button { position: fixed; top: 12px; right: 12px; z-index: 1001; width: 48px; height: 48px; border-radius: 50%; border: 2px solid #fff; background: rgba(0,0,0,.75); color: #fff; font-size: 28px; line-height: 1; cursor: pointer; display: flex; align-items: center; justify-content: center; }
 body.lb-open { overflow: hidden; }
 </style>
+<style id="sn-style">
+.sn-nav{position:sticky;top:0;z-index:50;display:flex;gap:5px;overflow-x:auto;padding:8px 12px;background:#fff;border-bottom:1px solid #e5e7eb;font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Noto Sans JP","Yu Gothic",Meiryo,sans-serif}
+.sn-nav a{flex:0 0 auto;white-space:nowrap;padding:6px 9px;border-radius:999px;font-size:.78rem;font-weight:700;color:#4b5563;background:#f3f4f6;text-decoration:none}
+.sn-nav a.on{background:#5b5bf0;color:#fff}
+.sn-toc{border:1px solid #e5e7eb;border-radius:12px;padding:12px 14px;background:#f6f7ff;font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Noto Sans JP","Yu Gothic",Meiryo,sans-serif;color:#111827}
+.sn-toc b{display:block;margin-bottom:6px;font-size:.95rem}
+.sn-toc ul{margin:0;padding:0;list-style:none;display:grid;gap:4px 16px;grid-template-columns:repeat(auto-fit,minmax(min(100%,17rem),1fr))}
+.sn-toc a{display:block;padding:4px 2px;font-size:.9rem;color:#3730a3;text-decoration:none;line-height:1.5}
+.sn-toc a:hover{text-decoration:underline}
+[id]{scroll-margin-top:64px}
+</style>
 </head>
 <body>
+<nav class="sn-nav" aria-label="ページ"><a href="before.html">トレード前に見ること</a><a href="methods.html">手法の確認</a><a href="reversal.html" class="on">過去検証</a><a href="./">取引記録</a></nav>
 <main>
   <header>
-    <h1><span class="gold">●</span> 1分足のトレンド転換（下落→上昇）</h1>
-    <a class="back" href="methods.html">← 手法のまとめにもどる</a>
+    <h1><span class="gold">●</span> 過去検証</h1>
+    <p class="note">入る・入らないの事例です。例の番号は、見つけた順です（新しい例ほど大きい番号）。画像を押すと、大きく見られます。</p>
   </header>
 
-  <section class="card big">
+  <nav class="sn-toc" aria-label="目次（例の一覧）"><b>目次（例の一覧）</b><ul><li><a href="#ex20">例20：ロングの、入る・入らない</a></li><li><a href="#ex24">例24：15分足の箱を先に見る</a></li><li><a href="#ex23">例23：200の下で支えられたあと</a></li><li><a href="#ex22">例22：安値を割ったら、一気に落ちる</a></li><li><a href="#ex21">例21：上位足の200が上にあるとき</a></li><li><a href="#ex19">例19：下げの初動</a></li><li><a href="#ex18">例18：ロング損切</a></li><li><a href="#ex17">例17：下から戻ったロング</a></li><li><a href="#ex16">例16：ロングするべき所と、ショート損切</a></li><li><a href="#ex15">例15：トレンドラインが崩れるパターン</a></li><li><a href="#ex14">例14：レンジ</a></li><li><a href="#ex13">例13：入れなかった戻り売り（同じ所で3回止められた）</a></li><li><a href="#ex12">例12：見送って正解だったロング</a></li><li><a href="#ex11">例11：ロング2つと、ショート2つ</a></li><li><a href="#ex10">例10：3本が下落方向 → 戻りの25EMAでショート</a></li><li><a href="#ex9">例9：100EMAに抑えられたダブルトップ → ショート</a></li><li><a href="#ex8">例8：200EMAに何度も抑えられる → ショート</a></li><li><a href="#ex7">例7：レンジからのショートと、反発</a></li><li><a href="#ex6">例6：水平線を超えて、20SMAで支えられる</a></li><li><a href="#ex5">例5：200SMAが下向きのとき</a></li><li><a href="#ex4">例4：角度が緩やか</a></li><li><a href="#ex3">例3：200SMAから遠い・近い</a></li><li><a href="#ex2">例2：収束して、一気に拡散</a></li><li><a href="#ex1">例1：反発の始まり（見送りと、エントリー）</a></li></ul></nav>
+
+  <section class="card big" id="ex20">
     <h2>例20：ロングの、入る・入らない</h2>
     <h3 class="part first">1分足</h3>
     <figure class="pic wide">
@@ -115,7 +129,7 @@ body.lb-open { overflow: hidden; }
     </figure>
   </section>
 
-  <section class="card big">
+  <section class="card big" id="ex24">
     <h2>例24：15分足の箱を先に見る</h2>
     <h3 class="part first">15分足</h3>
     <figure class="pic wide">
@@ -141,7 +155,7 @@ body.lb-open { overflow: hidden; }
     </ul>
   </section>
 
-  <section class="card big">
+  <section class="card big" id="ex23">
     <h2>例23：200の下で支えられたあと</h2>
     <figure class="pic wide">
       <a href="methods/rev-below200.jpg"><img src="methods/rev-below200.jpg" alt="5分足。200の下まで下がったが支えられ、25と100の上に戻した所で入る" loading="lazy"></a>
@@ -153,7 +167,7 @@ body.lb-open { overflow: hidden; }
     </ul>
   </section>
 
-  <section class="card big">
+  <section class="card big" id="ex22">
     <h2>例22：安値を割ったら、一気に落ちる</h2>
     <figure class="pic wide">
       <a href="methods/rev-stop-chain.jpg"><img src="methods/rev-stop-chain.jpg" alt="2分足。安値が切り上がったあと、最後の安値を割って一気に下げた" loading="lazy"></a>
@@ -165,7 +179,7 @@ body.lb-open { overflow: hidden; }
     </ul>
   </section>
 
-  <section class="card big">
+  <section class="card big" id="ex21">
     <h2>例21：上位足の200が上にあるとき</h2>
     <figure class="pic wide">
       <a href="methods/rev-htf-200.jpg"><img src="methods/rev-htf-200.jpg" alt="1分足。1つ目の緑の丸はロング検討、2つ目の緑の丸は上位足の200が上にあるのでロングしない" loading="lazy"></a>
@@ -178,7 +192,7 @@ body.lb-open { overflow: hidden; }
     </ul>
   </section>
 
-  <section class="card big">
+  <section class="card big" id="ex19">
     <h2>例19：下げの初動</h2>
     <h3 class="part first">1分足</h3>
     <figure class="pic wide">
@@ -205,7 +219,7 @@ body.lb-open { overflow: hidden; }
     </ul>
   </section>
 
-  <section class="card big">
+  <section class="card big" id="ex18">
     <h2>例18：ロング損切</h2>
     <figure class="pic wide">
       <a href="methods/rev-long-stop.jpg"><img src="methods/rev-long-stop.jpg" alt="左：トレンド転換用、右：押し目・戻り目。赤◎でロングして損切り。水平線はヒゲが多くて抜けきれない" loading="lazy"></a>
@@ -217,7 +231,7 @@ body.lb-open { overflow: hidden; }
     </ul>
   </section>
 
-  <section class="card big">
+  <section class="card big" id="ex17">
     <h2>例17：下から戻ったロング</h2>
     <h3 class="part first">1分足</h3>
     <figure class="pic wide">
@@ -241,7 +255,7 @@ body.lb-open { overflow: hidden; }
     </ul>
   </section>
 
-  <section class="card big">
+  <section class="card big" id="ex16">
     <h2>例16：ロングするべき所と、ショート損切</h2>
     <figure class="pic wide">
       <a href="methods/rev-long-vs-stop.jpg"><img src="methods/rev-long-vs-stop.jpg" alt="左：トレンド転換用、右：押し目・戻り目。①ロングするべき所、②200EMAで支え、③ショート損切" loading="lazy"></a>
@@ -275,7 +289,7 @@ body.lb-open { overflow: hidden; }
     </ul>
   </section>
 
-  <section class="card big">
+  <section class="card big" id="ex15">
     <h2>例15：トレンドラインが崩れるパターン</h2>
     <h3 class="part">15分足</h3>
     <figure class="pic wide">
@@ -295,7 +309,7 @@ body.lb-open { overflow: hidden; }
     </ul>
   </section>
 
-  <section class="card big">
+  <section class="card big" id="ex14">
     <h2>例14：レンジ</h2>
     <figure class="pic wide">
       <a href="methods/rev-range.jpg"><img src="methods/rev-range.jpg" alt="左：トレンド転換用、右：押し目・戻り目。赤い四角のレンジ" loading="lazy"></a>
@@ -314,7 +328,7 @@ body.lb-open { overflow: hidden; }
     </ul>
   </section>
 
-  <section class="card big">
+  <section class="card big" id="ex13">
     <h2>例13：入れなかった戻り売り（同じ所で3回止められた）</h2>
     <figure class="pic wide">
       <a href="methods/rev-missed-short.jpg"><img src="methods/rev-missed-short.jpg" alt="左：トレンド転換用、右：押し目・戻り目。同じ所（青◎）で3回止められている" loading="lazy"></a>
@@ -335,7 +349,7 @@ body.lb-open { overflow: hidden; }
     </ul>
   </section>
 
-  <section class="card big">
+  <section class="card big" id="ex12">
     <h2>例12：見送って正解だったロング</h2>
     <h3 class="part first">① 1分足：ロングしようと思った</h3>
     <figure class="pic wide">
@@ -362,7 +376,7 @@ body.lb-open { overflow: hidden; }
     </ul>
   </section>
 
-  <section class="card big">
+  <section class="card big" id="ex11">
     <h2>例11：ロング2つと、ショート2つ</h2>
     <figure class="pic wide">
       <a href="methods/rev-4scenes.jpg"><img src="methods/rev-4scenes.jpg" alt="左：トレンド転換用、右：押し目・戻り目。ロング2つ（赤）とショート2つ（青）" loading="lazy"></a>
@@ -393,7 +407,7 @@ body.lb-open { overflow: hidden; }
     </figure>
   </section>
 
-  <section class="card big">
+  <section class="card big" id="ex10">
     <h2>例10：3本が下落方向 → 戻りの25EMAでショート</h2>
     <figure class="pic wide">
       <a href="methods/rev-down-pullback.jpg"><img src="methods/rev-down-pullback.jpg" alt="左：トレンド転換用、右：押し目・戻り目。3本が下落方向で、戻りの25EMAに抑えられてショート" loading="lazy"></a>
@@ -405,7 +419,7 @@ body.lb-open { overflow: hidden; }
     </ul>
   </section>
 
-  <section class="card big">
+  <section class="card big" id="ex9">
     <h2>例9：100EMAに抑えられたダブルトップ → ショート</h2>
     <figure class="pic wide">
       <a href="methods/rev-double-top.jpg"><img src="methods/rev-double-top.jpg" alt="左：トレンド転換用、右：押し目・戻り目。ダブルトップと、戻りの25EMAでショート" loading="lazy"></a>
@@ -428,7 +442,7 @@ body.lb-open { overflow: hidden; }
     </ul>
   </section>
 
-  <section class="card big">
+  <section class="card big" id="ex8">
     <h2>例8：200EMAに何度も抑えられる → ショート</h2>
     <figure class="pic wide">
       <a href="methods/rev-200ema-short.jpg"><img src="methods/rev-200ema-short.jpg" alt="左：トレンド転換用、右：押し目・戻り目。200EMAに何度も抑えられて、赤い矢印でショート" loading="lazy"></a>
@@ -445,7 +459,7 @@ body.lb-open { overflow: hidden; }
     </ul>
   </section>
 
-  <section class="card big">
+  <section class="card big" id="ex7">
     <h2>例7：レンジからのショートと、反発</h2>
     <figure class="pic wide">
       <a href="methods/rev-range-short.jpg"><img src="methods/rev-range-short.jpg" alt="左：トレンド転換用、右：押し目・戻り目。レンジからのショートと、そのあとの反発" loading="lazy"></a>
@@ -468,7 +482,7 @@ body.lb-open { overflow: hidden; }
     </ul>
   </section>
 
-  <section class="card big">
+  <section class="card big" id="ex6">
     <h2>例6：水平線を超えて、20SMAで支えられる</h2>
     <figure class="pic wide">
       <a href="methods/rev-horizontal.jpg"><img src="methods/rev-horizontal.jpg" alt="3回押さえられた水平線を超えて、20SMAで支えられて上がった例" loading="lazy"></a>
@@ -479,7 +493,7 @@ body.lb-open { overflow: hidden; }
     </ul>
   </section>
 
-  <section class="card big">
+  <section class="card big" id="ex5">
     <h2>例5：200SMAが下向きのとき</h2>
     <figure class="pic wide">
       <a href="methods/rev-down200.jpg"><img src="methods/rev-down200.jpg" alt="200SMAが下向きで、近づいて2回超えられず、最後に超えて上がった例" loading="lazy"></a>
@@ -491,7 +505,7 @@ body.lb-open { overflow: hidden; }
     </ul>
   </section>
 
-  <section class="card big">
+  <section class="card big" id="ex4">
     <h2>例4：角度が緩やか</h2>
     <figure class="pic wide">
       <a href="methods/rev-1109b.jpg"><img src="methods/rev-1109b.jpg" alt="11/9 1分足 赤い矢印3つと黄色の丸" loading="lazy"></a>
@@ -501,7 +515,7 @@ body.lb-open { overflow: hidden; }
     </ul>
   </section>
 
-  <section class="card big">
+  <section class="card big" id="ex3">
     <h2>例3：200SMAから遠い・近い</h2>
     <figure class="pic wide">
       <a href="methods/rev-1026-27.jpg"><img src="methods/rev-1026-27.jpg" alt="10/26〜27 1分足 赤い矢印3つ" loading="lazy"></a>
@@ -513,7 +527,7 @@ body.lb-open { overflow: hidden; }
     </ul>
   </section>
 
-  <section class="card big">
+  <section class="card big" id="ex2">
     <h2>例2：収束して、一気に拡散</h2>
     <figure class="pic wide">
       <a href="methods/rev-1109.jpg"><img src="methods/rev-1109.jpg" alt="11/9 1分足 黄色の丸3つと赤い矢印" loading="lazy"></a>
@@ -526,7 +540,7 @@ body.lb-open { overflow: hidden; }
     </ul>
   </section>
 
-  <section class="card big">
+  <section class="card big" id="ex1">
     <h2>例1：反発の始まり（見送りと、エントリー）</h2>
     <figure class="pic wide">
       <a href="methods/rev-1026-all.jpg"><img src="methods/rev-1026-all.jpg" alt="10/26 1分足" loading="lazy"></a>
@@ -580,9 +594,6 @@ body.lb-open { overflow: hidden; }
     </ul>
   </section>
 
-  <footer>
-    <a class="back" href="methods.html">← 手法のまとめにもどる</a> ／ <a class="back" href="./">取引記録にもどる</a>
-  </footer>
 </main>
 <div id="lb" role="dialog" aria-modal="true" aria-label="写真の拡大"><button type="button" aria-label="閉じる">✕</button><img alt=""></div>
 <script>
@@ -598,6 +609,9 @@ body.lb-open { overflow: hidden; }
   lb.querySelector('button').addEventListener('click', close);
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
 })();
+</script>
+<script>
+(function(){function o(){var h=location.hash&&document.getElementById(location.hash.slice(1));if(h){var d=h.closest&&h.closest('details');if(d)d.open=true;}}window.addEventListener('hashchange',o);o();})();
 </script>
 </body>
 </html>

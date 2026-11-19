@@ -155,15 +155,27 @@ body { margin: 0; background: #ffffff; }
 #lotref-card .lx-scroll { max-height: none; }
 .lx-table-ref td:first-child { font-weight: 600; }
 </style>
+<style id="sn-style">
+.sn-nav{position:sticky;top:0;z-index:50;display:flex;gap:5px;overflow-x:auto;padding:8px 12px;background:#fff;border-bottom:1px solid #e5e7eb;font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Noto Sans JP","Yu Gothic",Meiryo,sans-serif}
+.sn-nav a{flex:0 0 auto;white-space:nowrap;padding:6px 9px;border-radius:999px;font-size:.78rem;font-weight:700;color:#4b5563;background:#f3f4f6;text-decoration:none}
+.sn-nav a.on{background:#5b5bf0;color:#fff}
+.sn-toc{border:1px solid #e5e7eb;border-radius:12px;padding:12px 14px;background:#f6f7ff;font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Noto Sans JP","Yu Gothic",Meiryo,sans-serif;color:#111827}
+.sn-toc b{display:block;margin-bottom:6px;font-size:.95rem}
+.sn-toc ul{margin:0;padding:0;list-style:none;display:grid;gap:4px 16px;grid-template-columns:repeat(auto-fit,minmax(min(100%,17rem),1fr))}
+.sn-toc a{display:block;padding:4px 2px;font-size:.9rem;color:#3730a3;text-decoration:none;line-height:1.5}
+.sn-toc a:hover{text-decoration:underline}
+[id]{scroll-margin-top:64px}
+</style>
 </head>
 <body>
+<nav class="sn-nav" aria-label="ページ"><a href="before.html">トレード前に見ること</a><a href="methods.html">手法の確認</a><a href="reversal.html">過去検証</a><a href="./" class="on">取引記録</a></nav>
 <main class="lx" id="top">
   <header class="lx-header">
     <h1 class="lx-title"><span class="lx-gold">●</span> XAUUSD 取引記録</h1>
     <p class="lx-note">MT5の決済済み履歴を、貼った順に記録しています。時刻はMT5の表示どおりです。</p>
-    <p class="lx-note"><a class="lx-link" href="methods.html">▶ トレード手法のまとめを見る</a></p>
-    <p class="lx-note"><a class="lx-link" href="reversal.html">▶ 1分足のトレンド転換（下落→上昇）を見る</a></p>
   </header>
+
+  <nav class="sn-toc" aria-label="目次"><b>目次</b><ul><li><a href="#review-card">振り返りノート</a></li><li><a href="#calendar-card">カレンダー</a></li><li><a href="#curve-card">累計損益の推移</a></li><li><a href="#daily-card">日別の損益</a></li><li><a href="#side-card">買い・売り別の成績</a></li><li><a href="#lot-card">ロット別の成績</a></li><li><a href="#lotref-card">ロット別の早見表</a></li><li><a href="#trades-card">取引一覧</a></li></ul></nav>
 
   <section class="lx-hero" id="hero" aria-label="いまの成績">
     <div class="lx-hero-top">
@@ -1081,5 +1093,8 @@ dash.draw('review_list', (el) => {
 </script>
 <script>dash.start();</script>
 <!-- gold-log -->
+<script>
+(function(){function o(){var h=location.hash&&document.getElementById(location.hash.slice(1));if(h){var d=h.closest&&h.closest('details');if(d)d.open=true;}}window.addEventListener('hashchange',o);o();})();
+</script>
 </body>
 </html>

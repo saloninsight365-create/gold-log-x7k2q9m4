@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<title>トレード手法のまとめ</title>
+<title>手法の確認</title>
 <style>
 :root {
   --fg: #111827; --muted: #4b5563; --line: #e5e7eb; --panel: #ffffff; --soft: #f6f7ff;
@@ -55,18 +55,30 @@ figcaption { margin-top: 4px; font-size: 0.8125rem; color: var(--muted); line-he
 svg.diagram { display: block; width: 100%; height: auto; margin-top: 8px; border: 1px solid var(--line); border-radius: 10px; background: #fcfcfd; }
 svg text { font-family: var(--font); }
 </style>
+<style id="sn-style">
+.sn-nav{position:sticky;top:0;z-index:50;display:flex;gap:5px;overflow-x:auto;padding:8px 12px;background:#fff;border-bottom:1px solid #e5e7eb;font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Noto Sans JP","Yu Gothic",Meiryo,sans-serif}
+.sn-nav a{flex:0 0 auto;white-space:nowrap;padding:6px 9px;border-radius:999px;font-size:.78rem;font-weight:700;color:#4b5563;background:#f3f4f6;text-decoration:none}
+.sn-nav a.on{background:#5b5bf0;color:#fff}
+.sn-toc{border:1px solid #e5e7eb;border-radius:12px;padding:12px 14px;background:#f6f7ff;font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Noto Sans JP","Yu Gothic",Meiryo,sans-serif;color:#111827}
+.sn-toc b{display:block;margin-bottom:6px;font-size:.95rem}
+.sn-toc ul{margin:0;padding:0;list-style:none;display:grid;gap:4px 16px;grid-template-columns:repeat(auto-fit,minmax(min(100%,17rem),1fr))}
+.sn-toc a{display:block;padding:4px 2px;font-size:.9rem;color:#3730a3;text-decoration:none;line-height:1.5}
+.sn-toc a:hover{text-decoration:underline}
+[id]{scroll-margin-top:64px}
+</style>
 </head>
 <body>
+<nav class="sn-nav" aria-label="ページ"><a href="before.html">トレード前に見ること</a><a href="methods.html" class="on">手法の確認</a><a href="reversal.html">過去検証</a><a href="./">取引記録</a></nav>
 <main>
   <header>
-    <h1><span class="gold">●</span> トレード手法のまとめ</h1>
+    <h1><span class="gold">●</span> 手法の確認</h1>
     <p class="note">いつでも見返せるように、3つのやり方を1か所にまとめました。画像を押すと、大きく見られます。</p>
-    <a class="back" href="./">← 取引記録にもどる</a>
-    <p class="note" style="margin-top:6px"><a class="back" href="reversal.html">▶ 1分足のトレンド転換（下落→上昇）</a></p>
   </header>
 
+  <nav class="sn-toc" aria-label="目次"><b>目次</b><ul><li><a href="#m1">戒め：最短で勝つための順番</a></li><li><a href="#m2">3つの手法（早見表）</a></li><li><a href="#m3">自分の弱点と、その対策</a></li><li><a href="#m4">スタイル1：1分足で、線が開く所に乗る（メイン）</a></li><li><a href="#m5">スタイル2：1時間足の抵抗帯で待つ（メイン）</a></li><li><a href="#m6">スタイル3：3本の並びを見て、5分足で戻りに入る（サブ）</a></li></ul></nav>
+
   <!-- 戒め：順番の図解 -->
-  <section class="card">
+  <section class="card" id="m1">
     <h2>戒め：最短で勝つための順番</h2>
     <p class="note">先に「場所」、次に「形」。実際のチャートで見る図です。押すと大きく見られます。</p>
     <figure>
@@ -75,7 +87,7 @@ svg text { font-family: var(--font); }
   </section>
 
   <!-- 早見表 -->
-  <section class="card">
+  <section class="card" id="m2">
     <h2>3つの手法（早見表）</h2>
     <div class="list">
       <div class="item"><b>スタイル1 <span class="tag tag-main" style="display:inline">メイン</span></b>
@@ -88,7 +100,7 @@ svg text { font-family: var(--font); }
   </section>
 
   <!-- 弱点と対策 -->
-  <section class="card">
+  <section class="card" id="m3">
     <h2>自分の弱点と、その対策</h2>
     <p>上位足は下向きなのに、短期足（1・5・15分、1時間）で急騰したり上がってきたりすると、そのまま勢いが続きそうで、売れない。</p>
     <svg class="diagram" viewBox="0 0 360 210" role="img" aria-label="急騰中は打たず、抵抗帯に届いてから売る図">
@@ -109,7 +121,7 @@ svg text { font-family: var(--font); }
   </section>
 
   <!-- スタイル1 -->
-  <details class="card" open>
+  <details class="card" open id="m4">
     <summary><h2>スタイル1：1分足で、線が開く所に乗る <span class="tag tag-main">メイン</span>
       <span class="sum-sub">自分の手法。上位足を見て、1分足の移動平均線の「広がり」に乗る。</span></h2></summary>
 
@@ -230,7 +242,7 @@ svg text { font-family: var(--font); }
   </details>
 
   <!-- スタイル2 -->
-  <details class="card" open>
+  <details class="card" open id="m5">
     <summary><h2>スタイル2：1時間足の抵抗帯で待つ（いぬさんの手法） <span class="tag tag-main">メイン</span>
       <span class="sum-sub">場所を先に決めて、そこに来るまで待つ。チャートを分析して入る。</span></h2></summary>
 
@@ -283,7 +295,7 @@ svg text { font-family: var(--font); }
   </details>
 
   <!-- スタイル3 -->
-  <details class="card">
+  <details class="card" id="m6">
     <summary><h2>スタイル3：3本の並びを見て、5分足で戻りに入る（マサさんの手法） <span class="tag tag-sub">サブ</span>
       <span class="sum-sub">「MSパターン⑤」。通知が来たら見る。微妙なときは見送る。</span></h2></summary>
 
@@ -347,5 +359,8 @@ svg text { font-family: var(--font); }
     <a class="back" href="./">← 取引記録にもどる</a>
   </footer>
 </main>
+<script>
+(function(){function o(){var h=location.hash&&document.getElementById(location.hash.slice(1));if(h){var d=h.closest&&h.closest('details');if(d)d.open=true;}}window.addEventListener('hashchange',o);o();})();
+</script>
 </body>
 </html>

@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>トレード前に見ること</title>
+<style>
+:root {
+  --fg: #111827; --muted: #4b5563; --line: #e5e7eb; --panel: #ffffff; --soft: #f6f7ff;
+  --accent: #5b5bf0; --gold: #f5b301; --ok: #0e9f6e; --bad: #e11d48;
+  --font: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP", "Yu Gothic", Meiryo, sans-serif;
+}
+html { -webkit-text-size-adjust: 100%; color-scheme: light; }
+* { box-sizing: border-box; }
+body { margin: 0; background: #ffffff; color: var(--fg); font-family: var(--font); line-height: 1.7; }
+main { max-width: 56rem; margin-inline: auto; padding: 16px; display: grid; gap: 20px; }
+h1 { margin: 0; font-size: 1.5rem; font-weight: 600; line-height: 1.25; }
+h2 { margin: 0; font-size: 1.0625rem; font-weight: 600; }
+h3 { margin: 16px 0 4px; font-size: 0.8125rem; font-weight: 700; color: var(--muted); }
+p { margin: 4px 0; }
+.gold { color: var(--gold); }
+.note { font-size: 0.8125rem; color: var(--muted); }
+.back { display: inline-block; font-size: 0.875rem; color: var(--accent); text-decoration: none; font-weight: 600; }
+.card { border: 1px solid var(--line); border-radius: 12px; padding: 16px; background: var(--panel); }
+.card > summary { cursor: pointer; list-style: none; }
+.card > summary::-webkit-details-marker { display: none; }
+.card > summary h2::before { content: '▼ '; font-size: 0.75em; color: var(--accent); }
+.card:not([open]) > summary h2::before { content: '▶ '; }
+.card[open] > summary { margin-bottom: 8px; }
+.sum-sub { display: block; margin-top: 2px; font-size: 0.8125rem; font-weight: 400; color: var(--muted); }
+.tag { display: inline-block; padding: 1px 10px; border-radius: 999px; font-size: 0.75rem; font-weight: 700; vertical-align: 2px; margin-left: 6px; }
+.tag-main { background: linear-gradient(90deg, #f5b301, #ff7a18); color: #1b1200; }
+.tag-sub { background: #eef0f3; color: #4b5563; }
+.list { display: grid; gap: 10px; margin-top: 10px; }
+.item { border-left: 4px solid var(--accent); background: var(--soft); border-radius: 8px; padding: 10px 12px; }
+.item b { font-size: 0.9375rem; }
+.item span { display: block; font-size: 0.875rem; color: var(--muted); }
+.steps { margin: 8px 0 0; padding: 0; list-style: none; counter-reset: s; display: grid; gap: 8px; }
+.steps li { counter-increment: s; position: relative; padding: 8px 10px 8px 42px; background: #fafafa; border: 1px solid var(--line); border-radius: 10px; font-size: 0.9375rem; }
+.steps li::before { content: counter(s); position: absolute; left: 10px; top: 8px; width: 24px; height: 24px; border-radius: 50%; background: var(--accent); color: #fff; font-weight: 700; font-size: 0.8125rem; display: flex; align-items: center; justify-content: center; }
+.steps li small { display: block; color: var(--muted); font-size: 0.8125rem; }
+ul.dots { margin: 4px 0 0; padding-left: 1.2em; font-size: 0.9375rem; }
+.cols { display: grid; gap: 10px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr)); margin-top: 6px; }
+.good, .bad, .warn { border-radius: 10px; padding: 10px 12px; font-size: 0.9375rem; }
+.good { background: #fdecef; border: 1px solid #f6c6cf; }
+.bad { background: #eaf0ff; border: 1px solid #c7d6fb; }
+.warn { background: #fff8e6; border: 1px solid #f3dca0; }
+.good b, .bad b, .warn b { display: block; margin-bottom: 2px; }
+.good ul, .bad ul, .warn ul { margin: 0; padding-left: 1.2em; }
+figure { margin: 10px 0 0; }
+figure a { display: block; }
+figure img { display: block; width: 100%; height: auto; border-radius: 8px; border: 1px solid var(--line); }
+figcaption { margin-top: 4px; font-size: 0.8125rem; color: var(--muted); line-height: 1.6; }
+svg.diagram { display: block; width: 100%; height: auto; margin-top: 8px; border: 1px solid var(--line); border-radius: 10px; background: #fcfcfd; }
+svg text { font-family: var(--font); }
+.pic { margin: 0 -16px 10px; }
+.pic img { border-radius: 0; border-left: 0; border-right: 0; }
+.pic figcaption { padding: 0 16px; font-size: 0.875rem; }
+.big { padding: 12px 16px 16px; }
+.big h2 { margin-bottom: 8px; }
+.cap3 { margin: 6px 0 0; padding: 0; list-style: none; display: grid; gap: 4px; font-size: 1.0625rem; }
+h3.part { margin: 22px 0 8px; padding-top: 14px; border-top: 2px solid var(--line); font-size: 1.0625rem; color: var(--fg); }
+h3.part.first { margin-top: 0; padding-top: 0; border-top: 0; }
+.pic.wide { width: min(94vw, 1500px); margin-left: calc(50% - min(94vw, 1500px) / 2); margin-right: 0; }
+.pic.wide img { border-radius: 8px; border: 1px solid var(--line); }
+
+#lb { position: fixed; inset: 0; z-index: 1000; background: #000; display: none; overflow: auto; -webkit-overflow-scrolling: touch; }
+#lb.open { display: block; }
+#lb img { display: block; width: max(100vw, 1400px); max-width: none; height: auto; margin: 0; }
+#lb button { position: fixed; top: 12px; right: 12px; z-index: 1001; width: 48px; height: 48px; border-radius: 50%; border: 2px solid #fff; background: rgba(0,0,0,.75); color: #fff; font-size: 28px; line-height: 1; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+body.lb-open { overflow: hidden; }
+</style>
+<style>
+.chk{margin:0;padding:0;list-style:none;display:grid;gap:6px}
+.chk li{display:flex;gap:10px;align-items:flex-start;padding:8px 10px;background:#fff;border:1px solid var(--line);border-radius:10px;font-size:1rem}
+.chk li b{flex:0 0 auto;width:26px;height:26px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-size:.85rem}
+.chk a{color:inherit;text-decoration:none}
+.yn{display:grid;gap:8px;grid-template-columns:repeat(auto-fit,minmax(min(100%,16rem),1fr));margin:8px 0}
+.ok,.ng{border-radius:10px;padding:10px 12px;font-size:1rem}
+.ok{background:#e8f7ee;border:1px solid #b6e3c8}
+.ng{background:#fdecef;border:1px solid #f6c6cf}
+.ok b{color:#0a7a45}.ng b{color:#c01735}
+.yn b{display:block;margin-bottom:2px}
+.more{display:inline-block;margin-top:4px;font-size:.9rem;font-weight:700;color:var(--accent);text-decoration:none}
+.lead{font-size:1.0625rem;font-weight:700;margin:6px 0 0}
+</style>
+<style id="sn-style">
+.sn-nav{position:sticky;top:0;z-index:50;display:flex;gap:5px;overflow-x:auto;padding:8px 12px;background:#fff;border-bottom:1px solid #e5e7eb;font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Noto Sans JP","Yu Gothic",Meiryo,sans-serif}
+.sn-nav a{flex:0 0 auto;white-space:nowrap;padding:6px 9px;border-radius:999px;font-size:.78rem;font-weight:700;color:#4b5563;background:#f3f4f6;text-decoration:none}
+.sn-nav a.on{background:#5b5bf0;color:#fff}
+.sn-toc{border:1px solid #e5e7eb;border-radius:12px;padding:12px 14px;background:#f6f7ff;font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Noto Sans JP","Yu Gothic",Meiryo,sans-serif;color:#111827}
+.sn-toc b{display:block;margin-bottom:6px;font-size:.95rem}
+.sn-toc ul{margin:0;padding:0;list-style:none;display:grid;gap:4px 16px;grid-template-columns:repeat(auto-fit,minmax(min(100%,17rem),1fr))}
+.sn-toc a{display:block;padding:4px 2px;font-size:.9rem;color:#3730a3;text-decoration:none;line-height:1.5}
+.sn-toc a:hover{text-decoration:underline}
+[id]{scroll-margin-top:64px}
+</style>
+</head>
+<body>
+<nav class="sn-nav" aria-label="ページ"><a href="before.html" class="on">トレード前に見ること</a><a href="methods.html">手法の確認</a><a href="reversal.html">過去検証</a><a href="./">取引記録</a></nav>
+<main>
+  <header>
+    <h1><span class="gold">●</span> トレード前に見ること</h1>
+    <p class="note">この順番で見ます。ひとつでも「入らない」に当てはまったら、見送ります。画像を押すと、大きく見られます。</p>
+  </header>
+
+  <nav class="sn-toc" aria-label="チェックリスト"><b>チェックリスト（押すと、その項目へ）</b><ol class="chk" style="margin-top:6px"><li><b>1</b><a href="#s1">15分足を見る</a></li><li><b>2</b><a href="#s2">上位足の200が、壁になっていないか</a></li><li><b>3</b><a href="#s3">3本のMAが、そろっているか</a></li><li><b>4</b><a href="#s4">すぐ先に、壁や床がないか</a></li><li><b>5</b><a href="#s5">入る場所</a></li><li><b>6</b><a href="#s6">入る前に、決める</a></li></ol></nav>
+
+  <section class="card big" id="s1">
+    <h2>1. 15分足を見る</h2>
+    <p class="lead">箱（横ばい）か、斜めか。</p>
+    <div class="yn"><div class="ok"><b>○ 入る</b>斜めなら、その向きで。箱なら、下の線の近くでロング、上の線の近くでショート。</div><div class="ng"><b>× 入らない</b>箱の真ん中。箱の下半分でのショート。箱の上半分でのロング。</div></div>
+    <figure class="pic wide">
+      <a href="methods/rev-box15.jpg"><img src="methods/rev-box15.jpg" alt="15分足の箱" loading="lazy"></a>
+    </figure>
+    <p><a class="more" href="reversal.html#ex24">▶ 例24を見る</a></p>
+  </section>
+
+  <section class="card big" id="s2">
+    <h2>2. 上位足の200が、壁になっていないか</h2>
+    <p class="lead">入る方向の先に、5分足・15分足の200がないか。</p>
+    <div class="yn"><div class="ok"><b>○ 入る</b>先に、200がない。</div><div class="ng"><b>× 入らない</b>上に200があるときのロング。下に200があるときのショート。</div></div>
+    <figure class="pic wide">
+      <a href="methods/rev-htf-200.jpg"><img src="methods/rev-htf-200.jpg" alt="上位足の200が上にある" loading="lazy"></a>
+    </figure>
+    <p><a class="more" href="reversal.html#ex21">▶ 例21を見る</a></p>
+  </section>
+
+  <section class="card big" id="s3">
+    <h2>3. 3本のMAが、そろっているか</h2>
+    <p class="lead">25・100・200が、同じ向きで、順番に並んで、線が開いているか。</p>
+    <div class="yn"><div class="ok"><b>○ 入る</b>3本が同じ向きで、きれいに開いている。</div><div class="ng"><b>× 入らない</b>線がからんでいる。横を向いている。</div></div>
+    <figure class="pic wide">
+      <a href="methods/rev-clean-vs-tangled.jpg"><img src="methods/rev-clean-vs-tangled.jpg" alt="線が開いている形と、からんでいる形" loading="lazy"></a>
+    </figure>
+    <p><a class="more" href="reversal.html#ex20">▶ 例20を見る</a></p>
+  </section>
+
+  <section class="card big" id="s4">
+    <h2>4. すぐ先に、壁や床がないか</h2>
+    <p class="lead">横線、200と横線が重なる所を見る。</p>
+    <div class="yn"><div class="ok"><b>○ 入る</b>先まで、損切りの幅より広い余地がある。</div><div class="ng"><b>× 入らない</b>余地が、損切りの幅より小さい。ショートのすぐ下に、200と横線が重なる所がある。</div></div>
+    <figure class="pic wide">
+      <a href="methods/rev-box1m.jpg"><img src="methods/rev-box1m.jpg" alt="200と横線が重なる所はロング。下半分のショートは入らない" loading="lazy"></a>
+    </figure>
+    <p><a class="more" href="reversal.html#ex24">▶ 例24を見る</a></p>
+  </section>
+
+  <section class="card big" id="s5">
+    <h2>5. 入る場所</h2>
+    <p class="lead">「戻り」か「支えられた所」で入る。</p>
+    <div class="yn"><div class="ok"><b>○ 入る</b>ショート：戻りが25・100に抑えられた所。ロング：25EMAを上に超えて、支えられた所。線を割ったあとの、戻りも入る場所。</div><div class="ng"><b>× 入らない</b>割れる前の、箱の中。まだ下の線まで届いていない所。</div></div>
+    <figure class="pic wide">
+      <a href="methods/rev-short-ok.jpg"><img src="methods/rev-short-ok.jpg" alt="ショート○：入る" loading="lazy"></a>
+    </figure>
+    <figure class="pic wide">
+      <a href="methods/rev-below200.jpg"><img src="methods/rev-below200.jpg" alt="200の下で支えられたあと" loading="lazy"></a>
+    </figure>
+    <p><a class="more" href="reversal.html#ex20">▶ 例20</a> ／ <a class="more" href="reversal.html#ex23">▶ 例23を見る</a></p>
+  </section>
+
+  <section class="card big" id="s6">
+    <h2>6. 入る前に、決める</h2>
+    <p class="lead">損切りの位置と、ロット。</p>
+    <div class="yn"><div class="ok"><b>○ 入る</b>損切りの位置を決めて、注文で入れる。切らずに持てるロットにする。</div><div class="ng"><b>× 入らない</b>決めずに入る。入ったあとに、損切りを動かす・手で切る。</div></div>
+    <p><a class="more" href="reversal.html#ex22">▶ 例22（損切りが連鎖する）</a></p>
+  </section>
+
+<div id="lb" role="dialog" aria-modal="true" aria-label="写真の拡大"><button type="button" aria-label="閉じる">✕</button><img alt=""></div>
+<script>
+(function () {
+  var lb = document.getElementById('lb');
+  var big = lb.querySelector('img');
+  function open(src, alt) { big.src = src; big.alt = alt || ''; lb.scrollTop = 0; lb.scrollLeft = 0; lb.classList.add('open'); document.body.classList.add('lb-open'); }
+  function close() { lb.classList.remove('open'); document.body.classList.remove('lb-open'); big.removeAttribute('src'); }
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('figure a');
+    if (a) { e.preventDefault(); var im = a.querySelector('img'); open(a.getAttribute('href'), im ? im.alt : ''); }
+  });
+  lb.querySelector('button').addEventListener('click', close);
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
+})();
+</script>
+</body>
+</html>
