@@ -167,11 +167,11 @@ body { margin: 0; background: #ffffff; }
 [id]{scroll-margin-top:64px}
 </style>
 <style id="sn-big-style">
-.sn-big{border:3px solid #5b5bf0;border-radius:18px;padding:14px;background:#f6f7ff;font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Noto Sans JP","Yu Gothic",Meiryo,sans-serif;margin:4px 0 16px}
-.sn-big b.t{display:block;margin:0 0 10px;font-size:.95rem;color:#3730a3}
-.sn-big a{display:block;margin-top:10px;padding:16px 16px;border-radius:14px;background:#fff;border:2px solid #c7c9fb;color:#111827;text-decoration:none;font-size:1.3rem;font-weight:800;line-height:1.3}
-.sn-big a:first-of-type{margin-top:0;background:#5b5bf0;border-color:#5b5bf0;color:#fff}
-.sn-big a span{display:block;margin-top:3px;font-size:.85rem;font-weight:500;opacity:.85}
+.sn-big{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;border:3px solid #5b5bf0;border-radius:18px;padding:12px;background:#f6f7ff;font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Noto Sans JP","Yu Gothic",Meiryo,sans-serif;margin:4px 0 16px}
+.sn-big b.t{grid-column:1/-1;margin:0 0 2px;font-size:.95rem;color:#3730a3}
+.sn-big a{display:flex;flex-direction:column;justify-content:center;min-height:92px;padding:10px 6px;border-radius:12px;background:#fff;border:2px solid #c7c9fb;color:#111827;text-decoration:none;font-size:1.05rem;font-weight:800;line-height:1.3;text-align:center;word-break:keep-all;overflow-wrap:anywhere}
+.sn-big a:first-of-type{background:#5b5bf0;border-color:#5b5bf0;color:#fff}
+.sn-big a span{display:block;margin-top:4px;font-size:.68rem;font-weight:500;line-height:1.35;opacity:.85}
 </style>
 </head>
 <body>
@@ -179,9 +179,9 @@ body { margin: 0; background: #ffffff; }
 <main class="lx" id="top">
   <section class="sn-big" aria-label="まず見るページ">
     <b class="t">まず、ここから</b>
-    <a href="before.html">トレード前に見ること<span>入る前に、この順番で確認する</span></a>
-    <a href="methods.html">手法の確認<span>3つのやり方のまとめ</span></a>
-    <a href="reversal.html">過去検証<span>入る・入らないの事例（例1〜24）</span></a>
+    <a href="before.html">トレード前に見ること<span>入る前の確認</span></a>
+    <a href="methods.html">手法の確認<span>3つのやり方</span></a>
+    <a href="reversal.html">過去検証<span>入る・入らない例</span></a>
   </section>
 
   <header class="lx-header">
