@@ -909,9 +909,13 @@ dash.draw('cal_total', (el) => {
   total.textContent = usd(r.profit);
   if (r.profit > 0) total.className = 'lx-pos';
   else if (r.profit < 0) total.className = 'lx-neg';
+  const yen = document.createElement('span');
+  yen.textContent = ' （' + signedWhole(Math.round(r.profit * USDJPY)) + '円）';
+  if (r.profit > 0) yen.className = 'lx-pos';
+  else if (r.profit < 0) yen.className = 'lx-neg';
   const tail = document.createElement('span');
   tail.textContent = ' ・ ' + r.n + '回 ・ 取引した日 ' + r.days + '日';
-  el.append(head, total, tail);
+  el.append(head, total, yen, tail);
 });
 
 dash.draw('cal_grid', (el) => {
