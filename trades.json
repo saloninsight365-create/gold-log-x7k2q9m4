@@ -1033,5 +1033,35 @@
   "symbol": "XAUUSD",
   "opened_at": "2026-11-23 10:22:11",
   "closed_at": "2026-11-23 10:37:41"
+ },
+ {
+  "ticket": "5287079548",
+  "date": "2026-11-24",
+  "time": "08:15",
+  "hold_min": 4.9,
+  "side": "買い",
+  "lots": 0.1,
+  "open_price": 3626.36,
+  "close_price": 3627.0,
+  "move": 0.64,
+  "profit": 6.4,
+  "symbol": "XAUUSD",
+  "opened_at": "2026-11-24 08:10:15",
+  "closed_at": "2026-11-24 08:15:10"
+ },
+ {
+  "ticket": "5287089201",
+  "date": "2026-11-24",
+  "time": "08:58",
+  "hold_min": 24.2,
+  "side": "買い",
+  "lots": 0.05,
+  "open_price": 3623.66,
+  "close_price": 3625.72,
+  "move": 2.06,
+  "profit": 10.3,
+  "symbol": "XAUUSD",
+  "opened_at": "2026-11-24 08:34:07",
+  "closed_at": "2026-11-24 08:58:20"
  }
 ]
