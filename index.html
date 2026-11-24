@@ -141,6 +141,10 @@ body { margin: 0; background: #ffffff; }
 .lx-rules-h { margin: 0 0 var(--cds-gap-xs); font-size: var(--cds-font-size-body); font-weight: 700; }
 .lx-rules ul, .lx-note-card ul { margin: 0; padding-left: 1.2em; line-height: 1.8; font-size: var(--cds-font-size-body); }
 .lx-reviews { display: grid; gap: var(--cds-gap-lg); }
+.lx-rev-group { display: grid; gap: var(--cds-gap-md); }
+.lx-rev-h { margin: 0; font-size: var(--cds-font-size-heading); font-weight: 700; }
+.lx-rev-sub { margin: -6px 0 0; font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
+.lx-rules-end { margin: var(--cds-gap-lg) 0 0; }
 .lx-note-card { border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); padding: var(--cds-pad-md); }
 .lx-note-card > summary { cursor: pointer; }
 .lx-note-card[open] > summary { margin-bottom: 2px; }
@@ -248,8 +252,8 @@ body { margin: 0; background: #ffffff; }
   <section class="lx-card" id="review-card" aria-label="振り返りノート">
     <h2 class="lx-h">振り返りノート</h2>
     <p class="lx-sub">取引を、チャートつきで振り返った記録です。同じ間違いを繰り返さないために見ます。画像を押すと大きく見られます。</p>
-    <div class="lx-rules" data-draw="review_rules"></div>
     <div class="lx-reviews" data-draw="review_list"></div>
+    <div class="lx-rules lx-rules-end" data-draw="review_rules"></div>
   </section>
 
   <section class="lx-card" id="calendar-card" aria-label="日別の損益カレンダー">
@@ -1080,15 +1084,39 @@ dash.draw('review_list', (el) => {
   el.replaceChildren();
   if (g.status !== 'ok' || !g.data.notes || !g.data.notes.length) return;
   const byTicket = new Map(tr.status === 'ok' ? tr.data.map((t) => [t.ticket, t]) : []);
+  const groups = [
+    { key: 'sample', h: 'きれいな形の見本', sub: '入るのは、この形のときだけです。' },
+    { key: 'big', h: '損失が大きかった取引（−$100以上）', sub: '損失が大きい順です。' },
+    { key: 'small', h: '小さい負け・大事な学び', sub: '金額は小さくても、ルールにつながる負けです。' },
+  ];
+  const wraps = new Map();
+  for (const gr of groups) {
+    const w = document.createElement('div');
+    w.className = 'lx-rev-group';
+    const hh = document.createElement('h3');
+    hh.className = 'lx-rev-h';
+    hh.textContent = gr.h;
+    const ss = document.createElement('p');
+    ss.className = 'lx-rev-sub';
+    ss.textContent = gr.sub;
+    w.append(hh, ss);
+    wraps.set(gr.key, w);
+  }
   for (const n of g.data.notes) {
     const card = document.createElement('details');
     card.className = 'lx-note-card';
+    if (n.open) card.open = true;
     const title = document.createElement('summary');
     title.className = 'lx-note-title';
     title.textContent = n.title;
     card.append(title);
     const t = byTicket.get(n.ticket);
-    if (t) {
+    if (n.meta) {
+      const meta = document.createElement('div');
+      meta.className = 'lx-note-meta';
+      meta.textContent = n.meta;
+      card.append(meta);
+    } else if (t) {
       const meta = document.createElement('div');
       meta.className = 'lx-note-meta';
       meta.textContent = toDay(t.date) + ' ' + t.time + ' 決済（MT5の時刻） ・ ' + t.side + ' ' + lotf(t.lots) + 'ロット ・ 損益 ' + usd(t.profit);
@@ -1118,8 +1146,9 @@ dash.draw('review_list', (el) => {
     }
     const secs = n.sections || [{ h: '起きたこと', items: n.happened }, { h: '見直す点', items: n.fix }];
     for (const sec of secs) card.append(noteHead(sec.h), listOf(sec.items));
-    el.append(card);
+    (wraps.get(n.group) || wraps.get('small')).append(card);
   }
+  for (const gr of groups) el.append(wraps.get(gr.key));
 });
 </script>
 <script>dash.start();</script>
