@@ -125,7 +125,15 @@
    "group": "big",
    "title": "11/18 ロング −$125.70",
    "ticket": "5281085751",
-   "sections": [],
+   "sections": [
+    {
+     "h": "後から見ると",
+     "items": [
+      "理解できないポジション。",
+      "水平線で入ったのかな、と思うくらい。"
+     ]
+    }
+   ],
    "images": [
     {
      "src": "reviews/nov18-long.jpg",
