@@ -1108,7 +1108,14 @@ dash.draw('review_list', (el) => {
     if (n.open) card.open = true;
     const title = document.createElement('summary');
     title.className = 'lx-note-title';
-    title.textContent = n.title;
+    for (const part of n.title.split(/(−\$[\d.,—]+)/)) {
+      if (/^−\$/.test(part)) {
+        const loss = document.createElement('span');
+        loss.className = 'lx-neg';
+        loss.textContent = part;
+        title.append(loss);
+      } else if (part) title.append(part);
+    }
     card.append(title);
     const t = byTicket.get(n.ticket);
     if (n.meta) {
