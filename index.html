@@ -1108,8 +1108,8 @@ dash.draw('review_list', (el) => {
     if (n.open) card.open = true;
     const title = document.createElement('summary');
     title.className = 'lx-note-title';
-    for (const part of n.title.split(/(−\$[\d.,—]+)/)) {
-      if (/^−\$/.test(part)) {
+    for (const part of n.title.split(/(−\$[\d.,—]+|−[\d,]+円)/)) {
+      if (/^−(\$|[\d,]+円)/.test(part)) {
         const loss = document.createElement('span');
         loss.className = 'lx-neg';
         loss.textContent = part;
