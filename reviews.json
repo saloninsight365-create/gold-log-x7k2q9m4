@@ -76,7 +76,14 @@
    "group": "big",
    "title": "10/27 ロング −$218.00",
    "ticket": "5264208510",
-   "sections": [],
+   "sections": [
+    {
+     "h": "後から見ると",
+     "items": [
+      "1分足で、ちょうどレンジになっている。"
+     ]
+    }
+   ],
    "images": [
     {
      "src": "reviews/oct27-long.jpg",
@@ -112,7 +119,14 @@
    "group": "big",
    "title": "10/26 ロング −$138.80",
    "ticket": "5263609421",
-   "sections": [],
+   "sections": [
+    {
+     "h": "後から見ると",
+     "items": [
+      "決済した時に、レンジを突き抜ける大陽線の後に、トレンド転換している。"
+     ]
+    }
+   ],
    "images": [
     {
      "src": "reviews/oct26-long.jpg",
