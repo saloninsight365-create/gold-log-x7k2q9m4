@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>200に当たったとき</title>
+<style>
+:root {
+  --fg: #111827; --muted: #4b5563; --line: #e5e7eb; --panel: #ffffff; --soft: #f6f7ff;
+  --accent: #5b5bf0; --gold: #f5b301; --ok: #0e9f6e; --bad: #e11d48;
+  --font: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP", "Yu Gothic", Meiryo, sans-serif;
+}
+html { -webkit-text-size-adjust: 100%; color-scheme: light; }
+* { box-sizing: border-box; }
+body { margin: 0; background: #ffffff; color: var(--fg); font-family: var(--font); line-height: 1.7; }
+main { max-width: 56rem; margin-inline: auto; padding: 16px; display: grid; gap: 20px; }
+h1 { margin: 0; font-size: 1.5rem; font-weight: 600; line-height: 1.25; }
+h2 { margin: 0; font-size: 1.0625rem; font-weight: 600; }
+h3 { margin: 16px 0 4px; font-size: 0.8125rem; font-weight: 700; color: var(--muted); }
+p { margin: 4px 0; }
+.gold { color: var(--gold); }
+.note { font-size: 0.8125rem; color: var(--muted); }
+.back { display: inline-block; font-size: 0.875rem; color: var(--accent); text-decoration: none; font-weight: 600; }
+.card { border: 1px solid var(--line); border-radius: 12px; padding: 16px; background: var(--panel); }
+.card > summary { cursor: pointer; list-style: none; }
+.card > summary::-webkit-details-marker { display: none; }
+.card > summary h2::before { content: '▼ '; font-size: 0.75em; color: var(--accent); }
+.card:not([open]) > summary h2::before { content: '▶ '; }
+.card[open] > summary { margin-bottom: 8px; }
+.sum-sub { display: block; margin-top: 2px; font-size: 0.8125rem; font-weight: 400; color: var(--muted); }
+.tag { display: inline-block; padding: 1px 10px; border-radius: 999px; font-size: 0.75rem; font-weight: 700; vertical-align: 2px; margin-left: 6px; }
+.tag-main { background: linear-gradient(90deg, #f5b301, #ff7a18); color: #1b1200; }
+.tag-sub { background: #eef0f3; color: #4b5563; }
+.list { display: grid; gap: 10px; margin-top: 10px; }
+.item { border-left: 4px solid var(--accent); background: var(--soft); border-radius: 8px; padding: 10px 12px; }
+.item b { font-size: 0.9375rem; }
+.item span { display: block; font-size: 0.875rem; color: var(--muted); }
+.steps { margin: 8px 0 0; padding: 0; list-style: none; counter-reset: s; display: grid; gap: 8px; }
+.steps li { counter-increment: s; position: relative; padding: 8px 10px 8px 42px; background: #fafafa; border: 1px solid var(--line); border-radius: 10px; font-size: 0.9375rem; }
+.steps li::before { content: counter(s); position: absolute; left: 10px; top: 8px; width: 24px; height: 24px; border-radius: 50%; background: var(--accent); color: #fff; font-weight: 700; font-size: 0.8125rem; display: flex; align-items: center; justify-content: center; }
+.steps li small { display: block; color: var(--muted); font-size: 0.8125rem; }
+ul.dots { margin: 4px 0 0; padding-left: 1.2em; font-size: 0.9375rem; }
+.cols { display: grid; gap: 10px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr)); margin-top: 6px; }
+.good, .bad, .warn { border-radius: 10px; padding: 10px 12px; font-size: 0.9375rem; }
+.good { background: #fdecef; border: 1px solid #f6c6cf; }
+.bad { background: #eaf0ff; border: 1px solid #c7d6fb; }
+.warn { background: #fff8e6; border: 1px solid #f3dca0; }
+.good b, .bad b, .warn b { display: block; margin-bottom: 2px; }
+.good ul, .bad ul, .warn ul { margin: 0; padding-left: 1.2em; }
+figure { margin: 10px 0 0; }
+figure a { display: block; }
+figure img { display: block; width: 100%; height: auto; border-radius: 8px; border: 1px solid var(--line); }
+figcaption { margin-top: 4px; font-size: 0.8125rem; color: var(--muted); line-height: 1.6; }
+svg.diagram { display: block; width: 100%; height: auto; margin-top: 8px; border: 1px solid var(--line); border-radius: 10px; background: #fcfcfd; }
+svg text { font-family: var(--font); }
+.pic { margin: 0 -16px 10px; }
+.pic img { border-radius: 0; border-left: 0; border-right: 0; }
+.pic figcaption { padding: 0 16px; font-size: 0.875rem; }
+.big { padding: 12px 16px 16px; }
+.big h2 { margin-bottom: 8px; }
+.cap3 { margin: 6px 0 0; padding: 0; list-style: none; display: grid; gap: 4px; font-size: 1.0625rem; }
+h3.part { margin: 22px 0 8px; padding-top: 14px; border-top: 2px solid var(--line); font-size: 1.0625rem; color: var(--fg); }
+h3.part.first { margin-top: 0; padding-top: 0; border-top: 0; }
+.pic.wide { width: min(94vw, 1500px); margin-left: calc(50% - min(94vw, 1500px) / 2); margin-right: 0; }
+.pic.wide img { border-radius: 8px; border: 1px solid var(--line); }
+
+#lb { position: fixed; inset: 0; z-index: 1000; background: #000; display: none; overflow: auto; -webkit-overflow-scrolling: touch; }
+#lb.open { display: block; }
+#lb img { display: block; width: max(100vw, 1400px); max-width: none; height: auto; margin: 0; }
+#lb button { position: fixed; top: 12px; right: 12px; z-index: 1001; width: 48px; height: 48px; border-radius: 50%; border: 2px solid #fff; background: rgba(0,0,0,.75); color: #fff; font-size: 28px; line-height: 1; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+body.lb-open { overflow: hidden; }
+</style>
+<style id="sn-style">
+.sn-nav{position:sticky;top:0;z-index:50;display:flex;gap:5px;overflow-x:auto;padding:8px 12px;background:#fff;border-bottom:1px solid #e5e7eb;font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Noto Sans JP","Yu Gothic",Meiryo,sans-serif}
+.sn-nav a{flex:0 0 auto;white-space:nowrap;padding:6px 9px;border-radius:999px;font-size:.78rem;font-weight:700;color:#4b5563;background:#f3f4f6;text-decoration:none}
+.sn-nav a.on{background:#5b5bf0;color:#fff}
+.sn-toc{border:1px solid #e5e7eb;border-radius:12px;padding:12px 14px;background:#f6f7ff;font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Noto Sans JP","Yu Gothic",Meiryo,sans-serif;color:#111827}
+.sn-toc b{display:block;margin-bottom:6px;font-size:.95rem}
+.sn-toc ul{margin:0;padding:0;list-style:none;display:grid;gap:4px 16px;grid-template-columns:repeat(auto-fit,minmax(min(100%,17rem),1fr))}
+.sn-toc a{display:block;padding:4px 2px;font-size:.9rem;color:#3730a3;text-decoration:none;line-height:1.5}
+.sn-toc a:hover{text-decoration:underline}
+[id]{scroll-margin-top:64px}
+</style>
+<style>
+table.sum { width: 100%; border-collapse: collapse; font-size: 0.875rem; margin-top: 8px; }
+table.sum th, table.sum td { border: 1px solid var(--line); padding: 6px 8px; text-align: left; vertical-align: top; line-height: 1.5; }
+table.sum th { background: var(--soft); font-weight: 700; }
+.tbl-wrap { overflow-x: auto; }
+.mine { border-left: 4px solid var(--accent); background: var(--soft); border-radius: 8px; padding: 10px 12px; margin-top: 10px; }
+.mine b { display: block; margin-bottom: 4px; font-size: 0.9375rem; }
+.mine ul { margin: 0; padding-left: 1.2em; font-size: 0.9375rem; }
+.obs { border-left: 4px solid #9ca3af; background: #f9fafb; border-radius: 8px; padding: 10px 12px; margin-top: 10px; }
+.obs b { display: block; margin-bottom: 4px; font-size: 0.9375rem; }
+.obs ul { margin: 0; padding-left: 1.2em; font-size: 0.9375rem; }
+</style>
+</head>
+<body>
+<nav class="sn-nav" aria-label="ページ"><a href="before.html">トレード前に見ること</a><a href="methods.html">手法の確認</a><a href="reversal.html">過去検証</a><a href="touch200.html" class="on">200に当たったとき</a><a href="./">取引記録</a></nav>
+<main>
+  <header>
+    <h1><span class="gold">●</span> 200に当たったとき</h1>
+    <p class="note">価格が200（SMA・EMA）に戻って触れたとき、そのあとどう動いたかの整理です。左：トレンド転換用／右：押し目・戻り目用。画像を押すと、大きく見られます。</p>
+    <p class="note">「あなたの言葉」は本人の言葉です。「図の観察」はClaudeが図から読み取ったことで、予測や売買の判断ではありません。数字は目測です。</p>
+  </header>
+
+  <nav class="sn-toc" aria-label="目次"><b>目次</b><ul><li><a href="#sum">まとめ</a></li><li><a href="#steep">A：200が急な下向き</a></li><li><a href="#flat">B：200が横〜ゆるい</a></li><li><a href="#today">11/25のショート（今回）</a></li></ul></nav>
+
+  <section class="card big" id="sum">
+    <h2>まとめ</h2>
+    <div class="mine"><b>あなたの言葉</b><ul>
+      <li>戻り高値付近に抵抗帯をひくと、そこがちょうど200SMAに当たる付近だった（青◎）。ここでショートしていれば、損切りは回避できた。</li>
+      <li>入ったのは赤丸付近。平行チャネルから崩れそうだから入っただけで、崩れてはいなかった。</li>
+      <li>確かめたいこと：ある程度下落したあと、戻って200にタッチしたら、下落幅が狭い印象がある。</li>
+      <li>確かめたいこと：200に当たって、100・25SMAが拡散しない場合は、どんな場合か。</li>
+    </ul></div>
+    <div class="obs"><b>図の観察（Claude）：11枚の図から</b><ul>
+      <li>200が急な下向きのとき（A）は、200に触れて反転し、下げが続いた。または、200まで届かず100で止まった。</li>
+      <li>200が横〜ゆるいとき（B）は、触れたあとの動きが一定ではなかった。反転して下げた例も、上に抜けた例もある。</li>
+      <li>下落幅が狭くなる傾向は、確認できなかった。狭い例（約8ドル）もあれば、広い例（約40〜44ドル）もある。</li>
+      <li>25・100・200が束のまま広がらないときは、横ばいのレンジが続いた図があった（B）。</li>
+      <li>束から、上に広がるか下に広がるかは、形だけでは分からなかった（下に広がった例も、今回のように上に広がった例もある）。</li>
+    </ul></div>
+    <div class="tbl-wrap"><table class="sum">
+      <tr><th>図</th><th>200の傾き</th><th>触れたあと（目測）</th></tr>
+      <tr><td>20日 00:30〜06:00</td><td>急な下向き</td><td>5回触れて、5回とも反転。安値を切り下げて下げ続いた（1回12〜25ドル）</td></tr>
+      <tr><td>02:00〜06:00（3,550付近）</td><td>急な下向き</td><td>100で止まり、200まで届かず</td></tr>
+      <tr><td>20日23:15〜21日03:15</td><td>急な下向き</td><td>100で止まり、200まで届かず</td></tr>
+      <tr><td>24日20:30〜25日00:30</td><td>ゆるい下向き</td><td>23:40ごろに触れて、約40ドル下げた</td></tr>
+      <tr><td>02:00〜10:00（3,850付近）</td><td>ゆるい下向き〜横</td><td>09:00ごろに触れて、約44ドル下げた</td></tr>
+      <tr><td>15:30〜22:30（3,770付近）</td><td>横</td><td>3回触れた。1回目は上に抜けた。2・3回目は反転して下げた（3回目のあとは約29ドル）</td></tr>
+      <tr><td>19日 01:00〜09:00</td><td>下向きから横へ</td><td>05:45ごろに触れて、約8ドルだけ下げ、08:00に上に抜けた</td></tr>
+      <tr><td>16:00〜19:45（3,620付近）</td><td>横〜ゆるい上向き</td><td>触れて上に抜け、そのあと束のまま狭い範囲で動いた</td></tr>
+      <tr><td>08:15〜18:00（3,730付近）</td><td>下向きから横へ</td><td>触れて上に抜け、そのあと束のまま約4時間、横ばい</td></tr>
+      <tr><td>11:00〜20:00（3,630付近）</td><td>下向きから横へ</td><td>束になって、横ばいが続いたあと、上に出た</td></tr>
+      <tr><td>25日 22:15〜26日 02:00</td><td>下向きから横へ</td><td>01:27ごろ（青◎）に触れて、約16ドル下げた。01:50ごろ（赤丸）のあとは、200を上に抜けた</td></tr>
+    </table></div>
+    <p class="note">選んだ図は、あなたが送ってくれた分です。結果を見たあとで並べているので、これだけで傾向が決まるわけではありません。</p>
+  </section>
+
+  <section class="card big" id="steep">
+    <h2>A：200が急な下向き</h2>
+    <p class="note">25と100は、200の下に、間をあけて並んでいます。</p>
+    <h3 class="part first">20日 00:30〜06:00：5回触れて、5回とも反転</h3>
+    <figure class="pic wide">
+      <a href="methods/t200-a-steep-5touch.jpg"><img src="methods/t200-a-steep-5touch.jpg" alt="200（赤）に5回触れて、そのたびに反転。安値を切り下げて下げ続いた" loading="lazy"></a>
+    </figure>
+    <ul class="cap3">
+      <li>図の観察：赤丸の5回とも、200に触れて反転した。</li>
+      <li>図の観察：安値を切り下げながら、下げが続いた。1回の下げは、目測で12〜25ドル。</li>
+    </ul>
+    <h3 class="part">02:00〜06:00（3,550付近）：100で止まった</h3>
+    <figure class="pic wide">
+      <a href="methods/t200-a-stop-at100.jpg"><img src="methods/t200-a-stop-at100.jpg" alt="赤丸は100（青）のところ。200まで届いていない" loading="lazy"></a>
+    </figure>
+    <ul class="cap3">
+      <li>図の観察：赤丸は100に付いていて、200までは届いていない。</li>
+      <li>図の観察：200はさらに急な下向きで、戻りは100で止まって下げが続いた。</li>
+    </ul>
+    <h3 class="part">20日23:15〜21日03:15：100で止まった</h3>
+    <figure class="pic wide">
+      <a href="methods/t200-a-stop-at100-b.jpg"><img src="methods/t200-a-stop-at100-b.jpg" alt="赤丸4つは100のところ。200まで届いていない" loading="lazy"></a>
+    </figure>
+    <ul class="cap3">
+      <li>図の観察：赤丸4つとも100に付いていて、200までは届いていない。</li>
+      <li>図の観察：4回とも戻りは浅く、下げが続いた。</li>
+    </ul>
+  </section>
+
+  <section class="card big" id="flat">
+    <h2>B：200が横〜ゆるい</h2>
+    <p class="note">25・100・200が、同じ高さで束になっているところがあります。</p>
+    <h3 class="part first">24日20:30〜25日00:30：約40ドル下げた</h3>
+    <figure class="pic wide">
+      <a href="methods/t200-b-1125-0000.jpg"><img src="methods/t200-b-1125-0000.jpg" alt="23:40ごろ、束になったところで200に触れて、約40ドル下げた" loading="lazy"></a>
+    </figure>
+    <ul class="cap3">
+      <li>図の観察：23:40ごろ、25・100・200が束になったところで触れた。</li>
+      <li>図の観察：そのあと約40ドル下げて、25・100は下に広がった。</li>
+    </ul>
+    <h3 class="part">02:00〜10:00（3,850付近）：約44ドル下げた</h3>
+    <figure class="pic wide">
+      <a href="methods/t200-b-3826.jpg"><img src="methods/t200-b-3826.jpg" alt="09:00ごろに200に触れて、約44ドル下げた" loading="lazy"></a>
+    </figure>
+    <ul class="cap3">
+      <li>図の観察：09:00ごろに200に触れて、約44ドル下げた。</li>
+      <li>図の観察：触れる前は、25・100・200がほぼ束だった。</li>
+    </ul>
+    <h3 class="part">15:30〜22:30（3,770付近）：3回触れて、結果が分かれた</h3>
+    <figure class="pic wide">
+      <a href="methods/t200-b-flat-3777.jpg"><img src="methods/t200-b-flat-3777.jpg" alt="200は横。3回触れて、1回目は上に抜け、2・3回目は反転して下げた" loading="lazy"></a>
+    </figure>
+    <ul class="cap3">
+      <li>図の観察：200は横で、赤丸の3回とも束になったところだった。</li>
+      <li>図の観察：1回目は上に抜けて上昇。2回目と3回目は反転して下げた。3回目のあとは、約29ドル下げた。</li>
+    </ul>
+    <h3 class="part">19日 01:00〜09:00：約8ドルだけ下げて、上に抜けた</h3>
+    <figure class="pic wide">
+      <a href="methods/t200-b-3739.jpg"><img src="methods/t200-b-3739.jpg" alt="05:45ごろ200に触れて、約8ドルだけ下げ、08:00に上に抜けた" loading="lazy"></a>
+    </figure>
+    <ul class="cap3">
+      <li>図の観察：3つ目の赤丸（05:45ごろ）で200に触れた。</li>
+      <li>図の観察：下げは約8ドルと小さく、08:00に200を上に抜けた。</li>
+    </ul>
+    <h3 class="part">16:00〜19:45（3,620付近）：触れて上に抜け、束のまま</h3>
+    <figure class="pic wide">
+      <a href="methods/t200-b-up-3624.jpg"><img src="methods/t200-b-up-3624.jpg" alt="18:00ごろ200に触れて、上に抜けた。そのあと束のまま" loading="lazy"></a>
+    </figure>
+    <ul class="cap3">
+      <li>図の観察：18:00ごろ触れて、上に抜けた。</li>
+      <li>図の観察：そのあと25・100・200は束のままで、狭い範囲の動きが続いた。</li>
+    </ul>
+    <h3 class="part">08:15〜18:00（3,730付近）：触れて上に抜け、約4時間横ばい</h3>
+    <figure class="pic wide">
+      <a href="methods/t200-b-up-3733.jpg"><img src="methods/t200-b-up-3733.jpg" alt="14:00ごろ200に触れて上に抜け、そのあと束のまま横ばい" loading="lazy"></a>
+    </figure>
+    <ul class="cap3">
+      <li>図の観察：200が下向きから横に変わるところ（14:00ごろ）で触れて、上に抜けた。</li>
+      <li>図の観察：そのあと25・100・200は束のままで、3,730〜3,745の範囲で、約4時間横ばいが続いた。</li>
+    </ul>
+    <h3 class="part">11:00〜20:00（3,630付近）：束のまま横ばい</h3>
+    <figure class="pic wide">
+      <a href="methods/t200-b-range-3630.jpg"><img src="methods/t200-b-range-3630.jpg" alt="下向きのチャネルの中で、25・100・200が束のまま絡んだ" loading="lazy"></a>
+    </figure>
+    <ul class="cap3">
+      <li>図の観察：下向きのチャネルの中で、25・100・200が束になって絡んだ。</li>
+      <li>図の観察：横ばいが続いたあと、19:00ごろから上に出た。</li>
+    </ul>
+  </section>
+
+  <section class="card big" id="today">
+    <h2>11/25のショート（今回）</h2>
+    <figure class="pic wide">
+      <a href="methods/t200-today.jpg"><img src="methods/t200-today.jpg" alt="青◎（01:27ごろ）は抵抗帯と200とチャネル上限が重なる所。赤丸（01:50ごろ）はチャネルの下限" loading="lazy"></a>
+    </figure>
+    <ul class="cap3">
+      <li>あなたの言葉：青◎は、戻り高値の抵抗帯が200SMAに当たる付近。ここでショートしていれば、損切りは回避できた。</li>
+      <li>あなたの言葉：赤丸は、崩れそうだから入っただけで、崩れてはいなかった。</li>
+      <li>図の観察：青◎のあと、約16ドル下げた。</li>
+      <li>図の観察：赤丸（チャネル下限）のあと、200を上に抜けて上昇した。25・100は束のあと、上に広がった。</li>
+      <li>振り返りノートの「11/25 ショート −$98.60」に、同じ内容があります。</li>
+    </ul>
+  </section>
+
+</main>
+<div id="lb" role="dialog" aria-modal="true" aria-label="写真の拡大"><button type="button" aria-label="閉じる">✕</button><img alt=""></div>
+<script>
+(function () {
+  var lb = document.getElementById('lb');
+  var big = lb.querySelector('img');
+  function open(src, alt) { big.src = src; big.alt = alt || ''; lb.scrollTop = 0; lb.scrollLeft = 0; lb.classList.add('open'); document.body.classList.add('lb-open'); }
+  function close() { lb.classList.remove('open'); document.body.classList.remove('lb-open'); big.removeAttribute('src'); }
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('figure a');
+    if (a) { e.preventDefault(); var im = a.querySelector('img'); open(a.getAttribute('href'), im ? im.alt : ''); }
+  });
+  lb.querySelector('button').addEventListener('click', close);
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
+})();
+</script>
+<script>
+(function(){function o(){var h=location.hash&&document.getElementById(location.hash.slice(1));if(h){var d=h.closest&&h.closest('details');if(d)d.open=true;}}window.addEventListener('hashchange',o);o();})();
+</script>
+</body>
+</html>
