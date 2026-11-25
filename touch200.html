@@ -93,6 +93,9 @@ table.sum th { background: var(--soft); font-weight: 700; }
 .obs { border-left: 4px solid #9ca3af; background: #f9fafb; border-radius: 8px; padding: 10px 12px; margin-top: 10px; }
 .obs b { display: block; margin-bottom: 4px; font-size: 0.9375rem; }
 .obs ul { margin: 0; padding-left: 1.2em; font-size: 0.9375rem; }
+ul.short { margin: 8px 0 0; padding-left: 1.2em; font-size: 1rem; display: grid; gap: 6px; }
+details.more { margin-top: 12px; border-top: 1px solid var(--line); padding-top: 8px; }
+details.more > summary { cursor: pointer; font-size: 0.875rem; color: var(--accent); font-weight: 600; }
 </style>
 </head>
 <body>
@@ -101,14 +104,24 @@ table.sum th { background: var(--soft); font-weight: 700; }
   <header>
     <h1><span class="gold">●</span> 200に当たったとき</h1>
     <p class="note">価格が200（SMA・EMA）に戻って触れたとき、そのあとどう動いたかの整理です。左：トレンド転換用／右：押し目・戻り目用。画像を押すと、大きく見られます。</p>
-    <p class="note">「あなたの言葉」は本人の言葉です。「図の観察」はClaudeが図から読み取ったことで、予測や売買の判断ではありません。数字は目測です。</p>
+    <p class="note">「あなたの言葉」は本人の言葉です。「図の観察」はClaudeが図から読み取ったことです。数字は目測です。</p>
   </header>
 
   <nav class="sn-toc" aria-label="目次"><b>目次</b><ul><li><a href="#sum">まとめ</a></li><li><a href="#steep">A：200が急な下向き</a></li><li><a href="#flat">B：200が横〜ゆるい</a></li><li><a href="#today">11/25のショート（今回）</a></li></ul></nav>
 
   <section class="card big" id="sum">
     <h2>まとめ</h2>
-    <div class="mine"><b>あなたの言葉</b><ul>
+    <ul class="dots short">
+      <li><b>200の傾き</b>：急な下向きなら、反転して下げが続くか、100で止まった。横〜ゆるいと、結果が分かれた。</li>
+      <li><b>当たる角度</b>：急に上げて当たると反転して下げた。ゆっくり当たると上に抜けた（目で見た範囲）。</li>
+      <li><b>100で止まった所</b>は、下落しやすい（あなたの見方。急な下向きの図で合っていた）。</li>
+      <li><b>200まで戻る</b>と、買いが強いかも（あなたの見方。上に抜けた図で合っていた。40〜44ドル下げた図もある）。</li>
+      <li><b>25・100・200が束</b>のままなら、横ばいになった。束から広がる向きは、形だけでは分からない。</li>
+      <li><b>今回の負け</b>：崩れそうで入っただけ。チャネルは崩れていなかった（あなたの言葉）。</li>
+    </ul>
+    <details class="more">
+      <summary>もとの言葉と、くわしい観察・表（長い）</summary>
+<div class="mine"><b>あなたの言葉</b><ul>
       <li>戻り高値付近に抵抗帯をひくと、そこがちょうど200SMAに当たる付近だった（青◎）。ここでショートしていれば、損切りは回避できた。</li>
       <li>入ったのは赤丸付近。平行チャネルから崩れそうだから入っただけで、崩れてはいなかった。</li>
       <li>赤丸は、100などにも付けている。そういう所は、下落しやすいという意味。</li>
@@ -141,6 +154,8 @@ table.sum th { background: var(--soft); font-weight: 700; }
       <tr><td>25日 22:15〜26日 02:00</td><td>下向きから横へ</td><td>01:27ごろ（青◎）に触れて、約16ドル下げた。01:50ごろ（赤丸）のあとは、200を上に抜けた</td></tr>
     </table></div>
     <p class="note">選んだ図は、あなたが送ってくれた分です。結果を見たあとで並べているので、これだけで傾向が決まるわけではありません。</p>
+  
+    </details>
   </section>
 
   <section class="card big" id="steep">
