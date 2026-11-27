@@ -31,24 +31,10 @@
           "caption": "最初の楕円は、100SMAと9EMAが平行で一度も割っていない。2つ目は25EMAに支えられている。"
         },
         {
-          "src": "methods/kirei-1127-1h.jpg",
-          "alt": "きれいな形（11/27・1時間足）",
-          "caption": "1時間足"
-        },
-        {
-          "src": "methods/kirei-1127-30m.jpg",
-          "alt": "きれいな形（11/27・30分足）",
-          "caption": "30分足"
-        },
-        {
-          "src": "methods/kirei-1127-15m.jpg",
-          "alt": "きれいな形（11/27・15分足）",
-          "caption": "15分足"
-        },
-        {
-          "src": "methods/kirei-1127-5m.jpg",
-          "alt": "きれいな形（11/27・5分足）",
-          "caption": "5分足"
+          "src": "methods/kirei-1127-1m-zoom.jpg",
+          "alt": "きれいな形（11/27・1分足（拡大））",
+          "caption": "1分足（拡大）",
+          "label": "きれいな上げ（小さい足から順に：1分 → 1時間）"
         },
         {
           "src": "methods/kirei-1127-1m.jpg",
@@ -56,9 +42,24 @@
           "caption": "1分足"
         },
         {
-          "src": "methods/kirei-1127-1m-zoom.jpg",
-          "alt": "きれいな形（11/27・1分足（拡大））",
-          "caption": "1分足（拡大）"
+          "src": "methods/kirei-1127-5m.jpg",
+          "alt": "きれいな形（11/27・5分足）",
+          "caption": "5分足"
+        },
+        {
+          "src": "methods/kirei-1127-15m.jpg",
+          "alt": "きれいな形（11/27・15分足）",
+          "caption": "15分足"
+        },
+        {
+          "src": "methods/kirei-1127-30m.jpg",
+          "alt": "きれいな形（11/27・30分足）",
+          "caption": "30分足"
+        },
+        {
+          "src": "methods/kirei-1127-1h.jpg",
+          "alt": "きれいな形（11/27・1時間足）",
+          "caption": "1時間足"
         }
       ],
       "sections": []

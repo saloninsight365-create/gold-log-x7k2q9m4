@@ -153,6 +153,7 @@ body { margin: 0; background: #ffffff; }
 .lx-note-card img { display: block; width: 100%; height: auto; border-radius: 8px; border: 1px solid var(--color-border-line); }
 .lx-note-fig { margin: var(--cds-gap-sm) 0 0; }
 .lx-note-cap { margin: 4px 0 0; font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); line-height: 1.6; }
+.lx-note-grp{margin:18px 0 6px;padding:6px 12px;border-left:5px solid #15803d;font-weight:700;font-size:15px}
 .lx-note-h { margin: var(--cds-gap-md) 0 var(--cds-gap-xs); font-size: var(--cds-font-size-caption); font-weight: 700; color: var(--color-fg-muted); }
 .lx-table-trades { min-width: 0; }
 .lx-table-trades th, .lx-table-trades td { padding: 8px 4px; }
@@ -1132,6 +1133,12 @@ dash.draw('review_list', (el) => {
     }
     const imgs = n.images || (n.image ? [{ src: n.image, alt: n.alt }] : []);
     for (const m of imgs) {
+      if (m.label) {
+        const gl = document.createElement('div');
+        gl.className = 'lx-note-grp';
+        gl.textContent = m.label;
+        card.append(gl);
+      }
       const fig = document.createElement('div');
       fig.className = 'lx-note-fig';
       const a = document.createElement('a');
