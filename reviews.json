@@ -7,7 +7,7 @@
   "notes": [
     {
       "group": "sample",
-      "title": "きれいな形の見本",
+      "title": "きれいな形の見本（ロング）",
       "images": [
         {
           "src": "methods/s1-kirei-kitanai.jpg",
@@ -60,7 +60,15 @@
           "src": "methods/kirei-1127-1h.jpg",
           "alt": "きれいな形（11/27・1時間足）",
           "caption": "1時間足"
-        },
+        }
+      ],
+      "sections": []
+    },
+    {
+      "group": "sample",
+      "title": "きれいな形の見本（ショート）",
+      "sections": [],
+      "images": [
         {
           "src": "methods/rev-short-1m.jpg",
           "alt": "ショートの鉄板パターン（1分足）",
@@ -88,8 +96,7 @@
           "alt": "ショートの鉄板パターン（1時間足）",
           "caption": "1時間足"
         }
-      ],
-      "sections": []
+      ]
     },
     {
       "group": "big",
